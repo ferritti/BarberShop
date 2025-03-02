@@ -1,7 +1,6 @@
 package Model;
 
 public abstract class User implements NotificationObserver {
-    private int idUser;
     private String name;
     private String surname;
     private String email;
@@ -11,9 +10,8 @@ public abstract class User implements NotificationObserver {
     private final UserType userType;
     private boolean isLogged;
 
-    public User(int idUser, String name, String surname,
+    public User(String name, String surname,
                 String email, String password, String phone, UserType userType) {
-        this.idUser = idUser;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -22,10 +20,6 @@ public abstract class User implements NotificationObserver {
         this.userType = userType;
         this.isLogged = false;
     }
-
-    public int getIdUser() { return idUser; }
-
-    public void setIdUser(int idUser) { this.idUser = idUser; }
 
     public String getName() { return name; }
 

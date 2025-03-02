@@ -3,25 +3,19 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Appointment {
-    private int idAppointment;
     private LocalDate date;
     private LocalTime time;
     private Customer customer;
     private Barber barber;
     private ServiceType serviceType;
 
-    public Appointment(int idAppointment, LocalDate date, LocalTime time
+    public Appointment(LocalDate date, LocalTime time
             , Customer customer, Barber barber, ServiceType serviceType) {
-        this.idAppointment = idAppointment;
         this.date = date;
         this.time = time;
         this.customer = customer;
         this.barber = barber;
         this.serviceType = serviceType;
-    }
-
-    public void setIdAppointment(int idAppointment) {
-        this.idAppointment = idAppointment;
     }
 
     public void setDate(LocalDate date) {
@@ -42,10 +36,6 @@ public class Appointment {
 
     public void setServiceType(ServiceType serviceType) {
         this.serviceType = serviceType;
-    }
-
-    public int getIdAppointment() {
-        return idAppointment;
     }
 
     public LocalDate getDate() {
