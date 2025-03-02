@@ -30,5 +30,3 @@ public class ServiceType {
         this.price = price;
     }
 }
-
-
