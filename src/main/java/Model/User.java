@@ -1,6 +1,6 @@
 package Model;
 
-public abstract class User {
+public abstract class User implements NotificationObserver {
     private int idUser;
     private String name;
     private String surname;
@@ -52,4 +52,9 @@ public abstract class User {
     public void setLogged(boolean logged) { isLogged = logged; }
 
     public User.UserType getUserType() { return userType; }
+
+    public void update(Notification notification) {
+        System.out.println(notification.getTitle());
+        System.out.println(notification.getMessage());
+    }
 }
