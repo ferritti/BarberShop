@@ -1,4 +1,4 @@
-package DBconnection;
+package DBconnection.DAO;
 
 public interface UserDAO {
 }
