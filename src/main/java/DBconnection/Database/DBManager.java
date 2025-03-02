@@ -9,12 +9,13 @@ public class DBManager {
     private Connection connection = null;
 
     public static final String URL = "jdbc:postgresql://localhost:5432/BarberShopDB";
-    public static final String User = "userSWE";
-    public static final String Password = "swepass";
+    public static final String USER = "userSWE";
+    public static final String PASSWORD = "swepass";
 
     private DBManager() {
+
         try {
-            this.connection = DriverManager.getConnection(URL, User, Password);
+            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Connection established");
         } catch (SQLException e) {
             e.printStackTrace();
