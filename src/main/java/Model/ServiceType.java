@@ -1,25 +1,25 @@
 package Model;
 
 public class ServiceType {
-    private String nameService;
+    private String serviceName;
     private double price;
 
     public ServiceType() {
-        this.nameService = "";
+        this.serviceName = "";
         this.price = 0.0;
     }
 
-    public ServiceType(String nameService, double price) {
-        this.nameService = nameService;
+    public ServiceType(String serviceName, double price) {
+        this.serviceName = serviceName;
         this.price = price;
     }
 
-    public String getNameService() {
-        return nameService;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setNameService(String nameService) {
-        this.nameService = nameService;
+    public void setServiceName(String nameService) {
+        this.serviceName = nameService;
     }
 
     public double getPrice() {
