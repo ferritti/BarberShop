@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ServiceTypeDAO {
-    public boolean addServiceType(ServiceType serviceType) throws SQLException;
-    public boolean removeServiceType(ServiceType serviceType) throws SQLException;
-    public List<ServiceType> getAllServiceTypes() throws SQLException;
+    public boolean addServiceType(ServiceType serviceType) ;
+    public boolean removeServiceType(ServiceType serviceType) ;
+    public List<ServiceType> getAllServiceTypes() ;
 }
