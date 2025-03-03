@@ -1,9 +1,6 @@
 package DBconnection.DAO;
 
 import Model.ServiceType;
-
-import java.sql.SQLException;
-
 import java.util.List;
 
 public interface ServiceTypeDAO {

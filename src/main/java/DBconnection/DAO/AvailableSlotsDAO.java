@@ -1,7 +1,6 @@
 package DBconnection.DAO;
 
 import Model.Appointment;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 

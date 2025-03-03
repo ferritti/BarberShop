@@ -1,6 +1,5 @@
 package DBconnection.DAO;
 import Model.Appointment;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface AppointmentDAO {
