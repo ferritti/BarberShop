@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface AvailableSlotsDAO {
-    public void addAvSlot(Appointment appointment) throws SQLException;
-    public void removeAvSlot(Appointment appointment) throws SQLException;
-    public List<Appointment> getAvSlotsAtSelectedDate(LocalDate Date) throws SQLException;
+    public void addAvSlot(Appointment appointment) ;
+    public void removeAvSlot(Appointment appointment) ;
+    public List<Appointment> getAvSlotsAtSelectedDate(LocalDate Date) ;
 }
