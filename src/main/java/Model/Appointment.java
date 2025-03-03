@@ -5,49 +5,58 @@ import java.time.LocalTime;
 public class Appointment {
     private LocalDate date;
     private LocalTime time;
-    private Customer customer;
-    private Barber barber;
-    private ServiceType serviceType;
+    private String customerEmail;
+    private String barberEmail;
+    private String serviceTypeName;
 
     public Appointment(LocalDate date, LocalTime time
-            , Customer customer, Barber barber, ServiceType serviceType) {
+            ,String customerEmail, String barberEmail, String serviceTypeName) {
         this.date = date;
         this.time = time;
-        this.customer = customer;
-        this.barber = barber;
-        this.serviceType = serviceType;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public void setServiceType(ServiceType serviceType) {
-        this.serviceType = serviceType;
+        this.customerEmail = customerEmail;
+        this.barberEmail = barberEmail;
+        this.serviceTypeName = serviceTypeName;
     }
 
     public LocalDate getDate() {
         return date;
     }
 
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public LocalTime getTime() {
         return time;
     }
 
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
     public String getCustomerEmail() {
-        return customer.getEmail();
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
     public String getBarberEmail() {
-        return barber.getEmail();
+        return barberEmail;
     }
 
-    public String getServiceName() {
-        return serviceType.getServiceName();
+    public void setBarberEmail(String barberEmail) {
+        this.barberEmail = barberEmail;
     }
+
+    public String getServiceTypeName() {
+        return serviceTypeName;
+    }
+
+    public void setServiceTypeName(String serviceTypeName) {
+        this.serviceTypeName = serviceTypeName;
+    }
+
 }
 
