@@ -5,16 +5,16 @@ import java.time.LocalTime;
 public class Appointment {
     private LocalDate date;
     private LocalTime time;
-    private Customer customer;
-    private Barber barber;
+    private String customerEmail;
+    private String barberEmail;
     private ServiceType serviceType;
 
     public Appointment(LocalDate date, LocalTime time
-            , Customer customer, Barber barber, ServiceType serviceType) {
+            , String customerEmail, String barberEmail, ServiceType serviceType) {
         this.date = date;
         this.time = time;
-        this.customer = customer;
-        this.barber = barber;
+        this.customerEmail = customerEmail;
+        this.barberEmail = barberEmail;
         this.serviceType = serviceType;
     }
 
@@ -26,12 +26,12 @@ public class Appointment {
         this.time = time;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
-    public void setBarber(Barber barber) {
-        this.barber = barber;
+    public void setBarberEmail(String barberEmail) {
+        this.barberEmail = barberEmail;
     }
 
     public void setServiceType(ServiceType serviceType) {
@@ -46,12 +46,12 @@ public class Appointment {
         return time;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getCustomer() {
+        return customerEmail;
     }
 
-    public Barber getBarber() {
-        return barber;
+    public String getBarber() {
+        return barberEmail;
     }
 
     public ServiceType getServiceType() {
