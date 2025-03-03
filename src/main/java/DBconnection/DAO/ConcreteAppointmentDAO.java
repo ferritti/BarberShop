@@ -21,7 +21,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO Appointments (date, time, customer_email, barber_email, service_name) " +
+                    "INSERT INTO Appointments (app_date, app_time, customer_email, barber_email, service_name) " +
                             "VALUES (?, ?, ?, ?, ?)");
 
             stmt.setDate(1, java.sql.Date.valueOf(appointment.getDate()));
@@ -44,7 +44,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE FROM Appointments WHERE date = ? AND time = ? AND customer_email = ? AND barber_email = ?");
+                    "DELETE FROM Appointments WHERE app_date = ? AND app_time = ? AND customer_email = ? AND barber_email = ?");
 
             stmt.setDate(1, java.sql.Date.valueOf(appointment.getDate()));
             stmt.setTime(2, java.sql.Time.valueOf(appointment.getTime()));
@@ -75,8 +75,8 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
             while (rs.next()) {
                 Appointment appointment = new Appointment(
-                        rs.getDate("date").toLocalDate(),
-                        rs.getTime("time").toLocalTime(),
+                        rs.getDate("app_date").toLocalDate(),
+                        rs.getTime("app_time").toLocalTime(),
                         rs.getString("customer_email"),
                         rs.getString("barber_email"),
                         rs.getString("service_type_name")
