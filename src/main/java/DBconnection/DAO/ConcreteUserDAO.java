@@ -17,7 +17,7 @@ public class ConcreteUserDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO USER (NAME, SURNAME, EMAIL, PASS_HASH, PHONE, ROLE) VALUES (?,?,?,?,?,?)"
+                    "INSERT INTO Users (name, surname, email, pass_hash, phone, role) VALUES (?,?,?,?,?,?)"
             );
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
@@ -38,7 +38,7 @@ public class ConcreteUserDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE FROM USER WHERE EMAIL = ?"
+                    "DELETE FROM Users WHERE email = ?\n"
             );
             stmt.setString(1, user.getEmail());
 
@@ -55,29 +55,29 @@ public class ConcreteUserDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM USER WHERE EMAIL = ?"
+                    "SELECT * FROM Users WHERE email = ?"
             );
             stmt.setString(1, email);
 
             ResultSet rs = stmt.executeQuery();
             if(rs.next()) {
                 User user;
-                if(Objects.equals(rs.getString("ROLE"), "CUSTOMER")) {
+                if(Objects.equals(rs.getString("role"), "CUSTOMER")) {
                     return user = new Customer(
-                            rs.getString("NAME"),
-                            rs.getString("SURNAME"),
-                            rs.getString("PASS_HASH"),
-                            rs.getString("EMAIL"),
-                            rs.getString("PHONE")
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getString("pass_hash"),
+                            rs.getString("email"),
+                            rs.getString("phone")
                             );
                 }
                 else {
                     return user = new Barber(
-                            rs.getString("NAME"),
-                            rs.getString("SURNAME"),
-                            rs.getString("PASS_HASH"),
-                            rs.getString("EMAIL"),
-                            rs.getString("PHONE")
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getString("pass_hash"),
+                            rs.getString("email"),
+                            rs.getString("phone")
                     );
                 }
             }
