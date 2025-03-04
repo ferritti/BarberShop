@@ -1,24 +1,24 @@
 package Model;
 
+import Business.HashingPasswordService;
+
 public abstract class User implements NotificationObserver {
     private String name;
     private String surname;
     private String email;
-    private String password;
+    private String hashedPass;
     private String phone;
     public static enum UserType {CUSTOMER, BARBER};
     private final UserType userType;
-    private boolean isLogged;
 
     public User(String name, String surname,
                 String email, String password, String phone, UserType userType) {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.password = password;
+        setPassword(password);
         this.phone = phone;
         this.userType = userType;
-        this.isLogged = false;
     }
 
     public String getName() { return name; }
@@ -33,9 +33,11 @@ public abstract class User implements NotificationObserver {
 
     public void setEmail(String email) { this.email = email; }
 
-    public String getPassword() { return password; }
+    public String getHashedPass() { return hashedPass; }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.hashedPass = HashingPasswordService.hashPassword(password);
+    }
 
     public String getPhone() { return phone; }
 

@@ -1,8 +1,6 @@
 package Business;
-import DBconnection.DAO.UserDAO;
 import DBconnection.DAO.AppointmentDAO;
 import Model.Appointment;
-import Model.User;
 import java.time.LocalDate;
 import java.util.List;
 
