@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class ConcreteUserDAO {
+public class ConcreteUserDAO implements UserDAO{
     private DBManager dbManager = DBManager.getInstance();
     public boolean addUser(User user) {
         try {
