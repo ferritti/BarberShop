@@ -22,7 +22,7 @@ public class ConcreteUserDAO implements UserDAO{
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
-            stmt.setString(4, user.getPassword());
+            stmt.setString(4, user.getHashedPass());
             stmt.setString(5, user.getPhone());
             stmt.setString(6, user.getUserType().name());
 

@@ -43,10 +43,6 @@ public abstract class User implements NotificationObserver {
 
     public void setPhone(String phone) { this.phone = phone; }
 
-    public boolean isLogged() { return isLogged; }
-
-    public void setLogged(boolean logged) { isLogged = logged; }
-
     public User.UserType getUserType() { return userType; }
 
     public void update(Notification notification) {
