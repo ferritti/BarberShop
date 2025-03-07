@@ -21,14 +21,15 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO Appointments (app_date, app_time, customer_email, barber_email, service_name) " +
-                            "VALUES (?, ?, ?, ?, ?)");
+                    "INSERT INTO Appointments (app_date, app_time, customer_email, barber_email, service_name, payment) " +
+                            "VALUES (?, ?, ?, ?, ?, ?)");
 
             stmt.setDate(1, java.sql.Date.valueOf(appointment.getDate()));
             stmt.setTime(2, java.sql.Time.valueOf(appointment.getTime()));
             stmt.setString(3, appointment.getCustomerEmail());
             stmt.setString(4, appointment.getBarberEmail());
             stmt.setString(5, appointment.getServiceTypeName());
+            stmt.setString(6, appointment.getPayment().name());
 
             int rows = stmt.executeUpdate();
             stmt.close();
@@ -44,12 +45,10 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE FROM Appointments WHERE app_date = ? AND app_time = ? AND customer_email = ? AND barber_email = ?");
+                    "DELETE FROM Appointments WHERE app_date = ? AND customer_email = ?");
 
             stmt.setDate(1, java.sql.Date.valueOf(appointment.getDate()));
-            stmt.setTime(2, java.sql.Time.valueOf(appointment.getTime()));
-            stmt.setString(3, appointment.getCustomerEmail());
-            stmt.setString(4, appointment.getBarberEmail());
+            stmt.setString(2, appointment.getCustomerEmail());
 
             int rows = stmt.executeUpdate();
             stmt.close();
@@ -79,7 +78,8 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                         rs.getTime("app_time").toLocalTime(),
                         rs.getString("customer_email"),
                         rs.getString("barber_email"),
-                        rs.getString("service_type_name")
+                        rs.getString("service_type_name"),
+                        rs.getString("payment").equals("ONLINE") ? Appointment.Payment.ONLINE : Appointment.Payment.SHOP
                 );
                 appointments.add(appointment);
             }

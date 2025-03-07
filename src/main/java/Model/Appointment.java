@@ -9,13 +9,17 @@ public class Appointment {
     private String barberEmail;
     private String serviceTypeName;
 
+    public static enum Payment {ONLINE, SHOP};
+    private final Payment payment;
+
     public Appointment(LocalDate date, LocalTime time
-            ,String customerEmail, String barberEmail, String serviceTypeName) {
+            , String customerEmail, String barberEmail, String serviceTypeName, Payment payment) {
         this.date = date;
         this.time = time;
         this.customerEmail = customerEmail;
         this.barberEmail = barberEmail;
         this.serviceTypeName = serviceTypeName;
+        this.payment = payment;
     }
 
     public LocalDate getDate() {
@@ -57,6 +61,8 @@ public class Appointment {
     public void setServiceTypeName(String serviceTypeName) {
         this.serviceTypeName = serviceTypeName;
     }
+
+    public Payment getPayment() { return payment; }
 
 }
 

@@ -14,7 +14,7 @@ public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
         try {
             Connection conn = dbManager.getConnection();
             PreparedStatement stmt = conn.prepareStatement(
-                    "INSERT INTO Service_types(service_name, price) VALUES (?, ?)"
+                    "INSERT INTO Service_Types(service_name, price) VALUES (?, ?)"
             );
             stmt.setString(1, serviceType.getServiceName());
             stmt.setDouble(2, serviceType.getPrice());
@@ -31,7 +31,7 @@ public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
         try {
             Connection conn = dbManager.getConnection();
             PreparedStatement stmt = conn.prepareStatement(
-                    "DELETE FROM Service_type WHERE service_name = ?"
+                    "DELETE FROM Service_Types WHERE service_name = ?"
             );
             stmt.setString(1, serviceType.getServiceName());
 
@@ -47,13 +47,13 @@ public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
         List<ServiceType> serviceTypes = new ArrayList<>();
         try {
             Connection conn = dbManager.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Service_ype");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Service_Types");
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 ServiceType serviceType = new ServiceType(
-                        rs.getString("TYPE"),
-                        rs.getDouble("PRICE"));
+                        rs.getString("service_name"),
+                        rs.getDouble("price"));
                 serviceTypes.add(serviceType);
             }
             rs.close();

@@ -43,7 +43,7 @@ public abstract class User implements NotificationObserver {
 
     public void setPhone(String phone) { this.phone = phone; }
 
-    public User.UserType getUserType() { return userType; }
+    public UserType getUserType() { return userType; }
 
     public void update(Notification notification) {
         System.out.println(notification.getTitle());

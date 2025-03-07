@@ -8,8 +8,8 @@ public class DBManager {
     public static DBManager manager = null;
     private Connection connection = null;
 
-    public static final String URL = "jdbc:postgresql://localhost:5432/BarberShopDB";
-    public static final String USER = "userSWE";
+    public static final String URL = "jdbc:postgresql://localhost:5432/BarberShop_DB";
+    public static final String USER = "SWEuser";
     public static final String PASSWORD = "swepass";
 
     private DBManager() {
