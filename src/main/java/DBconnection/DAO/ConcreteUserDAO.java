@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+import Business.HashingPasswordService;
 
 public class ConcreteUserDAO implements UserDAO{
     private DBManager dbManager = DBManager.getInstance();
@@ -25,22 +26,6 @@ public class ConcreteUserDAO implements UserDAO{
             stmt.setString(4, user.getHashedPass());
             stmt.setString(5, user.getPhone());
             stmt.setString(6, user.getUserType().name());
-
-            int rows = stmt.executeUpdate();
-            stmt.close();
-            return rows > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-    public boolean removeUser(User user) {
-        try {
-            Connection connection = dbManager.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE FROM Users WHERE email = ?\n"
-            );
-            stmt.setString(1, user.getEmail());
 
             int rows = stmt.executeUpdate();
             stmt.close();
@@ -88,5 +73,27 @@ public class ConcreteUserDAO implements UserDAO{
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean checkCredentials(String email, String pass_hash) {
+        try {
+            Connection connection = dbManager.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT pass_hash FROM Users WHERE email = ?"
+            );
+            stmt.setString(1, email);
+
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                String pass = rs.getString("pass_hash");
+                return HashingPasswordService.checkPassword(pass_hash, pass);
+            }
+            rs.close();
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
