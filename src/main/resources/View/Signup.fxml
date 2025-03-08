@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:controller="Business.SignupController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.SignupController">
    <children>
       <VBox alignment="CENTER" prefHeight="550.0" prefWidth="336.0" styleClass="primary-color" stylesheets="@../Styles/Signup.css">
          <children>
@@ -126,7 +126,7 @@
             </HBox>
             <VBox alignment="BOTTOM_CENTER" prefHeight="101.0" prefWidth="514.0">
                <children>
-                  <Label fx:id="not_empty_allert" opacity="0.0" text="*All fields must be not empty!" textFill="#d32d2d">
+                  <Label fx:id="not_empty_alert" opacity="0.0" text="*All fields must be not empty!" textFill="#d32d2d">
                      <VBox.margin>
                         <Insets bottom="15.0" />
                      </VBox.margin>
@@ -159,6 +159,7 @@
                   </HBox>
                </children>
             </VBox>
+            <Label fx:id="secret_code_alert" opacity="0.0" text="*Secret code is not correct" textFill="#da0f0f" />
             <Button fx:id="signup_button" mnemonicParsing="false" onAction="#signupAction" prefHeight="26.0" prefWidth="82.0" stylesheets="@../Styles/Signup.css" text="Sign up" />
             <Button fx:id="login_field_reg" mnemonicParsing="false" onAction="#toLoginAction" prefHeight="26.0" prefWidth="56.0" styleClass="transparent" stylesheets="@../Styles/Signup.css" text="Login" underline="true">
                <VBox.margin>
