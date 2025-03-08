@@ -8,12 +8,9 @@ import javafx.scene.control.TextField;
 public class SignupController {
 
 
-
-    public void signupAction(String name, String surname, String email, String password, String phone, String secretCode){
-
+    public void signupAction(ActionEvent actionEvent) {
     }
 
-    public void toLoginAction(){
-
+    public void toLoginAction(ActionEvent actionEvent) {
     }
 }
