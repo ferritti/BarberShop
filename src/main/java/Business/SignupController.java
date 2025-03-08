@@ -7,9 +7,16 @@ import Model.Customer;
 import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+
+import java.io.IOException;
 
 public class SignupController {
 
@@ -48,16 +55,29 @@ public class SignupController {
         } else if (!code.isEmpty() && AuthenticationService.checkBarberCode(code)) {
             User barber = new Barber(name, surname, email, password, phone);
             userDao.addUser(barber);
+            toLoginAction(actionEvent);
         } else if (code.isEmpty()) {
             User customer = new Customer(name, surname, email, password, phone);
             userDao.addUser(customer);
+            toLoginAction(actionEvent);
         } else {
             secret_code_alert.setOpacity(1);
         }
     }
 
     public void toLoginAction(ActionEvent actionEvent) {
-        System.out.println("ciao");
-    }
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
+                Parent root = loader.load();
+
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+                stage.setScene(new Scene(root));
+                stage.setTitle("Login");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
 }

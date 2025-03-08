@@ -6,8 +6,15 @@ import Model.Customer;
 import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class LoginController {
     @FXML
@@ -24,18 +31,29 @@ public class LoginController {
     String pass = "admin";
 
 
-
     public void loginAction(ActionEvent actionEvent) {
         String email_text = email_field.getText();
         String pass_text = password_field.getText();
 
-            if (userDAO.checkCredentials(email_text, pass_text)) {
-                incorrect_label.setText("Login Successful");
-            }
-                incorrect_label.setOpacity(1);
+        if (userDAO.checkCredentials(email_text, pass_text)) {
+            incorrect_label.setText("Login Successful");
+        }
+        incorrect_label.setOpacity(1);
     }
 
     public void toSignupAction(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signup.fxml"));
+            Parent root = loader.load();
 
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Signup");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
+
