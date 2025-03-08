@@ -11,6 +11,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class BarberController {
+
+    /*
     private AvailableSlotDAO availableSlotDAO;
     private ServiceTypeDAO serviceTypeDAO;
     public void addServiceType(ServiceType serviceType) {}
@@ -20,4 +22,6 @@ public class BarberController {
     public void removeAvSlot(String bEmail, LocalDate date, LocalTime time) {}
     public List<AvailableSlot> showMyAvSlotsAtSelectedDate(String bEmail, LocalDate date) {}
     public void sendComunication(Notification notification) {}
+
+     */
 }

@@ -13,12 +13,14 @@ import java.util.Objects;
 import Business.HashingPasswordService;
 
 public class ConcreteUserDAO implements UserDAO{
+
     private DBManager dbManager = DBManager.getInstance();
+
     public boolean addUser(User user) {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO Users (name, surname, email, pass_hash, phone, role) VALUES (?,?,?,?,?,?)"
+                    "INSERT INTO users (name, surname, email, pass_hash, phone, role) VALUES (?,?,?,?,?,?)"
             );
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
@@ -75,7 +77,7 @@ public class ConcreteUserDAO implements UserDAO{
         return null;
     }
 
-    public boolean checkCredentials(String email, String pass_hash) {
+    public boolean checkCredentials(String email, String pass) {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
@@ -85,8 +87,8 @@ public class ConcreteUserDAO implements UserDAO{
 
             ResultSet rs = stmt.executeQuery();
             if(rs.next()) {
-                String pass = rs.getString("pass_hash");
-                return HashingPasswordService.checkPassword(pass_hash, pass);
+                String pass_hash = rs.getString("pass_hash");
+                return HashingPasswordService.checkPassword(pass, pass_hash);
             }
             rs.close();
             stmt.close();
