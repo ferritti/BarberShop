@@ -34,4 +34,8 @@ public class LoginController {
             }
                 incorrect_label.setOpacity(1);
     }
+
+    public void toSignupAction(ActionEvent actionEvent) {
+
+    }
 }
