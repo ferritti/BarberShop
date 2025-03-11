@@ -1,5 +1,6 @@
 package Business;
 
+import Authentication.SessionManager;
 import DBconnection.DAO.ConcreteUserDAO;
 import DBconnection.DAO.UserDAO;
 import Model.Customer;
@@ -31,11 +32,9 @@ public class LoginController {
         String pass_text = password_field.getText();
 
         if (userDAO.checkCredentials(email_text, pass_text)) {
-            User user = userDAO.findByEmail(email_text);
-            if(user != null) {
-                toProfileAction(user);
+                SessionManager.getInstance(email_text);
+                toProfileAction();
             }
-        }
         incorrect_label.setOpacity(1);
     }
 
@@ -53,19 +52,23 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-    public void toProfileAction(User user) {
+    public void toProfileAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Profile.fxml"));
             Parent profileRoot = loader.load();
 
             ProfileController profileController = loader.getController();
 
-            profileController.profileAction(
-                    user.getName(),
-                    user.getSurname(),
-                    user.getEmail(),
-                    user.getPhone()
-            );
+            User user = userDAO.findByEmail(SessionManager.getCurrentUserEmail());
+
+            if (user != null) {
+                profileController.profileAction(
+                        user.getName(),
+                        user.getSurname(),
+                        user.getEmail(),
+                        user.getPhone()
+                );
+            }
 
             Stage stage = (Stage) email_field.getScene().getWindow();
 

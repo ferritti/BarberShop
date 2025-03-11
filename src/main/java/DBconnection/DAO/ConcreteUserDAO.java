@@ -53,8 +53,8 @@ public class ConcreteUserDAO implements UserDAO{
                     return user = new Customer(
                             rs.getString("name"),
                             rs.getString("surname"),
-                            rs.getString("pass_hash"),
                             rs.getString("email"),
+                            rs.getString("pass_hash"),
                             rs.getString("phone")
                             );
                 }
@@ -62,8 +62,8 @@ public class ConcreteUserDAO implements UserDAO{
                     return user = new Barber(
                             rs.getString("name"),
                             rs.getString("surname"),
-                            rs.getString("pass_hash"),
                             rs.getString("email"),
+                            rs.getString("pass_hash"),
                             rs.getString("phone")
                     );
                 }
