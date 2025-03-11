@@ -74,12 +74,14 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
             while (rs.next()) {
                 Appointment appointment = new Appointment(
-                        rs.getDate("app_date").toLocalDate(),
-                        rs.getTime("app_time").toLocalTime(),
-                        rs.getString("customer_email"),
+                        rs.getString("payment").equals("ONLINE") ? Appointment.Payment.ONLINE : Appointment.Payment.SHOP,
+                        rs.getString("service_name"),
+                        rs.getString("barber_name"),
                         rs.getString("barber_email"),
-                        rs.getString("service_type_name"),
-                        rs.getString("payment").equals("ONLINE") ? Appointment.Payment.ONLINE : Appointment.Payment.SHOP
+                        rs.getString("customer_email"),
+                        rs.getTime("app_time").toLocalTime(),
+                        rs.getDate("app_date").toLocalDate(),
+                        rs.getDouble("price")
                 );
                 appointments.add(appointment);
             }
@@ -92,3 +94,4 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         return appointments;
     }
 }
+

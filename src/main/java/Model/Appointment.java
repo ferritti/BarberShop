@@ -2,24 +2,28 @@ package Model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+
 public class Appointment {
     private LocalDate date;
     private LocalTime time;
     private String customerEmail;
     private String barberEmail;
+    private String barberName;
     private String serviceTypeName;
+    private double servicePrice;
 
     public static enum Payment {ONLINE, SHOP};
     private final Payment payment;
 
-    public Appointment(LocalDate date, LocalTime time
-            , String customerEmail, String barberEmail, String serviceTypeName, Payment payment) {
-        this.date = date;
-        this.time = time;
-        this.customerEmail = customerEmail;
-        this.barberEmail = barberEmail;
-        this.serviceTypeName = serviceTypeName;
+    public Appointment(Payment payment, String serviceTypeName, String barberName, String barberEmail, String customerEmail, LocalTime time, LocalDate date, double servicePrice) {
         this.payment = payment;
+        this.serviceTypeName = serviceTypeName;
+        this.barberName = barberName;
+        this.barberEmail = barberEmail;
+        this.customerEmail = customerEmail;
+        this.time = time;
+        this.date = date;
+        this.servicePrice = servicePrice;
     }
 
     public LocalDate getDate() {
@@ -62,7 +66,21 @@ public class Appointment {
         this.serviceTypeName = serviceTypeName;
     }
 
-    public Payment getPayment() { return payment; }
+    public Payment getPayment() {return payment; }
 
+    public String getBarberName() {
+        return barberName;
+    }
+
+    public void setBarberName(String barberName) {
+        this.barberName = barberName;
+    }
+
+    public double getServicePrice() {
+        return servicePrice;
+    }
+
+    public void setServicePrice(double servicePrice) {
+        this.servicePrice = servicePrice;
+    }
 }
-

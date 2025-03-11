@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class LoginController {
     @FXML
@@ -33,7 +34,7 @@ public class LoginController {
 
         if (userDAO.checkCredentials(email_text, pass_text)) {
                 SessionManager.getInstance().setCurrentUserEmail(email_text);
-                toProfileAction();
+                toAppointmentAction(actionEvent);
             }
         else incorrect_label.setOpacity(1);
     }
@@ -47,6 +48,21 @@ public class LoginController {
 
             stage.setScene(new Scene(root));
             stage.setTitle("Signup");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toAppointmentAction(ActionEvent actionEvent){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Appointments.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Appointments");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
