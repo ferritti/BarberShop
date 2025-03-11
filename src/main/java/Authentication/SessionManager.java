@@ -2,20 +2,22 @@ package Authentication;
 
 public class SessionManager {
     private static SessionManager instance;
-    private static String currentUserEmail;
+    private String currentUserEmail;
 
-    private SessionManager(String currentUserEmail) {
-        this.currentUserEmail = currentUserEmail;
-    }
+    private SessionManager() {}
 
-    public static SessionManager getInstance(String currentUserEmail) {
+    public static SessionManager getInstance() {
         if (instance == null) {
-            instance = new SessionManager(currentUserEmail);
+            instance = new SessionManager();
         }
         return instance;
     }
 
-    public static String getCurrentUserEmail() {
+    public void setCurrentUserEmail(String email) {
+        currentUserEmail = email;
+    }
+
+    public String getCurrentUserEmail() {
         return currentUserEmail;
     }
 

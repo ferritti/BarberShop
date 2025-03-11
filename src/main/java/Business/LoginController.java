@@ -32,7 +32,7 @@ public class LoginController {
         String pass_text = password_field.getText();
 
         if (userDAO.checkCredentials(email_text, pass_text)) {
-                SessionManager.getInstance(email_text);
+                SessionManager.getInstance().setCurrentUserEmail(email_text);
                 toProfileAction();
             }
         else incorrect_label.setOpacity(1);
@@ -52,6 +52,7 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+
     public void toProfileAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Profile.fxml"));
@@ -59,7 +60,7 @@ public class LoginController {
 
             ProfileController profileController = loader.getController();
 
-            User user = userDAO.findByEmail(SessionManager.getCurrentUserEmail());
+            User user = userDAO.findByEmail(email_field.getText());
 
             if (user != null) {
                 profileController.profileAction(
