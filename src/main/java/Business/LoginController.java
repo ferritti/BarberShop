@@ -35,7 +35,7 @@ public class LoginController {
                 SessionManager.getInstance(email_text);
                 toProfileAction();
             }
-        incorrect_label.setOpacity(1);
+        else incorrect_label.setOpacity(1);
     }
 
     public void toSignupAction(ActionEvent actionEvent) {
