@@ -1,8 +1,8 @@
-package Business;
+package Authentication;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public class HashingPasswordService {
+public class HashingPassword {
 
         public static String hashPassword(String password) {
             String salt = BCrypt.gensalt();
