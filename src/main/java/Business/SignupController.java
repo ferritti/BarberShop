@@ -41,6 +41,11 @@ public class SignupController {
 
     UserDAO userDao = new ConcreteUserDAO();
 
+    private final String barberCode = "I-AM-A-BARBER";
+
+    public boolean checkBarberCode(String code) {
+        return barberCode.equals(code);
+    }
 
     public void signupAction(ActionEvent actionEvent) {
         String name = name_field.getText();
@@ -52,7 +57,7 @@ public class SignupController {
 
         if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty()) {
             not_empty_alert.setOpacity(1);
-        } else if (!code.isEmpty() && AuthenticationService.checkBarberCode(code)) {
+        } else if (!code.isEmpty() && checkBarberCode(code)) {
             User barber = new Barber(name, surname, email, password, phone);
             userDao.addUser(barber);
             toLoginAction(actionEvent);

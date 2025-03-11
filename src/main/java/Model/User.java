@@ -1,6 +1,6 @@
 package Model;
 
-import Business.HashingPasswordService;
+import Authentication.HashingPassword;
 
 public abstract class User implements NotificationObserver {
     private String name;
@@ -36,7 +36,7 @@ public abstract class User implements NotificationObserver {
     public String getHashedPass() { return hashedPass; }
 
     public void setPassword(String password) {
-        this.hashedPass = HashingPasswordService.hashPassword(password);
+        this.hashedPass = HashingPassword.hashPassword(password);
     }
 
     public String getPhone() { return phone; }

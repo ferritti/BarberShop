@@ -26,11 +26,6 @@ public class LoginController {
 
     UserDAO userDAO = new ConcreteUserDAO();
 
-
-    String email = "admin";
-    String pass = "admin";
-
-
     public void loginAction(ActionEvent actionEvent) {
         String email_text = email_field.getText();
         String pass_text = password_field.getText();
