@@ -217,7 +217,7 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <ImageView fx:id="logout_icon" fitHeight="29.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="logout_icon" fitHeight="29.0" fitWidth="30.0" onMouseClicked="#logoutAction" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/exit.png" />
                            </image>

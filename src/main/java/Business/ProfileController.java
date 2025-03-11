@@ -1,8 +1,15 @@
 package Business;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import Authentication.SessionManager;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class ProfileController {
 
@@ -38,5 +45,23 @@ public class ProfileController {
         surname_label.setText(surname);
         email_label.setText(email);
         phone_label.setText(phone);
+    }
+
+    @FXML
+    private void logoutAction() {
+        try {
+
+            SessionManager.getInstance().closeSession();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
+            Parent loginRoot = loader.load();
+
+            Stage stage = (Stage) logout_icon.getScene().getWindow();
+            stage.setScene(new Scene(loginRoot));
+            stage.setTitle("Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
