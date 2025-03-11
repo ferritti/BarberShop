@@ -36,7 +36,10 @@ public class LoginController {
         String pass_text = password_field.getText();
 
         if (userDAO.checkCredentials(email_text, pass_text)) {
-            incorrect_label.setText("Login Successful");
+            User user = userDAO.findByEmail(email_text);
+            if(user != null) {
+                toProfileAction(user);
+            }
         }
         incorrect_label.setOpacity(1);
     }
@@ -55,5 +58,28 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-}
+    public void toProfileAction(User user) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Profile.fxml"));
+            Parent profileRoot = loader.load();
 
+            ProfileController profileController = loader.getController();
+
+            profileController.profileAction(
+                    user.getName(),
+                    user.getSurname(),
+                    user.getEmail(),
+                    user.getPhone()
+            );
+
+            Stage stage = (Stage) email_field.getScene().getWindow();
+
+            Scene profileScene = new Scene(profileRoot);
+            stage.setScene(profileScene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
