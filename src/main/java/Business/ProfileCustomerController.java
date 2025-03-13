@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ProfileController {
+public class ProfileCustomerController {
 
     @FXML
     private ImageView chair_icon;
@@ -59,6 +59,38 @@ public class ProfileController {
             Stage stage = (Stage) logout_icon.getScene().getWindow();
             stage.setScene(new Scene(loginRoot));
             stage.setTitle("Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToAppointmentsAction() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
+            Parent loginRoot = loader.load();
+
+            Stage stage = (Stage) chair_icon.getScene().getWindow();
+            stage.setScene(new Scene(loginRoot));
+            stage.setTitle("AppointmentsCustomer");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToNewsAction() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
+            Parent loginRoot = loader.load();
+
+            Stage stage = (Stage) chair_icon.getScene().getWindow();
+            stage.setScene(new Scene(loginRoot));
+            stage.setTitle("NewsCustomer");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

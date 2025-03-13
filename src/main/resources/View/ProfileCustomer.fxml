@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.ProfileController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.ProfileCustomerController">
    <children>
       <VBox prefHeight="550.0" prefWidth="356.0" styleClass="primary-color" stylesheets="@../Styles/Dashboard.css">
          <children>
@@ -24,7 +24,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="197.0" spacing="8.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
+                  <HBox alignment="CENTER" onMouseClicked="#goToAppointmentsAction" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -61,7 +61,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
+                  <HBox alignment="CENTER" onMouseClicked="#goToNewsAction" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fx:id="news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>

@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class NewsController implements Initializable {
+public class NewsBarberController implements Initializable {
 
     @FXML
     private ImageView chair_icon;
