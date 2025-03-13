@@ -1,0 +1,55 @@
+.table-view {
+    -fx-background-color: #f5e2c1;
+    -fx-border-color: #d7a857;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 5px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #d7a857;
+    -fx-background-radius: 5px 5px 0 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: #d7a857;
+    -fx-border-width: 0 0 1.5px 0;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4a3b2a;
+}
+
+.table-row-cell {
+    -fx-background-color: #f7d9a5;
+    -fx-border-color: #d7a857;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 5px; /* Add padding inside the row */
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f5e2c1;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #d7a857;
+    -fx-text-fill: white;
+}
+
+/* Styling the TableView header text */
+.table-view .table-header-cell {
+    -fx-text-fill: #4a3b2a;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+/* Customize row text color */
+.table-row-cell .table-cell {
+    -fx-text-fill: #4a3b2a;
+    -fx-font-size: 14px;
+}
+
+/* Styling specific columns in the table */
+.table-column-header {
+    -fx-text-fill: #4a3b2a;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
