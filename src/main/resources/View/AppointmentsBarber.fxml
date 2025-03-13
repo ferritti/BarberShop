@@ -113,7 +113,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
+                  <HBox alignment="CENTER" onMouseClicked="#goToProfileAction" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
