@@ -1,9 +1,11 @@
 package Authentication;
 
+import Model.Notification;
+import Model.User;
+
 public class SessionManager {
     private static SessionManager instance;
-    private String currentUserEmail;
-
+    private User currentUser;
     private SessionManager() {}
 
     public static SessionManager getInstance() {
@@ -13,12 +15,12 @@ public class SessionManager {
         return instance;
     }
 
-    public void setCurrentUserEmail(String email) {
-        currentUserEmail = email;
+    public void setCurrentUser(User user) {
+            currentUser = user;
     }
 
-    public String getCurrentUserEmail() {
-        return currentUserEmail;
+    public User getCurrentUser() {
+            return currentUser;
     }
 
     public void closeSession() {
@@ -26,4 +28,3 @@ public class SessionManager {
     }
 
 }
-

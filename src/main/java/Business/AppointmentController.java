@@ -81,7 +81,7 @@ public class AppointmentController implements Initializable {
     }
 
     private void loadAppointments() {
-        List<Appointment> appointments = appointmentDAO.findByEmailOfUser(SessionManager.getInstance().getCurrentUserEmail());
+        List<Appointment> appointments = appointmentDAO.findByEmailOfUser(SessionManager.getInstance().getCurrentUser().getEmail());
         ObservableList<Appointment> observableList = FXCollections.observableArrayList(appointments);
         appointments_table.setItems(observableList);
     }
