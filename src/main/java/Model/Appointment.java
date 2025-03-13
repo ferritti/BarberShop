@@ -9,18 +9,20 @@ public class Appointment {
     private String customerEmail;
     private String barberEmail;
     private String barberName;
+    private String customerName;
     private String serviceTypeName;
     private double servicePrice;
 
     public static enum Payment {ONLINE, SHOP};
     private final Payment payment;
 
-    public Appointment(Payment payment, String serviceTypeName, String barberName, String barberEmail, String customerEmail, LocalTime time, LocalDate date, double servicePrice) {
+    public Appointment(Payment payment, String serviceTypeName, String barberName, String barberEmail, String customerEmail, String customerName, LocalTime time, LocalDate date, double servicePrice) {
         this.payment = payment;
         this.serviceTypeName = serviceTypeName;
         this.barberName = barberName;
         this.barberEmail = barberEmail;
         this.customerEmail = customerEmail;
+        this.customerName = customerName;
         this.time = time;
         this.date = date;
         this.servicePrice = servicePrice;
@@ -82,5 +84,13 @@ public class Appointment {
 
     public void setServicePrice(double servicePrice) {
         this.servicePrice = servicePrice;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }

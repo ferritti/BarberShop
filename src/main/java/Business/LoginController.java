@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class LoginController {
     @FXML
@@ -34,7 +33,9 @@ public class LoginController {
 
         if (userDAO.checkCredentials(email_text, pass_text)) {
                 SessionManager.getInstance().setCurrentUser(userDAO.findByEmail(email_text));
-                toAppointmentAction(actionEvent);
+                if(SessionManager.getInstance().getCurrentUser() instanceof Customer)
+                    toAppointmentCustomerAction(actionEvent);
+                else toAppointmentBarberAction(actionEvent);
             }
         else incorrect_label.setOpacity(1);
     }
@@ -54,15 +55,30 @@ public class LoginController {
         }
     }
 
-    public void toAppointmentAction(ActionEvent actionEvent){
+    public void toAppointmentCustomerAction(ActionEvent actionEvent){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Appointments.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
             stage.setScene(new Scene(root));
-            stage.setTitle("Appointments");
+            stage.setTitle("AppointmentsCustomer");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toAppointmentBarberAction(ActionEvent actionEvent){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("AppointmentsBarber");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,12 +100,41 @@ public class LoginController {
         }
     }
 
-    public void toProfileAction() {
+    public void toProfileCustomerAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Profile.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileCustomer.fxml"));
             Parent profileRoot = loader.load();
 
-            ProfileController profileController = loader.getController();
+            ProfileCustomerController profileController = loader.getController();
+
+            User user = SessionManager.getInstance().getCurrentUser();
+
+            if (user != null) {
+                profileController.profileAction(
+                        user.getName(),
+                        user.getSurname(),
+                        user.getEmail(),
+                        user.getPhone()
+                );
+            }
+
+            Stage stage = (Stage) email_field.getScene().getWindow();
+
+            Scene profileScene = new Scene(profileRoot);
+            stage.setScene(profileScene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toProfileBarberAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileBarber.fxml"));
+            Parent profileRoot = loader.load();
+
+            ProfileBarberController profileController = loader.getController();
 
             User user = SessionManager.getInstance().getCurrentUser();
 

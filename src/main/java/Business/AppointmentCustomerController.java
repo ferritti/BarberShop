@@ -23,7 +23,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AppointmentController implements Initializable {
+public class AppointmentCustomerController implements Initializable {
 
     @FXML
     private ImageView chair_icon;
