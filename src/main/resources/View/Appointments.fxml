@@ -107,15 +107,16 @@
          <children>
             <TableView fx:id="appointments_table" prefHeight="409.0" prefWidth="458.0" stylesheets="@../Styles/Appointments.css">
               <columns>
-                <TableColumn fx:id="date_col" prefWidth="92.0" text="Date" />
-                <TableColumn fx:id="time_col" prefWidth="46.0" text="Time" />
+                <TableColumn fx:id="date_col" prefWidth="82.0" text="Date" />
+                <TableColumn fx:id="time_col" prefWidth="56.0" text="Time" />
                   <TableColumn fx:id="barber_col" prefWidth="92.0" text="Barber" />
                   <TableColumn fx:id="service_col" prefWidth="92.0" text="Service" />
                   <TableColumn fx:id="price_col" prefWidth="46.0" text="Price" />
-                  <TableColumn fx:id="payment_col" prefWidth="92.0" text="Payment" />
+                  <TableColumn fx:id="payment_col" prefWidth="73.0" text="Payment" />
+                  <TableColumn fx:id="delete_col" editable="false" prefWidth="44.0" />
               </columns>
                <VBox.margin>
-                  <Insets left="56.0" right="56.0" top="30.0" />
+                  <Insets left="40.0" right="40.0" top="30.0" />
                </VBox.margin>
             </TableView>
          </children></VBox>

@@ -41,7 +41,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     }
 
     @Override
-    public boolean removeAppointment(Appointment appointment) {
+    public boolean deleteAppointment(Appointment appointment) {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
