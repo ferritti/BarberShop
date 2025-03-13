@@ -79,7 +79,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="send_news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/pen.png" />
                            </image>
@@ -96,7 +96,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="news_icon1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="service_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/service.png" />
                            </image>
@@ -113,7 +113,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="news_icon2" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/side.png" />
                            </image>
