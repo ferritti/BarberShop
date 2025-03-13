@@ -33,7 +33,7 @@ public class LoginController {
         String pass_text = password_field.getText();
 
         if (userDAO.checkCredentials(email_text, pass_text)) {
-                SessionManager.getInstance().setCurrentUserEmail(email_text);
+                SessionManager.getInstance().setCurrentUser(userDAO.findByEmail(email_text));
                 toAppointmentAction(actionEvent);
             }
         else incorrect_label.setOpacity(1);
@@ -69,6 +69,21 @@ public class LoginController {
         }
     }
 
+    public void toNewsAction(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/News.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("News");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void toProfileAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Profile.fxml"));
@@ -76,7 +91,7 @@ public class LoginController {
 
             ProfileController profileController = loader.getController();
 
-            User user = userDAO.findByEmail(email_field.getText());
+            User user = SessionManager.getInstance().getCurrentUser();
 
             if (user != null) {
                 profileController.profileAction(
