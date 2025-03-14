@@ -1,0 +1,39 @@
+.hbox-rounded-right {
+    -fx-background-color: #FFC300;
+    -fx-background-radius: 0 20px 20px 0;
+    -fx-border-width: 2px;
+}
+
+.table-view {
+    -fx-border-width: 1;
+    -fx-border-color: grey;  /* Corretto */
+    -fx-border-radius: 5pt;
+    -fx-background-radius: 5pt;
+}
+
+.table-view .column-header-background {
+    -fx-background-radius: 5pt 5pt 0 0;
+    -fx-border-color: grey;  /* Corretto */
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 5px 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #651FFF;
+    -fx-background-insets: 0 0 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-size: 20px;
+    -fx-border-width: 0 0 10 0;
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+}
+
+.table-view:focused {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+}
