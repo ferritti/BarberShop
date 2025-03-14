@@ -53,12 +53,12 @@ public class ProfileCustomerController {
 
             SessionManager.getInstance().closeSession();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
-            Parent loginRoot = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
+            Parent root = loader.load();
 
             Stage stage = (Stage) logout_icon.getScene().getWindow();
-            stage.setScene(new Scene(loginRoot));
-            stage.setTitle("Login");
+            stage.setScene(new Scene(root));
+            stage.setTitle("Signin");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,11 +70,11 @@ public class ProfileCustomerController {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
-            Parent loginRoot = loader.load();
+            Parent root = loader.load();
 
             Stage stage = (Stage) chair_icon.getScene().getWindow();
-            stage.setScene(new Scene(loginRoot));
-            stage.setTitle("AppointmentsCustomer");
+            stage.setScene(new Scene(root));
+            stage.setTitle("Appointments");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,11 +86,11 @@ public class ProfileCustomerController {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
-            Parent loginRoot = loader.load();
+            Parent root = loader.load();
 
             Stage stage = (Stage) chair_icon.getScene().getWindow();
-            stage.setScene(new Scene(loginRoot));
-            stage.setTitle("NewsCustomer");
+            stage.setScene(new Scene(root));
+            stage.setTitle("News");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

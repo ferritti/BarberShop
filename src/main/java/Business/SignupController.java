@@ -72,7 +72,7 @@ public class SignupController {
 
     public void toLoginAction(ActionEvent actionEvent) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
                 Parent root = loader.load();
 
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

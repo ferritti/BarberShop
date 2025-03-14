@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginController {
+public class SigninController {
     @FXML
     private MFXTextField emailField;
     @FXML
@@ -66,7 +66,7 @@ public class LoginController {
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
             stage.setScene(new Scene(root));
-            stage.setTitle("AppointmentsCustomer");
+            stage.setTitle("Appointments");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class LoginController {
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
             stage.setScene(new Scene(root));
-            stage.setTitle("AppointmentsBarber");
+            stage.setTitle("Appointments");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -60,12 +59,12 @@ public class ProfileBarberController {
 
             SessionManager.getInstance().closeSession();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
-            Parent loginRoot = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
+            Parent root = loader.load();
 
             Stage stage = (Stage) logout_icon.getScene().getWindow();
-            stage.setScene(new Scene(loginRoot));
-            stage.setTitle("Login");
+            stage.setScene(new Scene(root));
+            stage.setTitle("Signin");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,10 +76,10 @@ public class ProfileBarberController {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
-            Parent loginRoot = loader.load();
+            Parent root = loader.load();
 
             Stage stage = (Stage) chair_icon.getScene().getWindow();
-            stage.setScene(new Scene(loginRoot));
+            stage.setScene(new Scene(root));
             stage.setTitle("AppointmentsBarber");
             stage.show();
         } catch (IOException e) {
@@ -93,10 +92,10 @@ public class ProfileBarberController {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Service.fxml"));
-            Parent loginRoot = loader.load();
+            Parent root = loader.load();
 
             Stage stage = (Stage) chair_icon.getScene().getWindow();
-            stage.setScene(new Scene(loginRoot));
+            stage.setScene(new Scene(root));
             stage.setTitle("Service");
             stage.show();
         } catch (IOException e) {

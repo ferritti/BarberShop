@@ -26,9 +26,9 @@ public class MainApplication extends Application {
                 .build()
                 .setGlobal();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/View/Login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/View/Signin.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Signup");
+        stage.setTitle("Signin");
         stage.setScene(scene);
         stage.show();
     }
