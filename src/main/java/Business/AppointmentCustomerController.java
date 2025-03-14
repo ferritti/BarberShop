@@ -4,6 +4,7 @@ import Authentication.SessionManager;
 import DBconnection.DAO.AppointmentDAO;
 import DBconnection.DAO.ConcreteAppointmentDAO;
 import Model.Appointment;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -242,6 +243,17 @@ public class AppointmentCustomerController implements Initializable {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileCustomer.fxml"));
             Parent loginRoot = loader.load();
+
+            ProfileCustomerController controller = loader.getController();
+            User currentUser = SessionManager.getInstance().getCurrentUser();
+
+            if (currentUser != null) {
+                controller.profileAction(
+                        currentUser.getName(),
+                        currentUser.getSurname(),
+                        currentUser.getEmail(),
+                        currentUser.getPhone());
+            }
 
             Stage stage = (Stage) chair_icon.getScene().getWindow();
             stage.setScene(new Scene(loginRoot));

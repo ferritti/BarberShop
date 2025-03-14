@@ -4,6 +4,7 @@ import Authentication.SessionManager;
 import DBconnection.DAO.AppointmentDAO;
 import DBconnection.DAO.ConcreteAppointmentDAO;
 import Model.Appointment;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -241,12 +242,23 @@ public class AppointmentBarberController implements Initializable {
     private void goToProfileAction() {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileBarber.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileCustomer.fxml"));
             Parent loginRoot = loader.load();
 
-            Stage stage = (Stage) profile_icon.getScene().getWindow();
+            ProfileCustomerController controller = loader.getController();
+            User currentUser = SessionManager.getInstance().getCurrentUser();
+
+            if (currentUser != null) {
+                controller.profileAction(
+                        currentUser.getName(),
+                        currentUser.getSurname(),
+                        currentUser.getEmail(),
+                        currentUser.getPhone());
+            }
+
+            Stage stage = (Stage) chair_icon.getScene().getWindow();
             stage.setScene(new Scene(loginRoot));
-            stage.setTitle("ProfileBarber");
+            stage.setTitle("ProfileCustomer");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
