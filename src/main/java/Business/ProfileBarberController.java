@@ -88,4 +88,20 @@ public class ProfileBarberController {
         }
     }
 
+    @FXML
+    private void goToServiceAction() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Service.fxml"));
+            Parent loginRoot = loader.load();
+
+            Stage stage = (Stage) chair_icon.getScene().getWindow();
+            stage.setScene(new Scene(loginRoot));
+            stage.setTitle("Service");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
