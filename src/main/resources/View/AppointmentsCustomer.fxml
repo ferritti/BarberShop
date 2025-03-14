@@ -12,9 +12,9 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.AppointmentCustomerController">
    <children>
-      <VBox prefHeight="550.0" prefWidth="356.0" styleClass="primary-color" stylesheets="@../Styles/Dashboard.css">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="230.0" styleClass="hbox-rounded-right" stylesheets="@../Styles/Appointments.css" HBox.hgrow="NEVER">
          <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="187.0">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -23,9 +23,9 @@
                   </ImageView>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="197.0" spacing="8.0">
+            <VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="100.0" spacing="8.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="100.0">
                      <children>
                         <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -102,23 +102,36 @@
                </VBox.margin>
             </VBox>
          </children>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
       </VBox>
-      <VBox prefHeight="550.0" prefWidth="700.0" styleClass="secondary-color" stylesheets="@../Styles/Dashboard.css">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="570.0">
          <children>
-            <TableView fx:id="appointments_table" prefHeight="409.0" prefWidth="458.0" stylesheets="@../Styles/Appointments.css">
-              <columns>
-                <TableColumn fx:id="date_col" prefWidth="82.0" text="Date" />
-                <TableColumn fx:id="time_col" prefWidth="56.0" text="Time" />
-                  <TableColumn fx:id="barber_col" prefWidth="92.0" text="Barber" />
-                  <TableColumn fx:id="service_col" prefWidth="92.0" text="Service" />
-                  <TableColumn fx:id="price_col" prefWidth="46.0" text="Price" />
-                  <TableColumn fx:id="payment_col" prefWidth="73.0" text="Payment" />
-                  <TableColumn fx:id="delete_col" editable="false" prefWidth="44.0" />
-              </columns>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="123.0" prefWidth="570.0">
                <VBox.margin>
-                  <Insets left="40.0" right="40.0" top="30.0" />
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <TableView fx:id="tableViewCustomerAppointments" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="550.0" styleClass="table-view-rounded" stylesheets="@../Styles/Appointments.css">
+               <placeholder>
+                  <Label text="There are no appointments!"/>
+               </placeholder>
+               <columns>
+                  <!-- Aggiungi ID alle colonne -->
+                  <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
+                  <TableColumn fx:id="timeColumn" prefWidth="75.0" text="Time" />
+                  <TableColumn fx:id="barberColumn" prefWidth="75.0" text="Barber" />
+                  <TableColumn fx:id="serviceColumn" prefWidth="75.0" text="Service" />
+                  <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
+                  <TableColumn fx:id="paymentColumn" prefWidth="75.0" text="Payment" />
+                  <TableColumn fx:id="deleteColumn" prefWidth="75.0" />
+               </columns>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </TableView>
-         </children></VBox>
+         </children>
+      </VBox>
    </children>
 </HBox>
