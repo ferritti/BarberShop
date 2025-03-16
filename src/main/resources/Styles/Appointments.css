@@ -4,6 +4,10 @@
     -fx-border-width: 2px;
 }
 
+.hbox-selected{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10pt;
+}
 .table-view {
     -fx-border-width: 1;
     -fx-border-color: grey;

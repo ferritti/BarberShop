@@ -13,7 +13,7 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.SigninController">
    <children>
-      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="336.0" styleClass="hbox-rounded-right" stylesheets="@../Styles/Login.css">
+      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="336.0" styleClass="hbox-rounded-right" stylesheets="@../Styles/Signin.css">
          <children>
             <ImageView fitHeight="220.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -22,7 +22,7 @@
             </ImageView>
          </children>
       </VBox>
-      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="563.0" stylesheets="@../Styles/Login.css">
+      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="563.0">
          <children>
             <Label prefHeight="40.0" prefWidth="274.0" text="Sign in">
                <font>
@@ -38,16 +38,16 @@
                   <Label fx:id="createNowLabel" onMouseClicked="#toSignupView" text="Create now" textFill="#f2b830" underline="true" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="323.0" styleClass="border" stylesheets="@../Styles/Login.css">
+            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="323.0">
                <VBox.margin>
                   <Insets left="120.0" right="120.0" top="-20.0" />
                </VBox.margin>
                <children>
-                  <HBox alignment="CENTER" prefHeight="42.0" prefWidth="51.0" styleClass="right-side-border" stylesheets="@../Styles/Login.css" />
+                  <HBox alignment="CENTER" prefHeight="42.0" prefWidth="51.0" />
                   <MFXTextField fx:id="emailField" floatMode="BORDER" prefHeight="39.0" prefWidth="323.0" promptText="Email" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0" styleClass="border" stylesheets="@../Styles/Login.css">
+            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0">
                <children>
                   <MFXPasswordField fx:id="passwordField" floatMode="BORDER" prefHeight="39.0" prefWidth="272.0" promptText="Password" />
                </children>
@@ -63,7 +63,7 @@
                   <Insets />
                </opaqueInsets>
             </Label>
-            <MFXButton fx:id="signinButton" buttonType="RAISED" onAction="#signinAction" prefHeight="28.0" prefWidth="74.0" styleClass="outline-button" text="Sign in" />
+            <MFXButton fx:id="signinButton" buttonType="RAISED" onAction="#signinAction" prefHeight="28.0" prefWidth="74.0" styleClass="outline-button" stylesheets="@../Styles/Signin.css" text="Sign in" />
          </children>
       </VBox>
    </children>

@@ -14,49 +14,37 @@ import java.io.IOException;
 public class ProfileCustomerController {
 
     @FXML
-    private ImageView chair_icon;
+    private Label emailLabel;
 
     @FXML
-    private Label email_label;
+    private Label surnameLabel;
 
     @FXML
-    private ImageView logout_icon;
+    private Label nameLabel;
 
     @FXML
-    private Label name_label;
+    private Label phoneLabel;
 
     @FXML
-    private ImageView news_icon;
+    private ImageView logoutIcon;
 
-    @FXML
-    private Label phone_label;
-
-    @FXML
-    private ImageView plus_icon;
-
-    @FXML
-    private ImageView profile_icon;
-
-    @FXML
-    private Label surname_label;
 
     public void profileAction(String name, String surname, String email, String phone) {
-        name_label.setText(name);
-        surname_label.setText(surname);
-        email_label.setText(email);
-        phone_label.setText(phone);
+        nameLabel.setText(name);
+        surnameLabel.setText(surname);
+        emailLabel.setText(email);
+        phoneLabel.setText(phone);
     }
 
     @FXML
     private void logoutAction() {
         try {
-
             SessionManager.getInstance().closeSession();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) logout_icon.getScene().getWindow();
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Signin");
             stage.show();
@@ -68,11 +56,10 @@ public class ProfileCustomerController {
     @FXML
     private void goToAppointmentsAction() {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) chair_icon.getScene().getWindow();
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Appointments");
             stage.show();
@@ -84,11 +71,10 @@ public class ProfileCustomerController {
     @FXML
     private void goToNewsAction() {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) chair_icon.getScene().getWindow();
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("News");
             stage.show();

@@ -25,11 +25,11 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="100.0" spacing="8.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="100.0">
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="100.0" styleClass="hbox-selected" stylesheets="@../Styles/Appointments.css">
                      <children>
-                        <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/barber-chair.png" />
+                              <Image url="@../Images/schedule.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="27.0" prefWidth="158.0" text="Appointments">
@@ -37,19 +37,19 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
                      <VBox.margin>
-                        <Insets top="45.0" />
+                        <Insets left="10.0" right="10.0" top="45.0" />
                      </VBox.margin>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="plus_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/plus.png" />
+                              <Image url="@../Images/scissors.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="27.0" prefWidth="158.0" text="New Appointment">
@@ -57,16 +57,16 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToNewsAction" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/newspaper-folded.png" />
+                              <Image url="@../Images/notification.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="27.0" prefWidth="158.0" text="News">
@@ -74,16 +74,16 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToProfileAction" prefHeight="48.0" prefWidth="218.0">
+                  <HBox alignment="CENTER" onMouseClicked="#goToProfileAction" prefHeight="48.0" prefWidth="230.0">
                      <children>
-                        <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/side.png" />
+                              <Image url="@../Images/user.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="27.0" prefWidth="158.0" text="Profile">
@@ -91,7 +91,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -108,14 +108,14 @@
       </VBox>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="570.0">
          <children>
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="123.0" prefWidth="570.0">
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="14.0" prefWidth="570.0">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="tableViewCustomerAppointments" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="550.0" styleClass="table-view-rounded" stylesheets="@../Styles/Appointments.css">
+            <TableView fx:id="tableViewCustomerAppointments" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="550.0" stylesheets="@../Styles/Appointments.css">
                <placeholder>
-                  <Label text="There are no appointments!"/>
+                  <Label text="There are no appointments!" />
                </placeholder>
                <columns>
                   <!-- Aggiungi ID alle colonne -->

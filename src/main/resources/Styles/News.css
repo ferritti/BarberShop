@@ -1,55 +1,42 @@
+.hbox-rounded-right {
+    -fx-background-color: #FFC300;
+    -fx-background-radius: 0 20px 20px 0;
+    -fx-border-width: 2px;
+}
+
+.hbox-selected{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10pt;
+}
 .table-view {
-    -fx-background-color: #f5e2c1;
-    -fx-border-color: #d7a857;
-    -fx-border-width: 1.5px;
-    -fx-background-radius: 5px;
+    -fx-border-width: 1;
+    -fx-border-color: grey;
+    -fx-border-radius: 5pt;
+    -fx-background-radius: 5pt;}
+
+.table-view:focused {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
 }
 
 .table-view .column-header-background {
-    -fx-background-color: #d7a857;
-    -fx-background-radius: 5px 5px 0 0;
+    -fx-background-radius: 5pt 5pt 0 0;
+    -fx-border-color: grey;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 5px 0;}
+
+.table-view .column-header-background{
+    -fx-background-color: #651FFF;
+    -fx-background-insets: 0 0 0 0;
 }
 
-.table-view .column-header {
-    -fx-background-color: transparent;
-    -fx-border-color: #d7a857;
-    -fx-border-width: 0 0 1.5px 0;
-    -fx-font-weight: bold;
-    -fx-text-fill: #4a3b2a;
+.table-view .column-header, .table-view .filler{
+    -fx-size:20px;
+    -fx-border-width: 0 0 10 0;
+    -fx-background-color:transparent;
+
 }
 
-.table-row-cell {
-    -fx-background-color: #f7d9a5;
-    -fx-border-color: #d7a857;
-    -fx-border-width: 0 0 1px 0;
-    -fx-padding: 5px; /* Add padding inside the row */
-}
-
-.table-row-cell:odd {
-    -fx-background-color: #f5e2c1;
-}
-
-.table-row-cell:selected {
-    -fx-background-color: #d7a857;
-    -fx-text-fill: white;
-}
-
-/* Styling the TableView header text */
-.table-view .table-header-cell {
-    -fx-text-fill: #4a3b2a;
-    -fx-font-weight: bold;
-    -fx-font-size: 16px;
-}
-
-/* Customize row text color */
-.table-row-cell .table-cell {
-    -fx-text-fill: #4a3b2a;
-    -fx-font-size: 14px;
-}
-
-/* Styling specific columns in the table */
-.table-column-header {
-    -fx-text-fill: #4a3b2a;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
+.table-view .column-header .label {
+    -fx-text-fill: white ;
 }

@@ -34,14 +34,6 @@ import java.util.ResourceBundle;
 public class AppointmentCustomerController implements Initializable {
 
     @FXML
-    private ImageView chair_icon;
-    @FXML
-    private ImageView news_icon;
-    @FXML
-    private ImageView plus_icon;
-    @FXML
-    private ImageView profile_icon;
-    @FXML
     private TableView<Appointment> tableViewCustomerAppointments;
     @FXML
     private TableColumn<Appointment, String> barberColumn;
@@ -90,6 +82,7 @@ public class AppointmentCustomerController implements Initializable {
         tableViewCustomerAppointments.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         loadAppointments();
+
     }
 
     private <T> void centerTextInColumn(TableColumn<Appointment, T> column) {
@@ -228,7 +221,7 @@ public class AppointmentCustomerController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) news_icon.getScene().getWindow();
+            Stage stage = (Stage) tableViewCustomerAppointments.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("News");
             stage.show();
@@ -254,7 +247,7 @@ public class AppointmentCustomerController implements Initializable {
                         currentUser.getPhone());
             }
 
-            Stage stage = (Stage) chair_icon.getScene().getWindow();
+            Stage stage = (Stage) tableViewCustomerAppointments.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Profile");
             stage.show();

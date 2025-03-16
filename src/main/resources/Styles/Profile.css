@@ -1,31 +1,16 @@
-.primary-color{
-    -fx-background-color: #f7d9a5;
+.hbox-rounded-right {
+    -fx-background-color: #FFC300;
+    -fx-background-radius: 0 20px 20px 0;
+    -fx-border-width: 2px;
 }
 
-.secondary-color{
-    -fx-background-color: #f5e2c1;
+.hbox-selected{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10pt;
 }
 
-.button{
-    -fx-background-color: #d7a857;
-    -fx-background-radius: 30;
-}
-
-.transparent{
-    -fx-background-color: rgba(0,0,0,0);
-}
-
-.border{
-    -fx-border-color: #d7a857;
-    -fx-border-width: 1.5;
-}
-
-.right-side-border{
-    -fx-border-color: #d7a857;
-    -fx-border-width: 0 1.5 0 0;
-}
-
-.label-radius {
-    -fx-background-radius: 3px;
-    -fx-border-radius: 3px;
+.purple-label{
+    -fx-border-color: #651FFF;
+    -fx-border-radius: 10pt;
+    -fx-border-width: 2px;
 }
