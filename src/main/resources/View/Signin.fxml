@@ -13,7 +13,7 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.SigninController">
    <children>
-      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="336.0" styleClass="hbox-rounded-right" stylesheets="@../Styles/Signin.css">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="286.0" styleClass="hbox-rounded-right" stylesheets="@../Styles/Signin.css">
          <children>
             <ImageView fitHeight="220.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -22,7 +22,7 @@
             </ImageView>
          </children>
       </VBox>
-      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="563.0">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="514.0">
          <children>
             <Label prefHeight="40.0" prefWidth="274.0" text="Sign in">
                <font>
@@ -31,11 +31,11 @@
             </Label>
             <HBox prefHeight="20.0" prefWidth="274.0">
                <VBox.margin>
-                  <Insets bottom="50.0" left="120.0" right="120.0" top="15.0" />
+                  <Insets bottom="40.0" left="120.0" right="120.0" top="15.0" />
                </VBox.margin>
                <children>
                   <Label prefHeight="17.0" prefWidth="133.0" text="Don't have an account?" />
-                  <Label fx:id="createNowLabel" onMouseClicked="#toSignupView" text="Create now" textFill="#f2b830" underline="true" />
+                  <Label fx:id="createNowLabel" onMouseClicked="#toSignupView" styleClass="label-color" stylesheets="@../Styles/Signin.css" text="Create now!" underline="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="323.0">
@@ -49,21 +49,32 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0">
                <children>
-                  <MFXPasswordField fx:id="passwordField" floatMode="BORDER" prefHeight="39.0" prefWidth="272.0" promptText="Password" />
+                  <MFXPasswordField fx:id="passwordField" floatMode="BORDER" prefHeight="39.0" prefWidth="283.0" promptText="Password" />
                </children>
                <VBox.margin>
                   <Insets left="120.0" right="120.0" top="30.0" />
                </VBox.margin>
             </HBox>
-            <Label fx:id="incorrectLabel" text="*Email or Password incorrect " textFill="#c61c1c" visible="false">
+            <Label prefHeight="22.0" prefWidth="269.0" stylesheets="@../Styles/Signin.css" text="Forgot password?" underline="true">
+               <padding>
+                  <Insets top="6.0" />
+               </padding>
+            </Label>
+            <MFXButton fx:id="signinButton" buttonType="RAISED" onAction="#signinAction" prefHeight="29.0" prefWidth="96.0" styleClass="outline-button" stylesheets="@../Styles/Signin.css" text="Sign in">
                <VBox.margin>
-                  <Insets bottom="20.0" top="20.0" />
+                  <Insets top="30.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Helvetica" size="13.0" />
+               </font></MFXButton>
+            <Label fx:id="incorrectLabel" text="*Email or Password incorrect! " textFill="#c61c1c" visible="false">
+               <VBox.margin>
+                  <Insets top="30.0" />
                </VBox.margin>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Label>
-            <MFXButton fx:id="signinButton" buttonType="RAISED" onAction="#signinAction" prefHeight="28.0" prefWidth="74.0" styleClass="outline-button" stylesheets="@../Styles/Signin.css" text="Sign in" />
          </children>
       </VBox>
    </children>

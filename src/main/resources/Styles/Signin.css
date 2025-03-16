@@ -8,6 +8,10 @@
 }
 
 .outline-button {
-    -fx-border-color: #FFC300;
+    -fx-border-color: #651FFF;
     -fx-border-radius: 3;
+}
+
+.label-color{
+    -fx-text-fill: #651FFF;
 }
