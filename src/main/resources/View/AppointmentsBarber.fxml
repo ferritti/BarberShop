@@ -12,7 +12,7 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.AppointmentBarberController">
    <children>
-      <VBox prefHeight="550.0" prefWidth="356.0" styleClass="primary-color" stylesheets="@../Styles/Dashboard.css">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="230.0" styleClass="hbox-rounded-right" stylesheets="@../Styles/Appointments.css">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -23,13 +23,13 @@
                   </ImageView>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="197.0" spacing="14.0">
+            <VBox alignment="TOP_CENTER" prefHeight="297.0" prefWidth="230.0" spacing="10.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0" styleClass="hbox-selected" stylesheets="@../Styles/Appointments.css">
                      <children>
-                        <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/barber-chair.png" />
+                              <Image url="@../Images/schedule.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="27.0" prefWidth="158.0" text="Appointments">
@@ -42,17 +42,17 @@
                         </Label>
                      </children>
                      <VBox.margin>
-                        <Insets top="45.0" />
+                        <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="plus_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/plus.png" />
+                              <Image url="@../Images/services.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="27.0" prefWidth="158.0" text="New Appointment">
+                        <Label prefHeight="27.0" prefWidth="158.0" text="Services">
                            <HBox.margin>
                               <Insets left="7.0" />
                            </HBox.margin>
@@ -64,9 +64,9 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/newspaper-folded.png" />
+                              <Image url="@../Images/notification.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="27.0" prefWidth="158.0" text="News">
@@ -81,29 +81,12 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="send_news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/pen.png" />
+                              <Image url="@../Images/sendnews.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="27.0" prefWidth="158.0" text="Send news">
-                           <HBox.margin>
-                              <Insets left="7.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
-                     <children>
-                        <ImageView fx:id="service_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/service.png" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="27.0" prefWidth="158.0" text="Service">
+                        <Label prefHeight="27.0" prefWidth="158.0" text="Send comunication">
                            <HBox.margin>
                               <Insets left="7.0" />
                            </HBox.margin>
@@ -115,9 +98,9 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToProfileAction" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/side.png" />
+                              <Image url="@../Images/user.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="27.0" prefWidth="158.0" text="Profile">
@@ -131,25 +114,31 @@
                      </children>
                   </HBox>
                </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
             </VBox>
          </children>
       </VBox>
-      <VBox prefHeight="550.0" prefWidth="700.0" styleClass="secondary-color" stylesheets="@../Styles/Dashboard.css">
+      <VBox prefHeight="550.0" prefWidth="700.0">
          <children>
-            <TableView fx:id="appointments_table" prefHeight="409.0" prefWidth="458.0" stylesheets="@../Styles/Appointments.css">
+            <TableView fx:id="tableViewBarberAppointments" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="550.0" stylesheets="@../Styles/Appointments.css">
               <columns>
-                <TableColumn fx:id="date_col" prefWidth="82.0" text="Date" />
-                <TableColumn fx:id="time_col" prefWidth="56.0" text="Time" />
-                  <TableColumn fx:id="customer_col" prefWidth="92.0" text="Customer" />
-                  <TableColumn fx:id="service_col" prefWidth="92.0" text="Service" />
-                  <TableColumn fx:id="price_col" prefWidth="46.0" text="Price" />
-                  <TableColumn fx:id="payment_col" prefWidth="73.0" text="Payment" />
-                  <TableColumn fx:id="delete_col" editable="false" prefWidth="44.0" />
+                <TableColumn fx:id="dateColumn" prefWidth="82.0" text="Date" />
+                <TableColumn fx:id="timeColumn" prefWidth="56.0" text="Time" />
+                  <TableColumn fx:id="customerColumn" prefWidth="92.0" text="Customer" />
+                  <TableColumn fx:id="serviceColumn" prefWidth="92.0" text="Service" />
+                  <TableColumn fx:id="priceColumn" prefWidth="46.0" text="Price" />
+                  <TableColumn fx:id="paymentColumn" prefWidth="73.0" text="Payment" />
+                  <TableColumn fx:id="deleteColumn" editable="false" prefWidth="44.0" />
               </columns>
                <VBox.margin>
-                  <Insets left="40.0" right="40.0" top="30.0" />
+                  <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
                </VBox.margin>
             </TableView>
-         </children></VBox>
+         </children>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin></VBox>
    </children>
 </HBox>
