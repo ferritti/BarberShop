@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.NewAppointmentController1">
+   <children>
+      <VBox prefHeight="550.0" prefWidth="356.0" styleClass="primary-color" stylesheets="@../Styles/Dashboard.css">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/barbershop.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="197.0" spacing="8.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
+                     <children>
+                        <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/barber-chair.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="27.0" prefWidth="158.0" text="Appointments">
+                           <HBox.margin>
+                              <Insets left="7.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="45.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
+                     <children>
+                        <ImageView fx:id="plus_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/plus.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="27.0" prefWidth="158.0" text="New Appointment">
+                           <HBox.margin>
+                              <Insets left="7.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
+                     <children>
+                        <ImageView fx:id="news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/newspaper-folded.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="27.0" prefWidth="158.0" text="News">
+                           <HBox.margin>
+                              <Insets left="7.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0">
+                     <children>
+                        <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/side.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="27.0" prefWidth="158.0" text="Profile">
+                           <HBox.margin>
+                              <Insets left="7.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="550.0" prefWidth="700.0" styleClass="secondary-color" stylesheets="@../Styles/Dashboard.css">
+         <children>
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="386.0">
+               <children>
+                  <MFXButton fx:id="previousButton" onAction="#previousMonth" text="&lt;" />
+                  <Label fx:id="yearMonthLabel" text="Anno Mese">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <MFXButton fx:id="nextButton" onAction="#nextMonth" text="&gt;" />
+                  <MFXButton fx:id="todayButton" onAction="#initialize" text="Today">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </MFXButton>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="15.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="614.0" prefWidth="572.0">
+               <children>
+                  <GridPane fx:id="calendarGrid">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </children>
+            </HBox>
+         </children></VBox>
+   </children>
+</HBox>
