@@ -27,7 +27,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             stmt.setDate(1, java.sql.Date.valueOf(appointment.getDate()));
             stmt.setTime(2, java.sql.Time.valueOf(appointment.getTime()));
             stmt.setString(3, appointment.getCustomerEmail());
-            stmt.setString(4, appointment.getCustomerName());
+            stmt.setString(4, appointment.getCustomerPhone());
             stmt.setString(4, appointment.getBarberEmail());
             stmt.setString(5, appointment.getBarberName());
             stmt.setString(5, appointment.getServiceTypeName());

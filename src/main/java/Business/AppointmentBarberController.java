@@ -15,13 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -40,9 +35,6 @@ public class AppointmentBarberController implements Initializable {
 
     @FXML
     private TableColumn<Appointment, LocalDate> dateColumn;
-
-    @FXML
-    private TableColumn<Appointment, Void> deleteColumn;
 
     @FXML
     private TableColumn<Appointment, String> paymentColumn;
@@ -83,8 +75,6 @@ public class AppointmentBarberController implements Initializable {
 
         tableViewBarberAppointments.setSelectionModel(null);
 
-        addDeleteButtonToTable();
-
         tableViewBarberAppointments.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         loadAppointments();
@@ -114,114 +104,12 @@ public class AppointmentBarberController implements Initializable {
         tableViewBarberAppointments.setItems(observableList);
     }
 
-    private void addDeleteButtonToTable() {
-        deleteColumn.setCellFactory(param -> new TableCell<>() {
-            private final ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/delete.png")));
-            private final Button deleteButton = new Button();
-            private final StackPane pane = new StackPane();
-
-            {
-                deleteIcon.setFitWidth(15);
-                deleteIcon.setFitHeight(15);
-                deleteButton.setGraphic(deleteIcon);
-                deleteButton.setStyle("-fx-background-color: transparent;");
-
-                deleteButton.setOnAction(event -> {
-                    Appointment appointment = getTableView().getItems().get(getIndex());
-
-                    if (isPastAppointment(appointment)) {
-                        showPastAppointmentError();
-                    } else {
-                        confirmAndDeleteAppointment(appointment);
-                    }
-                });
-
-                // Usare StackPane per centrare il bottone nella cella
-                pane.getChildren().add(deleteButton);
-                pane.setAlignment(Pos.CENTER);
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    Appointment appointment = getTableView().getItems().get(getIndex());
-
-                    if (isPastAppointment(appointment)) {
-                        deleteButton.setOpacity(0.3);
-                    } else {
-                        deleteButton.setOpacity(1.0);
-                    }
-
-                    setGraphic(pane);
-                }
-            }
-        });
-    }
-
-
-    private boolean isPastAppointment(Appointment appointment) {
-        LocalDateTime appointmentDateTime = LocalDateTime.of(appointment.getDate(), appointment.getTime());
-        LocalDateTime now = LocalDateTime.now();
-        return appointmentDateTime.isBefore(now);
-    }
-
-
-    private void showPastAppointmentError() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Operation not allowed");
-        alert.setHeaderText(null);
-        alert.setContentText("It is not possible to delete past appointments.");
-
-        ButtonType buttonTypeOk = new ButtonType("Ok");
-        alert.getButtonTypes().setAll(buttonTypeOk);
-
-        alert.showAndWait().ifPresent(buttonType -> {;
-            if (buttonType == buttonTypeOk) {
-                alert.close();
-            }
-        });
-    }
-
-    private void confirmAndDeleteAppointment(Appointment appointment) {
-        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmDialog.setTitle("Confirm deletion");
-        confirmDialog.setHeaderText(null);
-        confirmDialog.setContentText("Are you sure you want to delete this appointment?");
-
-
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeNo = new ButtonType("No");
-        confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-
-        confirmDialog.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == buttonTypeYes) {
-                deleteAppointment(appointment);
-            }
-        });
-    }
-
-    private void deleteAppointment(Appointment appointment) {
-        boolean deleted = appointmentDAO.deleteAppointment(appointment);
-
-        if (deleted) {
-            tableViewBarberAppointments.getItems().remove(appointment);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Error while deleting the appointment.");
-            alert.showAndWait();
-        }
-    }
 
     @FXML
     private void goToProfileAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileBarber.fxml"));
-            Parent loginRoot = loader.load();
+            Parent root = loader.load();
 
             ProfileBarberController controller = loader.getController();
             User currentUser = SessionManager.getInstance().getCurrentUser();
@@ -235,8 +123,23 @@ public class AppointmentBarberController implements Initializable {
             }
 
             Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();
-            stage.setScene(new Scene(loginRoot));
+            stage.setScene(new Scene(root));
             stage.setTitle("Profile");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToNewsView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("News");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
