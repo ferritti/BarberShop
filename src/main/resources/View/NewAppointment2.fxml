@@ -114,7 +114,7 @@
             </VBox>
             <ImageView fx:id="back_icon" fitHeight="30.0" fitWidth="48.0" onMouseClicked="#BackToCalendar" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/turn-back.png" />
+                  <Image url="@../Images/return.png" />
                </image>
             </ImageView>
             <Label alignment="CENTER" layoutY="30.0" prefHeight="18.0" prefWidth="36.0" text="Back">

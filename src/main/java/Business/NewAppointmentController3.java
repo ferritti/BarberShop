@@ -118,6 +118,7 @@ public class NewAppointmentController3 implements Initializable {
             if (response == ButtonType.OK) {
                 // L'utente ha confermato l'appuntamento
                 System.out.println("Appuntamento confermato!");
+                AppointmentData.resetInstance();
             } else {
                 // L'utente ha annullato l'appuntamento
                 System.out.println("Appuntamento annullato.");
@@ -129,30 +130,30 @@ public class NewAppointmentController3 implements Initializable {
     private String getOrarioFromButton(String buttonText) {
         // Mappa il numero del pulsante all'orario in formato "HH:mm"
         switch (buttonText) {
-            case "1": return "10:00";
-            case "2": return "10:30";
-            case "3": return "11:00";
-            case "4": return "11:30";
-            case "5": return "12:00";
-            case "6": return "12:30";
-            case "7": return "13:00";
-            case "8": return "13:30";
-            case "9": return "14:00";
-            case "10": return "14:30";
-            case "11": return "15:00";
-            case "12": return "15:30";
-            case "13": return "16:00";
-            case "14": return "16:30";
-            case "15": return "17:00";
-            case "16": return "17:30";
-            case "17": return "18:00";
-            case "18": return "18:30";
+            case "1": return "1.00";
+            case "2": return "2.00";
+            case "3": return "3.00";
+            case "4": return "4.00";
+            case "5": return "5.00";
+            case "6": return "6.00";
+            case "7": return "7.00";
+            case "8": return "8.00";
+            case "9": return "9:00";
+            case "10": return "10:00";
+            case "11": return "11:00";
+            case "12": return "12:00";
+            case "13": return "13:00";
+            case "14": return "14:00";
+            case "15": return "15:00";
+            case "16": return "16:00";
+            case "17": return "17:00";
+            case "18": return "18:00";
             case "19": return "19:00";
-            case "20": return "19:30";
-            case "21": return "20:00";
-            case "22": return "20:30";
-            case "23": return "21:00";
-            case "24": return "21:30";
+            case "20": return "20:00";
+            case "21": return "21:00";
+            case "22": return "22:00";
+            case "23": return "23:00";
+            case "24": return "24:00";
             default: return "Orario non valido";
         }
     }
