@@ -109,6 +109,9 @@
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="570.0">
          <children>
             <TableView fx:id="newsTable" prefHeight="491.0" prefWidth="458.0" stylesheets="@../Styles/News.css">
+               <placeholder>
+                  <Label text="There are no news!" />
+               </placeholder>
               <columns>
                 <TableColumn fx:id="titleColumn" prefWidth="140.0" text="Title" />
                 <TableColumn fx:id="messageColumn" prefWidth="318.0" text="Message" />
