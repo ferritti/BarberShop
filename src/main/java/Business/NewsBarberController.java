@@ -47,7 +47,6 @@ public class NewsBarberController implements Initializable {
     private NewsDAO newsDAO = new ConcreteNewsDAO();
     private UserDAO userDAO = new ConcreteUserDAO();
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         title_col.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -56,6 +55,28 @@ public class NewsBarberController implements Initializable {
         title_col.setReorderable(false);
         message_col.setReorderable(false);
 
+        // Imposta il wrapping per la colonna titolo
+        title_col.setCellFactory(tc -> {
+            TableCell<Notification, String> cell = new TableCell<>() {
+                private final Text text = new Text();
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        text.setText(item);
+                        text.setWrappingWidth(title_col.getWidth() - 10); // Adatta alla colonna
+                        setGraphic(text);
+                    }
+                }
+            };
+            return cell;
+        });
+
+        // Imposta il wrapping per la colonna messaggio
         message_col.setCellFactory(tc -> {
             TableCell<Notification, String> cell = new TableCell<>() {
                 private final Text text = new Text();
@@ -68,7 +89,7 @@ public class NewsBarberController implements Initializable {
                         setGraphic(null);
                     } else {
                         text.setText(item);
-                        text.setWrappingWidth(message_col.getWidth() - 10);
+                        text.setWrappingWidth(message_col.getWidth() - 10); // Adatta alla colonna
                         setGraphic(text);
                     }
                 }
@@ -78,6 +99,7 @@ public class NewsBarberController implements Initializable {
 
         loadNews();
     }
+
 
     private void loadNews() {
         SessionManager sessionManager = SessionManager.getInstance();

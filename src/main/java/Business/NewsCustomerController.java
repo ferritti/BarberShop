@@ -37,7 +37,6 @@ public class NewsCustomerController implements Initializable {
 
     private NewsDAO newsDAO = new ConcreteNewsDAO();
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -46,6 +45,28 @@ public class NewsCustomerController implements Initializable {
         titleColumn.setReorderable(false);
         messageColumn.setReorderable(false);
 
+        // Imposta il wrapping per la colonna titolo
+        titleColumn.setCellFactory(tc -> {
+            TableCell<Notification, String> cell = new TableCell<>() {
+                private final Text text = new Text();
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        text.setText(item);
+                        text.setWrappingWidth(titleColumn.getWidth() - 10); // Adatta alla colonna
+                        setGraphic(text);
+                    }
+                }
+            };
+            return cell;
+        });
+
+        // Imposta il wrapping per la colonna messaggio
         messageColumn.setCellFactory(tc -> {
             TableCell<Notification, String> cell = new TableCell<>() {
                 private final Text text = new Text();
@@ -58,7 +79,7 @@ public class NewsCustomerController implements Initializable {
                         setGraphic(null);
                     } else {
                         text.setText(item);
-                        text.setWrappingWidth(messageColumn.getWidth() - 10);
+                        text.setWrappingWidth(messageColumn.getWidth() - 10); // Adatta alla colonna
                         setGraphic(text);
                     }
                 }
@@ -68,6 +89,7 @@ public class NewsCustomerController implements Initializable {
 
         loadNews();
     }
+
 
     private void loadNews() {
         SessionManager sessionManager = SessionManager.getInstance();
