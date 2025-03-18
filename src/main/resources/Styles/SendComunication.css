@@ -47,12 +47,3 @@
     -fx-border-radius: 5pt;
     -fx-background-radius: 5pt;
 }
-
-.button-mfx-border {
-    -fx-border-color: #651FFF;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5pt;
-    -fx-background-radius: 5pt;
-    -fx-background-color: #651FFF;
-    -fx-text-fill: white;
-}

@@ -1,21 +1,30 @@
 package Business;
 
+
+import Authentication.SessionManager;
 import DBconnection.DAO.ConcreteServiceTypeDAO;
 import DBconnection.DAO.ServiceTypeDAO;
+import Model.Notification;
 import Model.ServiceType;
+import Model.User;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,199 +35,59 @@ public class ServiceController implements Initializable {
     private ImageView chair_icon;
 
     @FXML
-    private TableColumn<ServiceType, Void> delete_col;
+    private TableColumn<?, ?> delete_col;
 
     @FXML
-    private TableColumn<ServiceType, String> name_col;
+    private TableColumn<?, ?> name_col;
 
     @FXML
-    private TableColumn<ServiceType, Double> price_col;
+    private ImageView news_icon;
+
+    @FXML
+    private TableColumn<?, ?> price_col;
+
+    @FXML
+    private ImageView profile_icon;
+
+    @FXML
+    private ImageView send_news_icon;
+
+    @FXML
+    private ImageView service_icon;
 
     @FXML
     private TableView<ServiceType> service_table;
 
     @FXML
-    private HBox add_service_box;
+    private MFXTextField text_field_name;
 
     @FXML
-    private VBox add_service_box_container;  // Assicurati che sia il VBox corretto con i campi di input
+    private MFXTextField text_field_price;
 
-
-    @FXML
-    private Label ADD_button;
+    private ServiceTypeDAO serviceTypeDAO = new ConcreteServiceTypeDAO();
 
     @FXML
-    private Label BACK_button;
-    @FXML
-    private Label service_name;
+    void addNewService(ActionEvent event) {
+        String name = text_field_name.getText();
+        double price = Double.parseDouble(text_field_price.getText());
 
-    @FXML
-    private Label service_price;
-
-
-
-    private final ServiceTypeDAO serviceTypeDAO = new ConcreteServiceTypeDAO();
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        name_col.setCellValueFactory(new PropertyValueFactory<>("serviceName"));
-        price_col.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        name_col.setReorderable(false);
-        price_col.setReorderable(false);
-
-        centerTextInColumn(name_col);
-        centerTextInColumn(price_col);
-
-        addDeleteButtonToTable();  // Aggiungi questa riga per assicurarti che il pulsante di eliminazione venga aggiunto alla colonna
-
-        service_table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        service_table.setSelectionModel(null);
-
-        loadServices();
-    }
-
-    private void addDeleteButtonToTable() {
-        delete_col.setCellFactory(param -> new TableCell<>() {
-            private final ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/delete.png")));
-            private final Button deleteButton = new Button();
-            private final StackPane pane = new StackPane();
-
-            {
-                deleteIcon.setFitWidth(15);
-                deleteIcon.setFitHeight(15);
-                deleteButton.setGraphic(deleteIcon);
-                deleteButton.setStyle("-fx-background-color: transparent;");
-
-                deleteButton.setOnAction(event -> {
-                    ServiceType serviceType = getTableView().getItems().get(getIndex());
-                    confirmAndDeleteService(serviceType);  // Mostra la conferma prima di eliminare il servizio
-                });
-
-                pane.getChildren().add(deleteButton);
-                pane.setAlignment(Pos.CENTER);
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(pane);
-                }
-            }
-        });
-    }
-
-    private void loadServices() {
-        List<ServiceType> services = serviceTypeDAO.getAllServiceTypes();
-        ObservableList<ServiceType> observableList = FXCollections.observableArrayList(services);
-        service_table.setItems(observableList);
-    }
-
-    private <T> void centerTextInColumn(TableColumn<ServiceType, T> column) {
-        column.setCellFactory(tc -> new TableCell<>() {
-            @Override
-            protected void updateItem(T item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(item.toString());
-                    setAlignment(Pos.CENTER);
-                }
-            }
-        });
-    }
-
-    private void confirmAndDeleteService(ServiceType serviceType) {
-        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmDialog.setTitle("Confirmed Deletion");
-        confirmDialog.setHeaderText(null);
-        confirmDialog.setContentText("Are you sure you want to delete this service?");
-
-        // Personalizza i pulsanti
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeNo = new ButtonType("No");
-        confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-
-        // Mostra il dialogo e attendi la risposta
-        confirmDialog.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == buttonTypeYes) {
-                // L'utente ha confermato, procedi con l'eliminazione
-                deleteService(serviceType);
-            }
-            // Se l'utente preme "No", non viene eseguita alcuna azione
-        });
-    }
-
-    private void showAlert(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-
-    private void deleteService(ServiceType serviceType) {
-        boolean deleted = serviceTypeDAO.removeServiceType(serviceType);  // Elimina dal database
-
-        if (deleted) {
-            service_table.getItems().remove(serviceType);  // Rimuovi dalla tabella
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Error occurred while deleting the service. Please try again.");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    private void showAddServiceBox() {
-        add_service_box_container.setOpacity(1);
-        add_service_box_container.setDisable(false);
-    }
-
-    @FXML
-    private void hideAddServiceBox() {
-        add_service_box_container.setOpacity(0);
-        add_service_box_container.setDisable(true);
-        service_name.setText("");
-        service_price.setText("");
-    }
-
-
-    @FXML
-    private void confirmAddService() {
-        String serviceName = service_name.getText().trim();
-        String priceText = service_price.getText().trim();
-
-        if (serviceName.isEmpty() || priceText.isEmpty()) {
-            showAlert("Error", "Please fill in all fields.", Alert.AlertType.ERROR);
+        if (name.isEmpty() || price == 0) {
+            sendAlert("Error", "Both fields must be filled out.");
+            return;
+        }  else if (price < 0) {
+            sendAlert("Error", "Price must be greater than 0.");
             return;
         }
 
-        double price;
-        try {
-            price = Double.parseDouble(priceText);
-            if (price <= 0) {
-                showAlert("Error", "Price must be greater than zero.", Alert.AlertType.ERROR);
-                return;
-            }
-        } catch (NumberFormatException e) {
-            showAlert("Error", "Invalid price format.", Alert.AlertType.ERROR);
-            return;
-        }
+        confirmAndAddNewService(name, price);
 
+        text_field_name.clear();
+        text_field_price.clear();
+    }
+
+    private void confirmAndAddNewService(String title, double price) {
         Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmDialog.setTitle("Confirm Addition");
+        confirmDialog.setTitle("Confirm Add Service");
         confirmDialog.setHeaderText(null);
         confirmDialog.setContentText("Are you sure you want to add this service?");
 
@@ -228,21 +97,117 @@ public class ServiceController implements Initializable {
 
         confirmDialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == buttonTypeYes) {
-                addService(serviceName, price);
+                ServiceType serviceType = new ServiceType(title, price);
+                if(serviceTypeDAO.addServiceType(serviceType)) {
+                    sendAlert("Success", "Service added successfully.");
+                } else {
+                    sendAlert("Error", "Service could not be added.");
+                }
             }
         });
     }
 
-    private void addService(String name, double price) {
-        ServiceType newService = new ServiceType(name, price);
-        boolean added = serviceTypeDAO.addServiceType(newService);
+    private void sendAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 
-        if (added) {
-            service_table.getItems().add(newService);
-            hideAddServiceBox();
-            showAlert("Success", "Service added successfully!", Alert.AlertType.INFORMATION);
-        } else {
-            showAlert("Error", "Error while adding the service.", Alert.AlertType.ERROR);
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
+        price_col.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        name_col.setReorderable(false);
+        price_col.setReorderable(false);
+
+        service_table.setSelectionModel(null);
+
+        service_table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        loadServices();
+    }
+
+    private void loadServices() {
+        List<ServiceType> serviceTypes = serviceTypeDAO.getAllServiceTypes();
+        ObservableList<ServiceType> observableList = FXCollections.observableArrayList(serviceTypes);
+        service_table.setItems(observableList);
+    }
+
+    @FXML
+    private void goToProfileView() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileBarber.fxml"));
+            Parent root = loader.load();
+
+            ProfileBarberController controller = loader.getController();
+            User currentUser = SessionManager.getInstance().getCurrentUser();
+
+            if (currentUser != null) {
+                controller.profileAction(
+                        currentUser.getName(),
+                        currentUser.getSurname(),
+                        currentUser.getEmail(),
+                        currentUser.getPhone());
+            }
+
+            Stage stage = (Stage) profile_icon.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Profile");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToNewsView() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) news_icon.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("News");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToAppointmentsView() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) news_icon.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Appointments");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToSendComunicationView() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SendComunication.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) news_icon.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Comunication");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

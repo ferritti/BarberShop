@@ -34,14 +34,6 @@
     -fx-background-insets: 0, 1;
 }
 
-.primary-color {
-    -fx-background-color: #651FFF;
-}
-
-.secondary-color {
-    -fx-background-color: #FFC300;
-}
-
 .button-add-background {
     -fx-background-color: #651FFF;
     -fx-background-radius: 5pt;
@@ -62,25 +54,14 @@
     -fx-padding: 5px;
 }
 
-.label-rounded {
-    -fx-background-color: white;
+.text-field-border {
     -fx-border-color: #651FFF;
+    -fx-border-width: 1px;
     -fx-border-radius: 5pt;
     -fx-background-radius: 5pt;
-    -fx-padding: 5px;
-    -fx-text-fill: black;
 }
 
-.button-rounded {
-    -fx-background-color: #651FFF;
-    -fx-border-radius: 5pt;
-    -fx-background-radius: 5pt;
-    -fx-text-fill: white;
-    -fx-padding: 5px 10px;
-}
-
-.whitebutton {
-    -fx-background-color: white;
-    -fx-border-color: #651FFF;
-    -fx-border-radius: 4pt;
+.hbox-selected{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10pt;
 }

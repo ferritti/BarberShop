@@ -47,7 +47,6 @@ public class AppointmentBarberController implements Initializable {
 
     @FXML
     private TableColumn<Appointment, LocalTime> timeColumn;
-
     private final AppointmentDAO appointmentDAO = new ConcreteAppointmentDAO();
 
     @Override
@@ -140,6 +139,36 @@ public class AppointmentBarberController implements Initializable {
             Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("News");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToServiceView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Service.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Service");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToSendComunicationView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SendComunication.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Send Comunication");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
