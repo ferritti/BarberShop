@@ -6,21 +6,17 @@
 
 .table-view {
     -fx-border-width: 1;
-    -fx-border-color: grey;  /* Corretto */
+    -fx-border-color: grey;
     -fx-border-radius: 5pt;
     -fx-background-radius: 5pt;
 }
 
 .table-view .column-header-background {
+    -fx-background-color: #651FFF;
     -fx-background-radius: 5pt 5pt 0 0;
-    -fx-border-color: grey;  /* Corretto */
+    -fx-border-color: grey;
     -fx-border-width: 0 0 1 0;
     -fx-padding: 5px 0;
-}
-
-.table-view .column-header-background {
-    -fx-background-color: #651FFF;
-    -fx-background-insets: 0 0 0 0;
 }
 
 .table-view .column-header, .table-view .filler {
@@ -36,4 +32,55 @@
 .table-view:focused {
     -fx-background-color: -fx-box-border, -fx-control-inner-background;
     -fx-background-insets: 0, 1;
+}
+
+.primary-color {
+    -fx-background-color: #651FFF;
+}
+
+.secondary-color {
+    -fx-background-color: #FFC300;
+}
+
+.button-add-background {
+    -fx-background-color: #651FFF;
+    -fx-background-radius: 5pt;
+    -fx-border-radius: 5pt;
+    -fx-text-fill: white;
+}
+
+.rounded {
+    -fx-background-radius: 5pt;
+    -fx-border-radius: 5pt;
+}
+
+.name-price-field {
+    -fx-background-color: white;
+    -fx-border-color: #651FFF;
+    -fx-border-radius: 5pt;
+    -fx-background-radius: 5pt;
+    -fx-padding: 5px;
+}
+
+.label-rounded {
+    -fx-background-color: white;
+    -fx-border-color: #651FFF;
+    -fx-border-radius: 5pt;
+    -fx-background-radius: 5pt;
+    -fx-padding: 5px;
+    -fx-text-fill: black;
+}
+
+.button-rounded {
+    -fx-background-color: #651FFF;
+    -fx-border-radius: 5pt;
+    -fx-background-radius: 5pt;
+    -fx-text-fill: white;
+    -fx-padding: 5px 10px;
+}
+
+.whitebutton {
+    -fx-background-color: white;
+    -fx-border-color: #651FFF;
+    -fx-border-radius: 4pt;
 }

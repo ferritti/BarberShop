@@ -136,6 +136,7 @@
          </children>
          <styleClass>
             <String fx:value="primary-color" />
+            <String fx:value="secondary-color" />
             <String fx:value="hbox-rounded-right" />
          </styleClass>
       </VBox>
@@ -143,7 +144,7 @@
          <children>
             <TableView fx:id="service_table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="340.0" stylesheets="@../Styles/Service.css">
                <placeholder>
-                  <Label text="There are no services!"/>
+                  <Label text="There are no services!" />
                   </placeholder>
                <columns>
                   <TableColumn fx:id="name_col" prefWidth="200.0" text="Name" />
@@ -154,6 +155,100 @@
                   <Insets left="115.0" right="115.0" top="50.0" />
                </VBox.margin>
             </TableView>
+            <HBox fx:id="add_service_box" onMouseClicked="#showAddBox" prefHeight="40.0" prefWidth="336.0" styleClass="whitebutton" stylesheets="@../Styles/Service.css">
+               <VBox.margin>
+                  <Insets left="115.0" right="304.0" top="25.0" />
+               </VBox.margin>
+               <children>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/pluswhite.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets top="6.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label text="Add new Service" textFill="#651fff">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" top="8.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" />
+               </padding>
+            </HBox>
+            <VBox fx:id="add_service_box_container" opacity="0.0" prefHeight="200.0" prefWidth="100.0" spacing="25.0" stylesheets="@../Styles/Service.css">
+               <VBox.margin>
+                  <Insets bottom="50.0" left="115.0" right="115.0" top="20.0" />
+               </VBox.margin>
+               <children>
+                  <Label fx:id="service_name" prefHeight="26.0" prefWidth="200.0" styleClass="label-rounded" stylesheets="@../Styles/Service.css" text="Name">
+                     <font>
+                        <Font name="System Italic" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="service_price" prefWidth="90.0" styleClass="label-rounded" stylesheets="@../Styles/Service.css" text="Price">
+                     <font>
+                        <Font name="System Italic" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="2.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="27.0" prefWidth="340.0" spacing="228.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <Label fx:id="ADD_button" prefHeight="20.0" prefWidth="38.0" styleClass="button-add-background" stylesheets="@../Styles/Service.css" text="ADD">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="3.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets left="3.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="BACK_button" prefHeight="20.0" prefWidth="46.0" styleClass="button-add-background" stylesheets="@../Styles/Service.css" text="BACK">
+                           <HBox.margin>
+                              <Insets left="4.0" right="3.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
+               <styleClass>
+                  <String fx:value="rounded" />
+                  <String fx:value="name-price-field" />
+               </styleClass>
+            </VBox>
 
          </children></VBox>
    </children>

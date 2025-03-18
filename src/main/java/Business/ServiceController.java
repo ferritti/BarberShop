@@ -12,7 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.List;
@@ -34,6 +36,26 @@ public class ServiceController implements Initializable {
 
     @FXML
     private TableView<ServiceType> service_table;
+
+    @FXML
+    private HBox add_service_box;
+
+    @FXML
+    private VBox add_service_box_container;  // Assicurati che sia il VBox corretto con i campi di input
+
+
+    @FXML
+    private Label ADD_button;
+
+    @FXML
+    private Label BACK_button;
+    @FXML
+    private Label service_name;
+
+    @FXML
+    private Label service_price;
+
+
 
     private final ServiceTypeDAO serviceTypeDAO = new ConcreteServiceTypeDAO();
 
@@ -135,6 +157,15 @@ public class ServiceController implements Initializable {
         });
     }
 
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
     private void deleteService(ServiceType serviceType) {
         boolean deleted = serviceTypeDAO.removeServiceType(serviceType);  // Elimina dal database
 
@@ -146,6 +177,72 @@ public class ServiceController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Error occurred while deleting the service. Please try again.");
             alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void showAddServiceBox() {
+        add_service_box_container.setOpacity(1);
+        add_service_box_container.setDisable(false);
+    }
+
+    @FXML
+    private void hideAddServiceBox() {
+        add_service_box_container.setOpacity(0);
+        add_service_box_container.setDisable(true);
+        service_name.setText("");
+        service_price.setText("");
+    }
+
+
+    @FXML
+    private void confirmAddService() {
+        String serviceName = service_name.getText().trim();
+        String priceText = service_price.getText().trim();
+
+        if (serviceName.isEmpty() || priceText.isEmpty()) {
+            showAlert("Error", "Please fill in all fields.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        double price;
+        try {
+            price = Double.parseDouble(priceText);
+            if (price <= 0) {
+                showAlert("Error", "Price must be greater than zero.", Alert.AlertType.ERROR);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Invalid price format.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmDialog.setTitle("Confirm Addition");
+        confirmDialog.setHeaderText(null);
+        confirmDialog.setContentText("Are you sure you want to add this service?");
+
+        ButtonType buttonTypeYes = new ButtonType("Yes");
+        ButtonType buttonTypeNo = new ButtonType("No");
+        confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+        confirmDialog.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == buttonTypeYes) {
+                addService(serviceName, price);
+            }
+        });
+    }
+
+    private void addService(String name, double price) {
+        ServiceType newService = new ServiceType(name, price);
+        boolean added = serviceTypeDAO.addServiceType(newService);
+
+        if (added) {
+            service_table.getItems().add(newService);
+            hideAddServiceBox();
+            showAlert("Success", "Service added successfully!", Alert.AlertType.INFORMATION);
+        } else {
+            showAlert("Error", "Error while adding the service.", Alert.AlertType.ERROR);
         }
     }
 }
