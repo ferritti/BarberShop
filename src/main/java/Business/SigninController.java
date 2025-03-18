@@ -32,6 +32,7 @@ public class SigninController {
         String emailText = emailField.getText();
         String passText = passwordField.getText();
 
+
         if (userDAO.checkCredentials(emailText, passText)) {
             SessionManager.getInstance().setCurrentUser(userDAO.findByEmail(emailText));
             if(SessionManager.getInstance().getCurrentUser() instanceof Customer)

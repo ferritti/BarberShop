@@ -1,26 +1,17 @@
 .primary-color{
-    -fx-background-color: #f7d9a5;
+    -fx-background-color: #FFC300;}
+
+.hbox-rounded-right {
+    -fx-background-color: #FFC300;
+    -fx-background-radius: 0 20px 20px 0;
+    -fx-border-width: 2px;
 }
 
-.secondary-color{
-    -fx-background-color: #f5e2c1;
+.outline-button {
+    -fx-border-color: #651FFF;
+    -fx-border-radius: 3;
 }
 
-.button{
-    -fx-background-color: #d7a857;
-    -fx-background-radius: 30;
-}
-
-.transparent{
-    -fx-background-color: rgba(0,0,0,0);
-}
-
-.border{
-    -fx-border-color: #d7a857;
-    -fx-border-width: 1.5;
-}
-
-.right-side-border{
-    -fx-border-color: #d7a857;
-    -fx-border-width: 0 1.5 0 0;
+.label-color{
+    -fx-text-fill: #651FFF;
 }

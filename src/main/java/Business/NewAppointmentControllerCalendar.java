@@ -114,10 +114,10 @@ public class NewAppointmentControllerCalendar {
                     int clickedDay = Integer.parseInt(content);
                     LocalDate selectedDate = currentYearMonth.atDay(clickedDay);
                     // Salva la data nel Singleton
-                    AppointmentData.getInstance().setData(selectedDate);
+
 
                     // Passa alla schermata della lista dei barbieri
-                    goToBarberSelection();
+                    goToBarberSelection(selectedDate);
                 }
             });
 
@@ -189,10 +189,13 @@ public class NewAppointmentControllerCalendar {
         }
     }
 
-    private void goToBarberSelection() {
+    private void goToBarberSelection(LocalDate selectedDate) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentSlots.fxml"));
             Parent root = loader.load();
+
+            NewAppointmentControllerSlots controller = loader.getController();
+            controller.setDate(selectedDate);
 
             Stage stage = (Stage) calendarGrid.getScene().getWindow();
             stage.setScene(new Scene(root));

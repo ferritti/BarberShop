@@ -5,39 +5,43 @@ import DBconnection.DAO.UserDAO;
 import Model.Barber;
 import Model.Customer;
 import Model.User;
+import io.github.palexdev.materialfx.controls.MFXPasswordField;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.scene.Node;
 
 import java.io.IOException;
 
 public class SignupController {
 
     @FXML
-    TextField name_field;
-    @FXML
-    TextField surname_field;
-    @FXML
-    TextField email_field_reg;
-    @FXML
-    PasswordField password_field_reg;
-    @FXML
-    TextField phone_field;
-    @FXML
-    TextField secretcode_field;
+    private MFXTextField emailField;
 
     @FXML
-    Label not_empty_alert;
+    private MFXTextField nameField;
 
     @FXML
-    Label secret_code_alert;
+    private Label notEmptyAlert;
+
+    @FXML
+    private MFXPasswordField passwordField;
+
+    @FXML
+    private MFXTextField phoneField;
+
+    @FXML
+    private Label secretCodeAlert;
+
+    @FXML
+    private MFXTextField secretCodeField;
+
+    @FXML
+    private MFXTextField surnameField;
 
     UserDAO userDao = new ConcreteUserDAO();
 
@@ -48,37 +52,37 @@ public class SignupController {
     }
 
     public void signupAction(ActionEvent actionEvent) {
-        String name = name_field.getText();
-        String surname = surname_field.getText();
-        String email = email_field_reg.getText();
-        String password = password_field_reg.getText();
-        String phone = phone_field.getText();
-        String code = secretcode_field.getText();
+        String name = nameField.getText();
+        String surname = surnameField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        String phone = phoneField.getText();
+        String code = secretCodeField.getText();
 
         if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty()) {
-            not_empty_alert.setOpacity(1);
+            notEmptyAlert.setVisible(true);
         } else if (!code.isEmpty() && checkBarberCode(code)) {
             User barber = new Barber(name, surname, email, password, phone);
             userDao.addUser(barber);
-            toLoginAction(actionEvent);
+            goToSigninView();
         } else if (code.isEmpty()) {
             User customer = new Customer(name, surname, email, password, phone);
             userDao.addUser(customer);
-            toLoginAction(actionEvent);
+            goToSigninView();
         } else {
-            secret_code_alert.setOpacity(1);
+            secretCodeAlert.setVisible(true);
         }
     }
 
-    public void toLoginAction(ActionEvent actionEvent) {
+    public void goToSigninView() {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
                 Parent root = loader.load();
 
-                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Stage stage = (Stage) emailField.getScene().getWindow();
 
                 stage.setScene(new Scene(root));
-                stage.setTitle("Login");
+                stage.setTitle("Signin");
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();

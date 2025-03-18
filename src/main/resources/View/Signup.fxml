@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.SignupController">
    <children>
-      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="336.0" styleClass="primary-color" stylesheets="@../Styles/Signup.css">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="286.0" styleClass="hbox-rounded-right" stylesheets="@../Styles/Signup.css">
          <children>
             <ImageView fitHeight="220.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -21,151 +22,110 @@
             </ImageView>
          </children>
       </VBox>
-      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="563.0" spacing="15.0" styleClass="secondary-color" stylesheets="@../Styles/Signup.css">
+      <VBox alignment="CENTER" prefHeight="509.0" prefWidth="514.0" spacing="15.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0" styleClass="border" stylesheets="@../Styles/Signup.css">
+            <Label prefHeight="41.0" prefWidth="293.0" text="Sign up">
+               <font>
+                  <Font name="Helvetica Bold" size="33.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="110.0" right="110.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="22.0" prefWidth="205.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="42.0" prefWidth="51.0" styleClass="right-side-border" stylesheets="@../Styles/Signup.css">
-                     <children>
-                        <ImageView fitHeight="27.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/pen.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <TextField fx:id="name_field" prefHeight="26.0" prefWidth="228.0" promptText="Name" styleClass="transparent" stylesheets="@../Styles/Signup.css">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </TextField>
+                  <Label prefHeight="17.0" prefWidth="148.0" text="Already have an account? " />
+                  <Label onMouseClicked="#goToSigninView" styleClass="label-color" stylesheets="@../Styles/Signup.css" text="Sign in!" underline="true" />
                </children>
                <VBox.margin>
                   <Insets left="110.0" right="110.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0" styleClass="border" stylesheets="@../Styles/Signup.css">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="42.0" prefWidth="51.0" styleClass="right-side-border" stylesheets="@../Styles/Signup.css">
-                     <children>
-                        <ImageView fitHeight="27.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/pen.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <TextField fx:id="surname_field" prefHeight="26.0" prefWidth="228.0" promptText="Surname" styleClass="transparent" stylesheets="@../Styles/Signup.css">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets left="110.0" right="110.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0" styleClass="border" stylesheets="@../Styles/Signup.css">
+            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0">
                <VBox.margin>
                   <Insets left="110.0" right="110.0" />
                </VBox.margin>
                <children>
-                  <HBox alignment="CENTER" prefHeight="42.0" prefWidth="51.0" styleClass="right-side-border" stylesheets="@../Styles/Signup.css">
-                     <children>
-                        <ImageView fitHeight="27.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/mail.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <TextField fx:id="email_field_reg" prefHeight="26.0" prefWidth="228.0" promptText="Email" styleClass="transparent" stylesheets="@../Styles/Signup.css">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </TextField>
+                  <MFXTextField fx:id="nameField" floatMode="BORDER" prefHeight="39.0" prefWidth="320.0" promptText="Name" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0" styleClass="border" stylesheets="@../Styles/Signup.css">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="42.0" prefWidth="51.0" styleClass="right-side-border" stylesheets="@../Styles/Signup.css">
-                     <children>
-                        <ImageView fitHeight="27.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/key.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <PasswordField fx:id="password_field_reg" promptText="Password" styleClass="transparent" stylesheets="@../Styles/Signup.css" />
-               </children>
+            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0">
                <VBox.margin>
                   <Insets left="110.0" right="110.0" />
                </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0" styleClass="border" stylesheets="@../Styles/Signup.css">
                <children>
-                  <HBox alignment="CENTER" prefHeight="42.0" prefWidth="51.0" styleClass="right-side-border" stylesheets="@../Styles/Signup.css">
-                     <children>
-                        <ImageView fitHeight="27.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/telephone.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <TextField fx:id="phone_field" prefHeight="26.0" prefWidth="228.0" promptText="Phone" styleClass="transparent" stylesheets="@../Styles/Signup.css">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </TextField>
+                  <MFXTextField fx:id="surnameField" floatMode="BORDER" prefHeight="39.0" prefWidth="299.0" promptText="Surname" />
                </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="4.0" prefWidth="294.0">
                <VBox.margin>
                   <Insets left="110.0" right="110.0" />
                </VBox.margin>
-            </HBox>
-            <VBox alignment="BOTTOM_CENTER" prefHeight="101.0" prefWidth="514.0">
                <children>
-                  <Label fx:id="not_empty_alert" opacity="0.0" text="*All fields must be not empty!" textFill="#d32d2d">
-                     <VBox.margin>
-                        <Insets bottom="15.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label prefHeight="17.0" prefWidth="287.0" text="If you are a barber enter the secret code here:">
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="294.0" styleClass="border" stylesheets="@../Styles/Signup.css">
+                  <MFXTextField fx:id="emailField" floatMode="BORDER" prefHeight="39.0" prefWidth="323.0" promptText="E-mail" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0">
+               <VBox.margin>
+                  <Insets left="110.0" right="110.0" />
+               </VBox.margin>
+               <children>
+                  <MFXPasswordField fx:id="passwordField" floatMode="BORDER" prefHeight="39.0" prefWidth="310.0" promptText="Password" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="336.0">
+               <VBox.margin>
+                  <Insets left="110.0" right="110.0" />
+               </VBox.margin>
+               <children>
+                  <MFXTextField fx:id="phoneField" floatMode="BORDER" prefHeight="39.0" prefWidth="301.0" promptText="Phone" />
+               </children>
+            </HBox>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="69.0" prefWidth="514.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="0.0" prefWidth="514.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="42.0" prefWidth="51.0" styleClass="right-side-border" stylesheets="@../Styles/Signup.css">
-                           <children>
-                              <ImageView fitHeight="27.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Images/hairstyle.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </HBox>
-                        <TextField fx:id="secretcode_field" prefHeight="26.0" prefWidth="228.0" promptText="Secret code" styleClass="transparent" stylesheets="@../Styles/Signup.css">
+                        <Label fx:id="notEmptyAlert" prefHeight="17.0" prefWidth="160.0" text="*All fields must be not empty!" textFill="#d32d2d" visible="false">
                            <HBox.margin>
-                              <Insets left="5.0" />
+                              <Insets />
                            </HBox.margin>
-                        </TextField>
+                        </Label>
                      </children>
-                     <VBox.margin>
-                        <Insets left="110.0" right="110.0" />
-                     </VBox.margin>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="24.0" prefWidth="514.0" styleClass="border" stylesheets="@../Styles/Signup.css">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <MFXTextField fx:id="secretCodeField" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="296.0" promptText="If you are a barber enter the secret code!">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </MFXTextField>
+                     </children>
+                  </HBox>
+                  <Label fx:id="secretCodeAlert" prefHeight="20.0" prefWidth="104.0" text="*Code is incorrect!" textFill="#d32d2d" visible="false">
+                     <padding>
+                        <Insets top="3.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="110.0" right="110.0" />
+               </VBox.margin>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="18.0" prefWidth="489.0">
+               <children>
+                  <MFXButton buttonType="RAISED" onAction="#signupAction" prefHeight="29.0" prefWidth="105.0" styleClass="outline-button" stylesheets="@../Styles/Signup.css" text="Sign up">
+                     <opaqueInsets>
+                        <Insets top="10.0" />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </MFXButton>
                </children>
             </VBox>
-            <Label fx:id="secret_code_alert" opacity="0.0" text="*Secret code is not correct" textFill="#da0f0f" />
-            <Button fx:id="signup_button" mnemonicParsing="false" onAction="#signupAction" prefHeight="26.0" prefWidth="82.0" stylesheets="@../Styles/Signup.css" text="Sign up" />
-            <Button fx:id="login_field_reg" mnemonicParsing="false" onAction="#toLoginAction" prefHeight="26.0" prefWidth="56.0" styleClass="transparent" stylesheets="@../Styles/Signup.css" text="Login" underline="true">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
          </children>
       </VBox>
    </children>

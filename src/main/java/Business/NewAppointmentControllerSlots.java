@@ -109,8 +109,6 @@ public class NewAppointmentControllerSlots {
             serviceComboBox.getItems().add(serviceType.getServiceName());
         }
 
-        dateLabel.setText(AppointmentData.getInstance().getData().toString());
-
         disableAllButtons();
     }
 
@@ -170,8 +168,10 @@ public class NewAppointmentControllerSlots {
     public void setBarberSlots() {
         disableAllButtons();
 
+        LocalDate date = LocalDate.parse(dateLabel.getText());
+
         String selectedBarber = barberComboBox.getSelectionModel().getSelectedItem();
-        List<AvailableSlot> barberSlots = availableSlotDAO.getAvSlotsAtSelectedDate(AppointmentData.getInstance().getData(), barbersData.get(selectedBarber));
+        List<AvailableSlot> barberSlots = availableSlotDAO.getAvSlotsAtSelectedDate(date, barbersData.get(selectedBarber));
 
         for (AvailableSlot slot : barberSlots) {
             LocalTime startTime = slot.getStartTime();
@@ -286,6 +286,10 @@ public class NewAppointmentControllerSlots {
                 e.printStackTrace();
             }
 
+        }
+
+        public void setDate(LocalDate date) {
+            dateLabel.setText(date.toString());
         }
     }
 
