@@ -1,3 +1,14 @@
+.hbox-rounded-right {
+    -fx-background-color: #FFC300;
+    -fx-background-radius: 0 20px 20px 0;
+    -fx-border-width: 2px;
+}
+
+.hbox-selected{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10pt;
+}
+
 .buttonLimit {
     -fx-font-weight: bold;
     -fx-alignment: center;

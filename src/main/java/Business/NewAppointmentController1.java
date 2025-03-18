@@ -8,7 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -44,9 +46,26 @@ public class NewAppointmentController1 {
         for (int i = 0; i < 7; i++) {
             Text text = new Text(dayNames[i]);
             StackPane cell = new StackPane(text);
-            cell.setStyle("-fx-font-weight: bold; -fx-alignment: center; -fx-background-color: #dcdcdc; -fx-padding: 10px;");
+
+            String style = "-fx-font-weight: bold; -fx-alignment: center; -fx-background-color: #651FFF; " +
+                    "-fx-padding: 5px; -fx-font-size: 14px; -fx-font-family: 'Helvetica'; -fx-text-fill: white;";
+
+            // Arrotonda i bordi solo agli angoli sinistro e destro
+            if (i == 0) { // Primo giorno (Lunedì)
+                style += "-fx-background-radius: 10px 0 0 0;";
+            } else if (i == 6) { // Ultimo giorno (Domenica)
+                style += "-fx-background-radius: 0 10px 0 0;";
+            }
+
+            cell.setStyle(style);
+            text.setFill(javafx.scene.paint.Color.WHITE);
+
             calendarGrid.add(cell, i, 0);
         }
+
+        RowConstraints rowConstraints = new RowConstraints();
+        rowConstraints.setPrefHeight(10);
+        calendarGrid.getRowConstraints().add(0, rowConstraints);
 
         // Determina il primo giorno del mese e quanti giorni ha il mese
         LocalDate firstOfMonth = currentYearMonth.atDay(1);
