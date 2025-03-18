@@ -32,7 +32,7 @@
                      <children>
                         <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/barber-chair.png" />
+                              <Image url="@../Images/schedule.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="27.0" prefWidth="158.0" text="Appointments">
@@ -72,7 +72,7 @@
                      <children>
                         <ImageView fx:id="news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/newspaper-folded.png" />
+                              <Image url="@../Images/notification.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="27.0" prefWidth="158.0" text="News">

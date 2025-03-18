@@ -1,10 +1,8 @@
 package Business;
 
-
 import Authentication.SessionManager;
 import DBconnection.DAO.ConcreteServiceTypeDAO;
 import DBconnection.DAO.ServiceTypeDAO;
-import Model.Notification;
 import Model.ServiceType;
 import Model.User;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -14,14 +12,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -35,16 +33,16 @@ public class ServiceController implements Initializable {
     private ImageView chair_icon;
 
     @FXML
-    private TableColumn<?, ?> delete_col;
+    private TableColumn<ServiceType, Void> delete_col;
 
     @FXML
-    private TableColumn<?, ?> name_col;
+    private TableColumn<ServiceType, String> name_col;
 
     @FXML
     private ImageView news_icon;
 
     @FXML
-    private TableColumn<?, ?> price_col;
+    private TableColumn<ServiceType, String> price_col;
 
     @FXML
     private ImageView profile_icon;
@@ -69,12 +67,22 @@ public class ServiceController implements Initializable {
     @FXML
     void addNewService(ActionEvent event) {
         String name = text_field_name.getText();
-        double price = Double.parseDouble(text_field_price.getText());
+        String priceText = text_field_price.getText();
 
-        if (name.isEmpty() || price == 0) {
+        if (name.isEmpty() || priceText.isEmpty()) {
             sendAlert("Error", "Both fields must be filled out.");
             return;
-        }  else if (price < 0) {
+        }
+
+        double price;
+        try {
+            price = Double.parseDouble(priceText);
+        } catch (NumberFormatException e) {
+            sendAlert("Error", "Price must be a valid number.");
+            return;
+        }
+
+        if (price <= 0) {
             sendAlert("Error", "Price must be greater than 0.");
             return;
         }
@@ -84,6 +92,7 @@ public class ServiceController implements Initializable {
         text_field_name.clear();
         text_field_price.clear();
     }
+
 
     private void confirmAndAddNewService(String title, double price) {
         Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
@@ -100,6 +109,7 @@ public class ServiceController implements Initializable {
                 ServiceType serviceType = new ServiceType(title, price);
                 if(serviceTypeDAO.addServiceType(serviceType)) {
                     sendAlert("Success", "Service added successfully.");
+                    loadServices();
                 } else {
                     sendAlert("Error", "Service could not be added.");
                 }
@@ -117,7 +127,7 @@ public class ServiceController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
+        name_col.setCellValueFactory(new PropertyValueFactory<>("serviceName"));
         price_col.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         name_col.setReorderable(false);
@@ -126,6 +136,8 @@ public class ServiceController implements Initializable {
         service_table.setSelectionModel(null);
 
         service_table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        addDeleteButtonToTable();
 
         loadServices();
     }
@@ -208,6 +220,85 @@ public class ServiceController implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void addDeleteButtonToTable() {
+        // Impostiamo la cella di eliminazione
+        delete_col.setCellFactory(param -> new TableCell<ServiceType, Void>() {
+            private final ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/delete.png")));
+            private final Button deleteButton = new Button();
+            private final StackPane pane = new StackPane();
+
+            {
+                // Impostiamo le dimensioni e l'icona del pulsante
+                deleteIcon.setFitWidth(15);
+                deleteIcon.setFitHeight(15);
+                deleteButton.setGraphic(deleteIcon);
+                deleteButton.setStyle("-fx-background-color: transparent;");
+
+                // Azione di eliminazione del servizio
+                deleteButton.setOnAction(event -> {
+                    ServiceType serviceType = getTableView().getItems().get(getIndex());
+                    confirmAndDeleteService(serviceType);  // Chiama la funzione di conferma per eliminare
+                });
+
+                // Aggiungiamo il pulsante al pannello di StackPane
+                pane.getChildren().add(deleteButton);
+                pane.setAlignment(Pos.CENTER);  // Centriamo il pulsante nella cella
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                // Se la cella è vuota o non c'è un ServiceType valido in questa riga, non mostrare nulla
+                if (empty || getIndex() >= getTableView().getItems().size()) {
+                    setGraphic(null);
+                    return;
+                }
+
+                // Verifica se c'è un ServiceType valido prima di mostrare il pulsante
+                ServiceType serviceType = getTableView().getItems().get(getIndex());
+                if (serviceType != null) {
+                    setGraphic(pane);
+                } else {
+                    setGraphic(null);
+                }
+            }
+        });
+    }
+
+    private void confirmAndDeleteService(ServiceType serviceType) {
+        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmDialog.setTitle("Confirm deletion");
+        confirmDialog.setHeaderText(null);
+        confirmDialog.setContentText("Are you sure you want to delete this service?");
+
+        ButtonType buttonTypeYes = new ButtonType("Yes");
+        ButtonType buttonTypeNo = new ButtonType("No");
+        confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+        confirmDialog.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == buttonTypeYes) {
+                deleteService(serviceType);
+            }
+        });
+    }
+
+
+    private void deleteService(ServiceType serviceType) {
+        boolean deleted = serviceTypeDAO.removeServiceType(serviceType);
+
+        if (deleted) {
+            loadServices();
+            sendAlert("Success", "Service deleted successfully.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error while deleting the service.");
+            alert.showAndWait();
         }
     }
 }
