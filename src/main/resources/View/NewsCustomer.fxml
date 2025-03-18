@@ -23,7 +23,7 @@
                   </ImageView>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="197.0" spacing="8.0">
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="327.0" prefWidth="230.0" spacing="8.0">
                <children>
                   <HBox alignment="CENTER" onMouseClicked="#goToAppointmentsView" prefHeight="48.0" prefWidth="218.0">
                      <children>

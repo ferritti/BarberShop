@@ -14,7 +14,7 @@
    <children>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="230.0" styleClass="hbox-rounded-right" stylesheets="@../Styles/Appointments.css" HBox.hgrow="NEVER">
          <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="187.0">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="230.0">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -23,7 +23,7 @@
                   </ImageView>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="100.0" spacing="8.0">
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="327.0" prefWidth="230.0" spacing="8.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="100.0" styleClass="hbox-selected" stylesheets="@../Styles/Appointments.css">
                      <children>
