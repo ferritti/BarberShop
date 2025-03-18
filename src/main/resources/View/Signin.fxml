@@ -55,10 +55,13 @@
                   <Insets left="120.0" right="120.0" top="30.0" />
                </VBox.margin>
             </HBox>
-            <Label prefHeight="22.0" prefWidth="269.0" stylesheets="@../Styles/Signin.css" text="Forgot password?" underline="true">
+            <Label fx:id="forgot_pass_label" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#forgotPassPopUp" prefHeight="22.0" prefWidth="100.0" stylesheets="@../Styles/Signin.css" text="Forgot password?" underline="true">
                <padding>
                   <Insets top="6.0" />
                </padding>
+               <VBox.margin>
+                  <Insets right="169.0" />
+               </VBox.margin>
             </Label>
             <MFXButton fx:id="signinButton" buttonType="RAISED" onAction="#signinAction" prefHeight="29.0" prefWidth="96.0" styleClass="outline-button" stylesheets="@../Styles/Signin.css" text="Sign in">
                <VBox.margin>
