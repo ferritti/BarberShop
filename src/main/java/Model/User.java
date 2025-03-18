@@ -2,7 +2,7 @@ package Model;
 
 import Authentication.HashingPassword;
 
-public abstract class User implements NotificationObserver {
+public abstract class User {
     private String name;
     private String surname;
     private String email;
@@ -44,9 +44,4 @@ public abstract class User implements NotificationObserver {
     public void setPhone(String phone) { this.phone = phone; }
 
     public UserType getUserType() { return userType; }
-
-    public void update(Notification notification) {
-        System.out.println(notification.getTitle());
-        System.out.println(notification.getMessage());
-    }
 }
