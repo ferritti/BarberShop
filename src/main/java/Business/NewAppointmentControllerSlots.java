@@ -4,6 +4,7 @@ import Authentication.SessionManager;
 import DBconnection.DAO.*;
 import Model.AvailableSlot;
 import Model.ServiceType;
+import Model.User;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
@@ -229,21 +230,64 @@ public class NewAppointmentControllerSlots {
     }
 
     @FXML
-    void toAppointmentsView(MouseEvent event) {
+    void goToAppointmentsView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) serviceComboBox.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Appointments");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @FXML
-    void toNewsView(MouseEvent event) {
+    void goToNewsView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
+            Parent root = loader.load();
 
+            Stage stage = (Stage) serviceComboBox.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("News");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
     }
 
-    @FXML
-    void toProfileView(MouseEvent event) {
+        @FXML
+        void goToProfileView () {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileCustomer.fxml"));
+                Parent root = loader.load();
 
+                ProfileCustomerController controller = loader.getController();
+                User currentUser = SessionManager.getInstance().getCurrentUser();
+
+                if (currentUser != null) {
+                    controller.profileAction(
+                            currentUser.getName(),
+                            currentUser.getSurname(),
+                            currentUser.getEmail(),
+                            currentUser.getPhone());
+                }
+
+                Stage stage = (Stage) serviceComboBox.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Profile");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
-
-}
 
 

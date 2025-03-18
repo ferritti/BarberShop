@@ -54,7 +54,7 @@ public class ProfileCustomerController {
     }
 
     @FXML
-    private void goToAppointmentsAction() {
+    private void goToAppointmentsView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
             Parent root = loader.load();
@@ -69,7 +69,7 @@ public class ProfileCustomerController {
     }
 
     @FXML
-    private void goToNewsAction() {
+    private void goToNewsView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
             Parent root = loader.load();
@@ -77,6 +77,21 @@ public class ProfileCustomerController {
             Stage stage = (Stage) logoutIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("News");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void goToNewAppointmentView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentCalendar.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("New Appointment");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

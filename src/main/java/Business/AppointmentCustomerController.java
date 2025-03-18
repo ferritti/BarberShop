@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -255,4 +256,21 @@ public class AppointmentCustomerController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void toNewAppointment() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentCalendar.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) tableViewCustomerAppointments.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("New Appointment");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
