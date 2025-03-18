@@ -5,6 +5,8 @@ import java.time.LocalTime;
 
 public class AvailableSlot {
     private String barberEmail;
+    private String barberName;
+    private String barberSurname;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -46,4 +48,21 @@ public class AvailableSlot {
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
+
+    public String getBarberName() {
+        return barberName;
+    }
+
+    public void setBarberName(String barberName) {
+        this.barberName = barberName;
+    }
+
+    public String getBarberSurname() {
+        return barberSurname;
+    }
+
+    public void setBarberSurname(String barberSurname) {
+        this.barberSurname = barberSurname;
+    }
+
 }

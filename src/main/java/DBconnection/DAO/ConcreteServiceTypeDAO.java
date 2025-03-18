@@ -43,6 +43,7 @@ public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
         }
         return false;
     }
+
     public List<ServiceType> getAllServiceTypes() {
         List<ServiceType> serviceTypes = new ArrayList<>();
         try {

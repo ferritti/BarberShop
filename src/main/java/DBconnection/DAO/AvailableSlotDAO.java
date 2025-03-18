@@ -8,5 +8,5 @@ import java.util.List;
 public interface AvailableSlotDAO {
     public boolean addAvSlot(AvailableSlot avSlot) ;
     public boolean removeAvSlot(AvailableSlot avSlot) ;
-    public List<AvailableSlot> getAvSlotsAtSelectedDate(LocalDate Date) ;
+    public List<AvailableSlot> getAvSlotsAtSelectedDate(LocalDate Date, String barberEmail) ;
 }

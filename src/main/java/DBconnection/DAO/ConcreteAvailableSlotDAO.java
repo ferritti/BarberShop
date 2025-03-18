@@ -63,14 +63,15 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
     }
 
     @Override
-    public List<AvailableSlot> getAvSlotsAtSelectedDate(LocalDate date) {
+    public List<AvailableSlot> getAvSlotsAtSelectedDate(LocalDate date, String barberEmail) {
         List<AvailableSlot> slots = new ArrayList<>();
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM Available_Slots WHERE slot_date = ?");
+                    "SELECT * FROM Available_Slots WHERE slot_date = ? AND barber_email = ?");
 
             stmt.setDate(1, java.sql.Date.valueOf(date));
+            stmt.setString(2, barberEmail);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -81,6 +82,7 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
                         rs.getTime("start_time").toLocalTime(),
                         rs.getTime("end_time").toLocalTime()
                 );
+
                 slots.add(slot);
             }
             rs.close();

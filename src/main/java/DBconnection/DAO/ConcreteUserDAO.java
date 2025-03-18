@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Objects;
 import Authentication.HashingPassword;
 
@@ -97,5 +98,25 @@ public class ConcreteUserDAO implements UserDAO{
             e.printStackTrace();
         }
         return false;
+    }
+
+    public HashMap<String, String> getBarbersData() {
+        HashMap<String, String> barbersData = new HashMap<>();
+
+        try {
+            Connection connection = dbManager.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("SELECT name, surname, email FROM Users WHERE role = 'BARBER'");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String fullName = rs.getString("name") + " " + rs.getString("surname");
+                String email = rs.getString("email");
+                barbersData.put(fullName, email);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return barbersData;
     }
 }

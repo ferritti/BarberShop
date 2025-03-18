@@ -1,30 +1,30 @@
 package Business;
 
-import javafx.event.ActionEvent;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
-public class NewAppointmentController1 {
+public class NewAppointmentControllerCalendar {
     @FXML private Label yearMonthLabel;
     @FXML private GridPane calendarGrid;
-    @FXML private Button previousButton;
-    @FXML private Button nextButton;
-    @FXML private Button todayButton;
+    @FXML private MFXButton previousButton;
+    @FXML private MFXButton nextButton;
+    @FXML private MFXButton todayButton;
 
     private YearMonth currentYearMonth;
 
@@ -33,16 +33,19 @@ public class NewAppointmentController1 {
         currentYearMonth = YearMonth.now();
         updateCalendar();
     }
+
     private void updateCalendar() {
         // Aggiorna l'etichetta del mese e anno
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MMMM");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MMMM", Locale.ENGLISH);
         yearMonthLabel.setText(currentYearMonth.format(formatter));
 
         // Pulisci il GridPane
         calendarGrid.getChildren().clear();
+        calendarGrid.getRowConstraints().clear();
+        // Pulisci anche i vincoli di riga esistenti
 
         // Aggiungi intestazioni per i giorni della settimana (prima riga)
-        String[] dayNames = {"Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"};
+        String[] dayNames = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         for (int i = 0; i < 7; i++) {
             Text text = new Text(dayNames[i]);
             StackPane cell = new StackPane(text);
@@ -63,9 +66,11 @@ public class NewAppointmentController1 {
             calendarGrid.add(cell, i, 0);
         }
 
-        RowConstraints rowConstraints = new RowConstraints();
-        rowConstraints.setPrefHeight(10);
-        calendarGrid.getRowConstraints().add(0, rowConstraints);
+        // Aggiungi vincoli di riga per l'intestazione
+        RowConstraints headerRowConstraints = new RowConstraints();
+        headerRowConstraints.setPrefHeight(30);  // Altezza preferita per l'intestazione
+        headerRowConstraints.setMinHeight(30);   // Altezza minima per garantire lo spazio
+        calendarGrid.getRowConstraints().add(headerRowConstraints);
 
         // Determina il primo giorno del mese e quanti giorni ha il mese
         LocalDate firstOfMonth = currentYearMonth.atDay(1);
@@ -76,6 +81,7 @@ public class NewAppointmentController1 {
         int row = 1;
         int col = dayOfWeek;  // Partiamo dalla colonna corretta in base al primo giorno del mese
         int day = 1;
+        int maxRow = 1;  // Tieni traccia del numero massimo di righe
 
         // Aggiungi giorni del mese corrente
         LocalDate today = LocalDate.now();
@@ -88,9 +94,16 @@ public class NewAppointmentController1 {
             if (today.getYear() == currentYearMonth.getYear() &&
                     today.getMonth() == currentYearMonth.getMonth() &&
                     today.getDayOfMonth() == day) {
-                cell.setStyle("-fx-background-color: #ffcc00; -fx-text-fill: white; -fx-font-weight: bold; -fx-alignment: center; -fx-padding: 10px;");
+                cell.setStyle("-fx-background-color: #cacaca; -fx-font-weight: bold; -fx-alignment: center; -fx-padding: 10px;");
             } else {
-                cell.setStyle("-fx-background-color: #f5e2c1; -fx-alignment: center; -fx-padding: 10px;");
+                cell.setStyle("-fx-background-color: #e1e1e1; -fx-alignment: center; -fx-padding: 10px;");
+            }
+
+            LocalDate cellDate = currentYearMonth.atDay(day);
+
+            if (cellDate.isBefore(today)) {
+                cell.setDisable(true);
+                cell.setStyle("-fx-background-color: #e1e1e1; -fx-opacity: 0.5;"); // Grigio con trasparenza
             }
 
             text.setOnMouseClicked(event -> {
@@ -100,7 +113,6 @@ public class NewAppointmentController1 {
                     LocalDate selectedDate = currentYearMonth.atDay(clickedDay);
                     // Salva la data nel Singleton
                     AppointmentData.getInstance().setData(selectedDate);
-                    System.out.println("Data selezionata: " + selectedDate);
 
                     // Passa alla schermata della lista dei barbieri
                     goToBarberSelection();
@@ -108,6 +120,7 @@ public class NewAppointmentController1 {
             });
 
             calendarGrid.add(cell, col, row);
+            maxRow = Math.max(maxRow, row);  // Aggiorna il numero massimo di righe
 
             day++;
             col++;
@@ -119,26 +132,43 @@ public class NewAppointmentController1 {
             }
         }
 
-        if(currentYearMonth.equals(YearMonth.now()))
-        {
-            previousButton.setStyle("-fx-font-weight: bold; -fx-alignment: center; -fx-background-color: gray;");
-            todayButton.setStyle("-fx-font-weight: bold; -fx-alignment: center; -fx-background-color: gray;");
-
+        // Aggiungi vincoli di riga per tutte le righe del calendario
+        for (int i = 1; i <= maxRow; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPrefHeight(64);  // Altezza preferita per le righe dei giorni
+            rowConstraints.setMinHeight(64);   // Altezza minima per garantire lo spazio
+            calendarGrid.getRowConstraints().add(rowConstraints);
         }
 
-        else
-        {
-            previousButton.setStyle("-fx-background-color: #d7a857; -fx-background-radius: 30;");
-            todayButton.setStyle("-fx-background-color: #d7a857; -fx-background-radius: 30;");
+        if(currentYearMonth.equals(YearMonth.now())) {
+            previousButton.setStyle("-fx-border-color: #651FFF");
+            previousButton.setOpacity(0.5);
+            previousButton.setDisable(true);
+
+            todayButton.setDisable(true);
+            todayButton.setVisible(false);
+        } else {
+            previousButton.setDisable(false);
+            previousButton.setOpacity(1);
+
+            todayButton.setDisable(false);
+            todayButton.setVisible(true);
+
+            previousButton.setStyle("-fx-border-color: #651FFF");
+            todayButton.setStyle(" -fx-border-color: #651FFF");
         }
 
-        if(currentYearMonth.equals(YearMonth.now().plusMonths(6)))
-            nextButton.setStyle("-fx-font-weight: bold; -fx-alignment: center; -fx-background-color: gray;");
-        else
-            nextButton.setStyle("-fx-background-color: #d7a857; -fx-background-radius: 30;");
-
+        if(currentYearMonth.equals(YearMonth.now().plusMonths(6))) {
+            nextButton.setStyle("-fx-border-color: #651FFF");
+            nextButton.setOpacity(0.5);
+            nextButton.setDisable(true);
+        }
+        else {
+            nextButton.setOpacity(1);
+            nextButton.setDisable(false);
+            nextButton.setStyle("-fx-border-color: #651FFF; ");
+        }
     }
-
 
     @FXML
     private void nextMonth() {
@@ -150,18 +180,16 @@ public class NewAppointmentController1 {
     }
 
     @FXML
-    public void previousMonth(ActionEvent actionEvent) {
+    public void previousMonth() {
         if(currentYearMonth.isAfter(YearMonth.now())) {
             currentYearMonth = currentYearMonth.minusMonths(1);
             updateCalendar();
         }
-
-
     }
 
     private void goToBarberSelection() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointment2.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentSlots.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) calendarGrid.getScene().getWindow();
@@ -173,4 +201,18 @@ public class NewAppointmentController1 {
         }
     }
 
+    @FXML
+    void toAppointmentsView(MouseEvent event) {
+
+    }
+
+    @FXML
+    void toNewsView(MouseEvent event) {
+
+    }
+
+    @FXML
+    void toProfileView(MouseEvent event) {
+
+    }
 }

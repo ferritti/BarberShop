@@ -16,10 +16,6 @@
     -fx-padding: 10px;
 }
 
-.button {
-    -fx-background-color: #d7a857;
-    -fx-background-radius: 30;
-}
 
 weekDays {
     -fx-background-color: #f5e2c1;
@@ -31,4 +27,8 @@ weekDays {
     -fx-font-weight: bold;
     -fx-alignment: center;
     -fx-background-color: #dcdcdc; -fx-padding: 10px;
+}
+
+.purple-border{
+    -fx-border-color: #651FFF;
 }
