@@ -51,7 +51,7 @@ public class AppointmentBarberController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        customerColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerColumn.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("servicePrice"));
         serviceColumn.setCellValueFactory(new PropertyValueFactory<>("serviceTypeName"));

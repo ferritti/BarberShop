@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class ProfileBarberController {
@@ -113,6 +114,21 @@ public class ProfileBarberController {
             Stage stage = (Stage) send_news_icon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Send Comunication");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void goToNewsView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) news_icon.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("News");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

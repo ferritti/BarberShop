@@ -67,7 +67,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM Appointments WHERE customer_email = ? OR barber_email = ?");
+                    "SELECT * FROM Appointments JOIN Users ON Appointments.customer_email = Users.email WHERE Appointments.customer_email = ? OR Appointments.barber_email = ?");
 
             stmt.setString(1, email);
             stmt.setString(2, email);
@@ -81,7 +81,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                         rs.getString("barber_name"),
                         rs.getString("barber_email"),
                         rs.getString("customer_email"),
-                        rs.getString("customer_name"),
+                        rs.getString("phone"),
                         rs.getTime("app_time").toLocalTime(),
                         rs.getDate("app_date").toLocalDate(),
                         rs.getDouble("price")
