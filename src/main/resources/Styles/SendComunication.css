@@ -1,0 +1,58 @@
+.hbox-rounded-right {
+    -fx-background-color: #FFC300;
+    -fx-background-radius: 0 20px 20px 0;
+    -fx-border-width: 2px;
+}
+
+.hbox-selected{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10pt;
+}
+.table-view {
+    -fx-border-width: 1;
+    -fx-border-color: grey;
+    -fx-border-radius: 5pt;
+    -fx-background-radius: 5pt;}
+
+.table-view:focused {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+}
+
+.table-view .column-header-background {
+    -fx-background-radius: 5pt 5pt 0 0;
+    -fx-border-color: grey;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 5px 0;}
+
+.table-view .column-header-background{
+    -fx-background-color: #651FFF;
+    -fx-background-insets: 0 0 0 0;
+}
+
+.table-view .column-header, .table-view .filler{
+    -fx-size:20px;
+    -fx-border-width: 0 0 10 0;
+    -fx-background-color:transparent;
+
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white ;
+}
+
+.text-field-border {
+    -fx-border-color: #651FFF;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5pt;
+    -fx-background-radius: 5pt;
+}
+
+.button-mfx-border {
+    -fx-border-color: #651FFF;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5pt;
+    -fx-background-radius: 5pt;
+    -fx-background-color: #651FFF;
+    -fx-text-fill: white;
+}

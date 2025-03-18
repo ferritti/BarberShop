@@ -103,4 +103,19 @@ public class ProfileBarberController {
         }
     }
 
+    @FXML
+    private void goToSendComunicationView() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SendComunication.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) send_news_icon.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Send Comunication");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
