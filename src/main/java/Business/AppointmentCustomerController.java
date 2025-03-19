@@ -2,8 +2,10 @@ package Business;
 
 import Authentication.SessionManager;
 import DBconnection.DAO.AppointmentDAO;
+import DBconnection.DAO.AvailableSlotDAO;
 import DBconnection.DAO.ConcreteAppointmentDAO;
 import Model.Appointment;
+import Model.AvailableSlot;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,6 +54,7 @@ public class AppointmentCustomerController implements Initializable {
     private TableColumn<Appointment, Void> deleteColumn;
 
     private final AppointmentDAO appointmentDAO = new ConcreteAppointmentDAO();
+    private final AvailableSlotDAO availableSlotDAO = new DBconnection.DAO.ConcreteAvailableSlotDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -196,6 +199,9 @@ public class AppointmentCustomerController implements Initializable {
         confirmDialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == buttonTypeYes) {
                 deleteAppointment(appointment);
+
+                AvailableSlot availableSlot = new AvailableSlot(appointment.getBarberEmail(), appointment.getDate(), appointment.getTime());
+                availableSlotDAO.addAvSlot(availableSlot);
             }
         });
     }

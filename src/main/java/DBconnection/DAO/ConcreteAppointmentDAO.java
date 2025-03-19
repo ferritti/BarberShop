@@ -21,17 +21,19 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO Appointments (app_date, app_time, customer_email, customer_phone, barber_email, barber_name, service_name, payment) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO Appointments (app_date, app_time, customer_email, customer_phone, barber_email, barber_name, service_name, price, payment) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)");
 
             stmt.setDate(1, java.sql.Date.valueOf(appointment.getDate()));
             stmt.setTime(2, java.sql.Time.valueOf(appointment.getTime()));
             stmt.setString(3, appointment.getCustomerEmail());
             stmt.setString(4, appointment.getCustomerPhone());
-            stmt.setString(4, appointment.getBarberEmail());
-            stmt.setString(5, appointment.getBarberName());
-            stmt.setString(5, appointment.getServiceTypeName());
-            stmt.setString(6, appointment.getPayment().name());
+            stmt.setString(5, appointment.getBarberEmail());
+            stmt.setString(6, appointment.getBarberName());
+            stmt.setString(7, appointment.getServiceTypeName());
+            stmt.setDouble(8, appointment.getServicePrice());
+            stmt.setString(9, appointment.getPayment().name());
+
 
             int rows = stmt.executeUpdate();
             stmt.close();

@@ -4,7 +4,6 @@ import Authentication.SessionManager;
 import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
-import Model.ServiceType;
 import Model.User;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -18,7 +17,6 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -285,13 +283,20 @@ public class NewAppointmentControllerSlots {
     @FXML
     public void selectSlotAction(javafx.event.ActionEvent actionEvent) {
         MFXButton button = (MFXButton) actionEvent.getSource();
-        String time = button.getText();
+
+        String timeString = button.getText();
+
+        if (timeString.length() == 4) {
+            timeString = "0" + timeString;
+        }
+
+        LocalTime time = LocalTime.parse(timeString);
 
         LocalDate date = LocalDate.parse(dateLabel.getText());
         String selectedBarber = barberComboBox.getSelectionModel().getSelectedItem();
         String selectedService = serviceComboBox.getSelectionModel().getSelectedItem();
 
-        // Verifica se un servizio è stato selezionato
+
         if (selectedService == null || selectedService.isEmpty()) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle("Error");
@@ -321,7 +326,7 @@ public class NewAppointmentControllerSlots {
         });
     }
 
-    private void showPaymentOptions(String barber, String service, LocalDate date, String time) {
+    private void showPaymentOptions(String barber, String service, LocalDate date, LocalTime time) {
         Alert paymentAlert = new Alert(Alert.AlertType.CONFIRMATION);
         paymentAlert.setTitle("Payment Options");
         paymentAlert.setHeaderText("Select Payment Method");
@@ -343,7 +348,7 @@ public class NewAppointmentControllerSlots {
             if (type == paypalButton || type == cardButton || type == shopButton) {
                 String barberEmail = barbersData.get(barber);
 
-                // Determina il metodo di pagamento selezionato
+
                 Appointment.Payment paymentMethod;
                 if (type == paypalButton) {
                     paymentMethod = Appointment.Payment.PAYPAL;
@@ -353,13 +358,15 @@ public class NewAppointmentControllerSlots {
                     paymentMethod = Appointment.Payment.SHOP;
                 }
 
-                // Ottieni l'utente corrente
+
                 User currentUser = SessionManager.getInstance().getCurrentUser();
 
-                // Ottieni il prezzo del servizio dalla mappa servicesData
+
+                System.out.println(service);
+                System.out.println(servicesData.get(service));
                 double servicePrice = servicesData.get(service);
 
-                // Crea un nuovo appuntamento
+
                 Appointment appointment = new Appointment(
                         paymentMethod,
                         service,
@@ -367,20 +374,20 @@ public class NewAppointmentControllerSlots {
                         barberEmail,
                         currentUser.getEmail(),
                         currentUser.getPhone(),
-                        LocalTime.parse(time),
+                        time,
                         date,
                         servicePrice
                 );
 
-                // Rimuovi lo slot disponibile
-                AvailableSlot selectedSlot = new AvailableSlot(barberEmail, date, LocalTime.parse(time));
+
+                AvailableSlot selectedSlot = new AvailableSlot(barberEmail, date, time);
                 boolean slotRemoved = availableSlotDAO.removeAvSlot(selectedSlot);
 
-                // Aggiungi l'appuntamento al database
+
                 boolean appointmentAdded = appointmentDAO.addAppointment(appointment);
 
                 if (slotRemoved && appointmentAdded) {
-                    // Mostra conferma finale
+
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                     successAlert.setTitle("Booking Confirmed");
                     successAlert.setHeaderText("Appointment Booked Successfully");
@@ -388,10 +395,10 @@ public class NewAppointmentControllerSlots {
                             "Payment method: " + paymentMethod);
                     successAlert.showAndWait();
 
-                    // Reindirizza alla vista degli appuntamenti
+
                     goToAppointmentsView();
                 } else {
-                    // Mostra errore se la rimozione dello slot o l'aggiunta dell'appuntamento fallisce
+
                     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setTitle("Booking Error");
                     errorAlert.setHeaderText("Could not complete booking");

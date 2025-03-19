@@ -22,7 +22,7 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT INTO Available_Slots (barber_email, slot_date, start_time) " +
-                            "VALUES (?, ?, ?, ?)");
+                            "VALUES (?, ?, ?)");
 
 
             stmt.setString(1, avSlot.getBarberEmail());
@@ -43,9 +43,7 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE INTO Available_Slots WHERE barber_email = ? AND slot_date = ? AND start_time = ? AND end_time " +
-                            "VALUES (?, ?, ?, ?)");
-
+                    "DELETE FROM Available_Slots WHERE barber_email = ? AND slot_date = ? AND start_time = ?");
 
             stmt.setString(1, avSlot.getBarberEmail());
             stmt.setDate(2, java.sql.Date.valueOf(avSlot.getDate()));
