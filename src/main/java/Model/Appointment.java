@@ -13,7 +13,7 @@ public class Appointment {
     private String serviceTypeName;
     private double servicePrice;
 
-    public static enum Payment {ONLINE, SHOP};
+    public static enum Payment {PAYPAL, CREDIT_CARD, SHOP};
     private final Payment payment;
 
     public Appointment(Payment payment, String serviceTypeName, String barberName, String barberEmail, String customerEmail, String customerPhone, LocalTime time, LocalDate date, double servicePrice) {

@@ -2,36 +2,30 @@ package Business;
 
 import Authentication.SessionManager;
 import DBconnection.DAO.*;
+import Model.Appointment;
 import Model.AvailableSlot;
 import Model.ServiceType;
 import Model.User;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class NewAppointmentControllerSlots {
-
-    @FXML
-    private MFXButton backButton;
 
     @FXML
     private MFXComboBox<String> barberComboBox;
@@ -81,33 +75,16 @@ public class NewAppointmentControllerSlots {
     private UserDAO userDAO = new ConcreteUserDAO();
     private ServiceTypeDAO serviceTypeDAO = new ConcreteServiceTypeDAO();
     private AvailableSlotDAO availableSlotDAO = new ConcreteAvailableSlotDAO();
+    private AppointmentDAO appointmentDAO = new ConcreteAppointmentDAO();
 
     HashMap<String, String> barbersData = userDAO.getBarbersData();
-
-    @FXML
-    void backToCalendar() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentCalendar.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) serviceComboBox.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Calendar");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    HashMap<String, Double> servicesData = serviceTypeDAO.getServices();
 
     @FXML
     public void initialize() {
         barberComboBox.getItems().addAll(barbersData.keySet());
 
-        List<ServiceType> services = serviceTypeDAO.getAllServiceTypes();
-
-        for (ServiceType serviceType : services) {
-            serviceComboBox.getItems().add(serviceType.getServiceName());
-        }
+        serviceComboBox.getItems().addAll(servicesData.keySet());
 
         disableAllButtons();
     }
@@ -230,6 +207,23 @@ public class NewAppointmentControllerSlots {
     }
 
     @FXML
+    void backToCalendar() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentCalendar.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) serviceComboBox.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Calendar");
+            stage.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void goToAppointmentsView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
@@ -288,10 +282,132 @@ public class NewAppointmentControllerSlots {
 
         }
 
+    @FXML
+    public void selectSlotAction(javafx.event.ActionEvent actionEvent) {
+        MFXButton button = (MFXButton) actionEvent.getSource();
+        String time = button.getText();
+
+        LocalDate date = LocalDate.parse(dateLabel.getText());
+        String selectedBarber = barberComboBox.getSelectionModel().getSelectedItem();
+        String selectedService = serviceComboBox.getSelectionModel().getSelectedItem();
+
+        // Verifica se un servizio è stato selezionato
+        if (selectedService == null || selectedService.isEmpty()) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText("Service Selection Required");
+            errorAlert.setContentText("Please select a service before booking an appointment.");
+            errorAlert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Are you sure you want to book this appointment?");
+        alert.setContentText("Barber: " + selectedBarber + "\n" +
+                "Service: " + selectedService + "\n" +
+                "Price: " + servicesData.get(selectedService) + "€" + "\n" +
+                "Date: " + date + "\n" +
+                "Time: " + time + "\n" );
+
+        ButtonType paymentButton = new ButtonType("Proceed to Payment", ButtonBar.ButtonData.YES);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(paymentButton, cancelButton);
+
+        alert.showAndWait().ifPresent(type -> {
+            if (type == paymentButton) {
+                showPaymentOptions(selectedBarber, selectedService, date, time);
+            }
+        });
+    }
+
+    private void showPaymentOptions(String barber, String service, LocalDate date, String time) {
+        Alert paymentAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        paymentAlert.setTitle("Payment Options");
+        paymentAlert.setHeaderText("Select Payment Method");
+        paymentAlert.setContentText(
+                "Barber: " + barber + "\n" +
+                "Price: " + servicesData.get(service) + "€" + "\n" +
+                "Service: " + service + "\n" +
+                "Date: " + date + "\n" +
+                "Time: " + time);
+
+        ButtonType backButton = new ButtonType("Back", ButtonBar.ButtonData.LEFT);
+        ButtonType paypalButton = new ButtonType("PayPal", ButtonBar.ButtonData.OTHER);
+        ButtonType cardButton = new ButtonType("Credit Card", ButtonBar.ButtonData.OTHER);
+        ButtonType shopButton = new ButtonType("Pay at Shop", ButtonBar.ButtonData.RIGHT);
+
+        paymentAlert.getButtonTypes().setAll(paypalButton, cardButton, shopButton, backButton);
+
+        paymentAlert.showAndWait().ifPresent(type -> {
+            if (type == paypalButton || type == cardButton || type == shopButton) {
+                String barberEmail = barbersData.get(barber);
+
+                // Determina il metodo di pagamento selezionato
+                Appointment.Payment paymentMethod;
+                if (type == paypalButton) {
+                    paymentMethod = Appointment.Payment.PAYPAL;
+                } else if (type == cardButton) {
+                    paymentMethod = Appointment.Payment.CREDIT_CARD;
+                } else {
+                    paymentMethod = Appointment.Payment.SHOP;
+                }
+
+                // Ottieni l'utente corrente
+                User currentUser = SessionManager.getInstance().getCurrentUser();
+
+                // Ottieni il prezzo del servizio dalla mappa servicesData
+                double servicePrice = servicesData.get(service);
+
+                // Crea un nuovo appuntamento
+                Appointment appointment = new Appointment(
+                        paymentMethod,
+                        service,
+                        barber,
+                        barberEmail,
+                        currentUser.getEmail(),
+                        currentUser.getPhone(),
+                        LocalTime.parse(time),
+                        date,
+                        servicePrice
+                );
+
+                // Rimuovi lo slot disponibile
+                AvailableSlot selectedSlot = new AvailableSlot(barberEmail, date, LocalTime.parse(time));
+                boolean slotRemoved = availableSlotDAO.removeAvSlot(selectedSlot);
+
+                // Aggiungi l'appuntamento al database
+                boolean appointmentAdded = appointmentDAO.addAppointment(appointment);
+
+                if (slotRemoved && appointmentAdded) {
+                    // Mostra conferma finale
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Booking Confirmed");
+                    successAlert.setHeaderText("Appointment Booked Successfully");
+                    successAlert.setContentText("Your appointment has been confirmed.\n" +
+                            "Payment method: " + paymentMethod);
+                    successAlert.showAndWait();
+
+                    // Reindirizza alla vista degli appuntamenti
+                    goToAppointmentsView();
+                } else {
+                    // Mostra errore se la rimozione dello slot o l'aggiunta dell'appuntamento fallisce
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Booking Error");
+                    errorAlert.setHeaderText("Could not complete booking");
+                    errorAlert.setContentText("There was an error while processing your request. Please try again.");
+                    errorAlert.showAndWait();
+                }
+            }
+        });
+    }
         public void setDate(LocalDate date) {
             dateLabel.setText(date.toString());
         }
-    }
+
+
+
+}
 
 
 

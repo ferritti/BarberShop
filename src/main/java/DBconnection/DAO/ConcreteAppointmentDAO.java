@@ -21,7 +21,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO Appointments (app_date, app_time, customer_email, customerName, barber_email, barberName, service_name, payment) " +
+                    "INSERT INTO Appointments (app_date, app_time, customer_email, customer_phone, barber_email, barber_name, service_name, payment) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
             stmt.setDate(1, java.sql.Date.valueOf(appointment.getDate()));
@@ -76,7 +76,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
             while (rs.next()) {
                 Appointment appointment = new Appointment(
-                        rs.getString("payment").equals("ONLINE") ? Appointment.Payment.ONLINE : Appointment.Payment.SHOP,
+                        Appointment.Payment.valueOf(rs.getString("payment")),
                         rs.getString("service_name"),
                         rs.getString("barber_name"),
                         rs.getString("barber_email"),

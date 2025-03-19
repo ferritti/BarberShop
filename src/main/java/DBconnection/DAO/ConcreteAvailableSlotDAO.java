@@ -21,14 +21,13 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO Available_Slots (barber_email, slot_date, start_time, end_time) " +
+                    "INSERT INTO Available_Slots (barber_email, slot_date, start_time) " +
                             "VALUES (?, ?, ?, ?)");
 
 
             stmt.setString(1, avSlot.getBarberEmail());
             stmt.setDate(2, java.sql.Date.valueOf(avSlot.getDate()));
             stmt.setTime(3, java.sql.Time.valueOf(avSlot.getStartTime()));
-            stmt.setTime(4, java.sql.Time.valueOf(avSlot.getEndTime()));
 
             int rows = stmt.executeUpdate();
             stmt.close();
@@ -51,7 +50,6 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
             stmt.setString(1, avSlot.getBarberEmail());
             stmt.setDate(2, java.sql.Date.valueOf(avSlot.getDate()));
             stmt.setTime(3, java.sql.Time.valueOf(avSlot.getStartTime()));
-            stmt.setTime(4, java.sql.Time.valueOf(avSlot.getEndTime()));
 
             int rows = stmt.executeUpdate();
             stmt.close();
@@ -79,8 +77,7 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
                 AvailableSlot slot = new AvailableSlot(
                         rs.getString("barber_email"),
                         rs.getDate("slot_date").toLocalDate(),
-                        rs.getTime("start_time").toLocalTime(),
-                        rs.getTime("end_time").toLocalTime()
+                        rs.getTime("start_time").toLocalTime()
                 );
 
                 slots.add(slot);

@@ -5,6 +5,7 @@ import Model.ServiceType;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
@@ -66,4 +67,23 @@ public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
         return serviceTypes;
     }
 
+    @Override
+    public HashMap<String, Double> getServices() {
+        HashMap<String, Double> services = new HashMap<>();
+        try {
+            Connection conn = dbManager.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Service_Types");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                services.put(rs.getString("service_name"), rs.getDouble("price"));
+            }
+            rs.close();
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return services;
+    }
 }
