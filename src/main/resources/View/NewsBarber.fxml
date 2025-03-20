@@ -27,7 +27,7 @@
                <children>
                   <HBox alignment="CENTER" onMouseClicked="#goToAppointmentsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/schedule.png" />
                            </image>
@@ -47,7 +47,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToServicesView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="service_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/services.png" />
                            </image>
@@ -64,7 +64,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0" styleClass="hbox-selected" stylesheets="@../Styles/News.css">
                      <children>
-                        <ImageView fx:id="news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/notification.png" />
                            </image>
@@ -84,7 +84,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToSendComunicationView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="send_news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/sendnews.png" />
                            </image>
@@ -101,7 +101,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToProfileView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/user.png" />
                            </image>
@@ -125,16 +125,16 @@
       </VBox>
       <VBox prefHeight="550.0" prefWidth="700.0">
          <children>
-            <TableView fx:id="news_table" prefHeight="409.0" prefWidth="458.0" stylesheets="@../Styles/News.css">
+            <TableView fx:id="newsTable" prefHeight="517.0" prefWidth="530.0" stylesheets="@../Styles/News.css">
                <placeholder>
                   <Label text="There are no news!" />
                </placeholder>
               <columns>
-                <TableColumn fx:id="title_col" prefWidth="140.0" text="Title" />
-                <TableColumn fx:id="message_col" prefWidth="318.0" text="Message" />
+                <TableColumn fx:id="titleColumn" prefWidth="140.0" text="Title" />
+                <TableColumn fx:id="messageColumn" prefWidth="318.0" text="Message" />
               </columns>
                <VBox.margin>
-                  <Insets left="46.0" right="46.0" top="30.0" />
+                  <Insets bottom="30.0" left="20.0" right="20.0" top="30.0" />
                </VBox.margin>
             </TableView>
          </children></VBox>

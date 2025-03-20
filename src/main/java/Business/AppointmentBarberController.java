@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -93,7 +92,7 @@ public class AppointmentBarberController implements Initializable {
                     setGraphic(null);
                 } else {
                     setText(item.toString());
-                    setAlignment(Pos.CENTER); // Imposta l'allineamento al centro
+                    setAlignment(Pos.CENTER);
                 }
             }
         });
@@ -151,7 +150,7 @@ public class AppointmentBarberController implements Initializable {
     @FXML
     private void goToServiceView() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Service.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Services.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();

@@ -106,7 +106,7 @@ public class AppointmentCustomerController implements Initializable {
                     setGraphic(null);
                 } else {
                     setText(item.toString());
-                    setAlignment(Pos.CENTER); // Imposta l'allineamento al centro
+                    setAlignment(Pos.CENTER);
                 }
             }
         });

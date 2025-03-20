@@ -8,7 +8,6 @@ import Model.User;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,47 +26,32 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ServiceController implements Initializable {
+public class ServicesController implements Initializable {
 
     @FXML
-    private ImageView chair_icon;
+    private TableColumn<ServiceType, Void> deleteColumn;
 
     @FXML
-    private TableColumn<ServiceType, Void> delete_col;
+    private TableColumn<ServiceType, String> nameColumn;
 
     @FXML
-    private TableColumn<ServiceType, String> name_col;
+    private TableColumn<ServiceType, String> priceColumn;
 
     @FXML
-    private ImageView news_icon;
+    private TableView<ServiceType> serviceTable;
 
     @FXML
-    private TableColumn<ServiceType, String> price_col;
+    private MFXTextField textFieldName;
 
     @FXML
-    private ImageView profile_icon;
-
-    @FXML
-    private ImageView send_news_icon;
-
-    @FXML
-    private ImageView service_icon;
-
-    @FXML
-    private TableView<ServiceType> service_table;
-
-    @FXML
-    private MFXTextField text_field_name;
-
-    @FXML
-    private MFXTextField text_field_price;
+    private MFXTextField textFieldPrice;
 
     private ServiceTypeDAO serviceTypeDAO = new ConcreteServiceTypeDAO();
 
     @FXML
-    void addNewService(ActionEvent event) {
-        String name = text_field_name.getText();
-        String priceText = text_field_price.getText();
+    void addNewService() {
+        String name = textFieldName.getText();
+        String priceText = textFieldPrice.getText();
 
         if (name.isEmpty() || priceText.isEmpty()) {
             sendAlert("Error", "Both fields must be filled out.");
@@ -89,8 +73,8 @@ public class ServiceController implements Initializable {
 
         confirmAndAddNewService(name, price);
 
-        text_field_name.clear();
-        text_field_price.clear();
+        textFieldName.clear();
+        textFieldPrice.clear();
     }
 
 
@@ -127,15 +111,15 @@ public class ServiceController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        name_col.setCellValueFactory(new PropertyValueFactory<>("serviceName"));
-        price_col.setCellValueFactory(new PropertyValueFactory<>("price"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("serviceName"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        name_col.setReorderable(false);
-        price_col.setReorderable(false);
+        nameColumn.setReorderable(false);
+        priceColumn.setReorderable(false);
 
-        service_table.setSelectionModel(null);
+        serviceTable.setSelectionModel(null);
 
-        service_table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        serviceTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         addDeleteButtonToTable();
 
@@ -145,7 +129,7 @@ public class ServiceController implements Initializable {
     private void loadServices() {
         List<ServiceType> serviceTypes = serviceTypeDAO.getAllServiceTypes();
         ObservableList<ServiceType> observableList = FXCollections.observableArrayList(serviceTypes);
-        service_table.setItems(observableList);
+        serviceTable.setItems(observableList);
     }
 
     @FXML
@@ -166,7 +150,7 @@ public class ServiceController implements Initializable {
                         currentUser.getPhone());
             }
 
-            Stage stage = (Stage) profile_icon.getScene().getWindow();
+            Stage stage = (Stage) serviceTable.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Profile");
             stage.show();
@@ -182,7 +166,7 @@ public class ServiceController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) news_icon.getScene().getWindow();
+            Stage stage = (Stage) serviceTable.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("News");
             stage.show();
@@ -198,7 +182,7 @@ public class ServiceController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) news_icon.getScene().getWindow();
+            Stage stage = (Stage) serviceTable.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Appointments");
             stage.show();
@@ -214,7 +198,7 @@ public class ServiceController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SendComunication.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) news_icon.getScene().getWindow();
+            Stage stage = (Stage) serviceTable.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Comunication");
             stage.show();
@@ -225,7 +209,7 @@ public class ServiceController implements Initializable {
 
     private void addDeleteButtonToTable() {
         // Impostiamo la cella di eliminazione
-        delete_col.setCellFactory(param -> new TableCell<ServiceType, Void>() {
+        deleteColumn.setCellFactory(param -> new TableCell<ServiceType, Void>() {
             private final ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/delete.png")));
             private final Button deleteButton = new Button();
             private final StackPane pane = new StackPane();

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.ServiceController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.ServicesController">
    <children>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="230.0" stylesheets="@../Styles/Service.css">
          <children>
@@ -30,7 +30,7 @@
                <children>
                   <HBox alignment="CENTER" onMouseClicked="#goToAppointmentsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/schedule.png" />
                            </image>
@@ -50,12 +50,12 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0" styleClass="hbox-selected" stylesheets="@../Styles/Service.css">
                      <children>
-                        <ImageView fx:id="service_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/services.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="27.0" prefWidth="158.0" text="Service">
+                        <Label prefHeight="27.0" prefWidth="158.0" text="Services">
                            <HBox.margin>
                               <Insets left="7.0" />
                            </HBox.margin>
@@ -70,7 +70,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToNewsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/notification.png" />
                            </image>
@@ -87,7 +87,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToSendComunicationView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="send_news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/sendnews.png" />
                            </image>
@@ -104,7 +104,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToProfileView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/user.png" />
                            </image>
@@ -133,14 +133,14 @@
       </VBox>
       <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="570.0">
          <children>
-            <TableView fx:id="service_table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="340.0" stylesheets="@../Styles/Service.css">
+            <TableView fx:id="serviceTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="340.0" stylesheets="@../Styles/Service.css">
                <placeholder>
                   <Label text="There are no services!" />
                   </placeholder>
                <columns>
-                  <TableColumn fx:id="name_col" prefWidth="200.0" text="Name" />
-                  <TableColumn fx:id="price_col" prefWidth="90.0" text="Price" />
-                  <TableColumn fx:id="delete_col" prefWidth="50.0" />
+                  <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
+                  <TableColumn fx:id="priceColumn" prefWidth="90.0" text="Price" />
+                  <TableColumn fx:id="deleteColumn" prefWidth="50.0" />
                </columns>
                <VBox.margin>
                   <Insets bottom="10.0" left="115.0" right="115.0" top="50.0" />
@@ -161,7 +161,7 @@
                               <Insets left="2.0" />
                            </VBox.margin>
                         </Label>
-                        <MFXTextField fx:id="text_field_name" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="340.0" styleClass="text-field-border" stylesheets="@../Styles/Service.css" />
+                        <MFXTextField fx:id="textFieldName" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="340.0" styleClass="text-field-border" stylesheets="@../Styles/Service.css" />
                      </children>
                   </VBox>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="340.0" spacing="5.0">
@@ -174,7 +174,7 @@
                               <Insets left="2.0" />
                            </VBox.margin>
                         </Label>
-                        <MFXTextField fx:id="text_field_price" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="340.0" styleClass="text-field-border" stylesheets="@../Styles/Service.css" />
+                        <MFXTextField fx:id="textFieldPrice" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="340.0" styleClass="text-field-border" stylesheets="@../Styles/Service.css" />
                      </children>
                   </VBox>
                   <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="340.0">

@@ -27,7 +27,7 @@
                <children>
                   <HBox alignment="CENTER" onMouseClicked="#goToAppointmentsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/schedule.png" />
                            </image>
@@ -47,7 +47,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToServiceView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="service_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/services.png" />
                            </image>
@@ -64,7 +64,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToNewsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/notification.png" />
                            </image>
@@ -84,7 +84,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0" styleClass="hbox-selected" stylesheets="@../Styles/SendComunication.css">
                      <children>
-                        <ImageView fx:id="send_news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/sendnews.png" />
                            </image>
@@ -104,7 +104,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToProfileView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/user.png" />
                            </image>
@@ -141,7 +141,7 @@
                         <Insets left="2.0" />
                      </VBox.margin>
                   </Label>
-                  <MFXTextField fx:id="text_field_title" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="458.0" styleClass="text-field-border" stylesheets="@../Styles/SendComunication.css" />
+                  <MFXTextField fx:id="textFieldTitle" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="458.0" styleClass="text-field-border" stylesheets="@../Styles/SendComunication.css" />
                </children>
             </VBox>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="458.0" spacing="5.0">
@@ -154,7 +154,7 @@
                         <Insets left="2.0" />
                      </VBox.margin>
                   </Label>
-                  <MFXTextField fx:id="text_field_message" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="458.0" styleClass="text-field-border" stylesheets="@../Styles/SendComunication.css" />
+                  <MFXTextField fx:id="textFieldMessage" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="458.0" styleClass="text-field-border" stylesheets="@../Styles/SendComunication.css" />
                </children>
                <VBox.margin>
                   <Insets top="20.0" />
@@ -162,7 +162,7 @@
             </VBox>
             <VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="458.0">
                <children>
-                  <MFXButton fx:id="send_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#sendAction" prefHeight="35.0" prefWidth="90.0" text="Send" />
+                  <MFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#sendAction" prefHeight="35.0" prefWidth="90.0" text="Send" />
                </children>
             </VBox>
          </children></VBox>

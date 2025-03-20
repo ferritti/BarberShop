@@ -55,7 +55,7 @@
                   <Insets left="120.0" right="120.0" top="30.0" />
                </VBox.margin>
             </HBox>
-            <Label fx:id="forgot_pass_label" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#forgotPassPopUp" prefHeight="22.0" prefWidth="100.0" stylesheets="@../Styles/Signin.css" text="Forgot password?" underline="true">
+            <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#forgotPassPopUp" prefHeight="22.0" prefWidth="100.0" stylesheets="@../Styles/Signin.css" text="Forgot password?" underline="true">
                <padding>
                   <Insets top="6.0" />
                </padding>

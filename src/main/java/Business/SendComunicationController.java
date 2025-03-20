@@ -5,7 +5,6 @@ import DBconnection.DAO.ConcreteNewsDAO;
 import DBconnection.DAO.NewsDAO;
 import Model.Notification;
 import Model.User;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,35 +19,17 @@ import java.io.IOException;
 public class SendComunicationController {
 
     @FXML
-    private ImageView chair_icon;
+    private MFXTextField textFieldMessage;
 
     @FXML
-    private ImageView news_icon;
-
-    @FXML
-    private ImageView profile_icon;
-
-    @FXML
-    private MFXButton send_button;
-
-    @FXML
-    private ImageView send_news_icon;
-
-    @FXML
-    private ImageView service_icon;
-
-    @FXML
-    private MFXTextField text_field_message;
-
-    @FXML
-    private MFXTextField text_field_title;
+    private MFXTextField textFieldTitle;
 
     NewsDAO newsDAO = new ConcreteNewsDAO();
 
     @FXML
     private void sendAction() {
-        String title = text_field_title.getText().trim();
-        String message = text_field_message.getText().trim();
+        String title = textFieldTitle.getText().trim();
+        String message = textFieldMessage.getText().trim();
 
         if (title.isEmpty() || message.isEmpty()) {
             sendAlert("Error", "Both fields must be filled out.");
@@ -58,8 +38,8 @@ public class SendComunicationController {
 
         confirmAndSendComunication(title, message);
 
-        text_field_title.clear();
-        text_field_message.clear();
+        textFieldTitle.clear();
+        textFieldMessage.clear();
 
     }
 
@@ -97,10 +77,10 @@ public class SendComunicationController {
     private void goToServiceView() {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Service.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Services.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) service_icon.getScene().getWindow();
+            Stage stage = (Stage) textFieldMessage.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Service");
             stage.show();
@@ -116,7 +96,7 @@ public class SendComunicationController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Appointments.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) chair_icon.getScene().getWindow();
+            Stage stage = (Stage) textFieldMessage.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Appointments");
             stage.show();
@@ -132,7 +112,7 @@ public class SendComunicationController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) news_icon.getScene().getWindow();
+            Stage stage = (Stage) textFieldMessage.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("News");
             stage.show();
@@ -159,7 +139,7 @@ public class SendComunicationController {
                         currentUser.getPhone());
             }
 
-            Stage stage = (Stage) profile_icon.getScene().getWindow();
+            Stage stage = (Stage) textFieldMessage.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Profile");
             stage.show();

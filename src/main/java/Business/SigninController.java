@@ -26,9 +26,6 @@ public class SigninController {
     @FXML
     private Label incorrectLabel;
 
-    @FXML
-    private Label forgot_pass_label;
-
     UserDAO userDAO = new ConcreteUserDAO();
 
     public void signinAction(ActionEvent actionEvent) {

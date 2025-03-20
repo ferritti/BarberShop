@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableCell;
@@ -88,7 +89,27 @@ public class NewsCustomerController implements Initializable {
             return cell;
         });
 
+        centerTextInColumn(titleColumn);
+        centerTextInColumn(messageColumn);
+
         loadNews();
+    }
+
+    private <T> void centerTextInColumn(TableColumn<Notification, T> column) {
+        column.setCellFactory(tc -> new TableCell<>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item.toString());
+                    setAlignment(Pos.CENTER); // Imposta l'allineamento al centro
+                }
+            }
+        });
     }
 
 

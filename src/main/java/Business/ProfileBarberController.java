@@ -9,49 +9,30 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class ProfileBarberController {
 
     @FXML
-    private ImageView chair_icon;
+    private Label emailLabel;
 
     @FXML
-    private Label email_label;
+    private ImageView logoutIcon;
 
     @FXML
-    private ImageView logout_icon;
+    private Label nameLabel;
 
     @FXML
-    private Label name_label;
+    private Label phoneLabel;
 
     @FXML
-    private ImageView news_icon;
-
-    @FXML
-    private Label phone_label;
-
-    @FXML
-    private ImageView plus_icon;
-
-    @FXML
-    private ImageView profile_icon;
-
-    @FXML
-    private ImageView send_news_icon;
-
-    @FXML
-    private ImageView service_icon;
-
-    @FXML
-    private Label surname_label;
+    private Label surnameLabel;
 
     public void profileAction(String name, String surname, String email, String phone) {
-        name_label.setText(name);
-        surname_label.setText(surname);
-        email_label.setText(email);
-        phone_label.setText(phone);
+        nameLabel.setText(name);
+        surnameLabel.setText(surname);
+        emailLabel.setText(email);
+        phoneLabel.setText(phone);
     }
 
     @FXML
@@ -63,7 +44,7 @@ public class ProfileBarberController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) logout_icon.getScene().getWindow();
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Signin");
             stage.show();
@@ -79,7 +60,7 @@ public class ProfileBarberController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) chair_icon.getScene().getWindow();
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("AppointmentsBarber");
             stage.show();
@@ -92,10 +73,10 @@ public class ProfileBarberController {
     private void goToServiceAction() {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Service.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Services.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) chair_icon.getScene().getWindow();
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Service");
             stage.show();
@@ -111,7 +92,7 @@ public class ProfileBarberController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SendComunication.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) send_news_icon.getScene().getWindow();
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Send Comunication");
             stage.show();
@@ -126,7 +107,7 @@ public class ProfileBarberController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) news_icon.getScene().getWindow();
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("News");
             stage.show();
