@@ -94,7 +94,7 @@ public class SendComunicationController {
     private void goToAppointmentsView() {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Appointments.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) textFieldMessage.getScene().getWindow();
