@@ -11,6 +11,11 @@
     -fx-background-radius: 5pt;
 }
 
+.outline-button {
+    -fx-border-color: #651FFF;
+    -fx-border-radius: 3;
+}
+
 .table-view .column-header-background {
     -fx-background-color: #651FFF;
     -fx-background-radius: 5pt 5pt 0 0;

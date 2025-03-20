@@ -15,7 +15,7 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Business.ServicesController">
    <children>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="230.0" stylesheets="@../Styles/Service.css">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="230.0" stylesheets="@../Styles/Services.css">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -40,7 +40,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -48,7 +48,7 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0" styleClass="hbox-selected" stylesheets="@../Styles/Service.css">
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0" styleClass="hbox-selected" stylesheets="@../Styles/Services.css">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -60,7 +60,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -80,7 +80,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -97,7 +97,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -114,7 +114,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -133,7 +133,7 @@
       </VBox>
       <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="570.0">
          <children>
-            <TableView fx:id="serviceTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="340.0" stylesheets="@../Styles/Service.css">
+            <TableView fx:id="serviceTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="340.0" stylesheets="@../Styles/Services.css">
                <placeholder>
                   <Label text="There are no services!" />
                   </placeholder>
@@ -153,33 +153,36 @@
                <children>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="340.0" spacing="5.0">
                      <children>
-                        <Label prefHeight="20.0" prefWidth="48.0" text="Name">
+                        <Label prefHeight="20.0" prefWidth="97.0" text="Name">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="Helvetica Bold" size="15.0" />
                            </font>
                            <VBox.margin>
                               <Insets left="2.0" />
                            </VBox.margin>
                         </Label>
-                        <MFXTextField fx:id="textFieldName" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="340.0" styleClass="text-field-border" stylesheets="@../Styles/Service.css" />
+                        <MFXTextField fx:id="textFieldName" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="340.0" styleClass="text-field-border" stylesheets="@../Styles/Services.css" />
                      </children>
                   </VBox>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="340.0" spacing="5.0">
                      <children>
                         <Label prefHeight="20.0" prefWidth="48.0" text="Price">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="Helvetica Bold" size="15.0" />
                            </font>
                            <VBox.margin>
                               <Insets left="2.0" />
                            </VBox.margin>
                         </Label>
-                        <MFXTextField fx:id="textFieldPrice" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="340.0" styleClass="text-field-border" stylesheets="@../Styles/Service.css" />
+                        <MFXTextField fx:id="textFieldPrice" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="340.0" styleClass="text-field-border" stylesheets="@../Styles/Services.css" />
                      </children>
                   </VBox>
-                  <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="340.0">
+                  <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="340.0">
                      <children>
-                        <MFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addNewService" prefHeight="35.0" prefWidth="150.0" stylesheets="@../Styles/Service.css" text="Add new service" />
+                        <MFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addNewService" prefHeight="35.0" prefWidth="128.0" styleClass="outline-button" stylesheets="@../Styles/Services.css" text="Add new service">
+                           <font>
+                              <Font name="Helvetica" size="14.0" />
+                           </font></MFXButton>
                      </children>
                   </HBox>
                </children>

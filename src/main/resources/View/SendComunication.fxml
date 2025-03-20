@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -27,7 +29,7 @@
                <children>
                   <HBox alignment="CENTER" onMouseClicked="#goToAppointmentsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="chair_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/schedule.png" />
                            </image>
@@ -47,7 +49,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToServiceView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="service_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/services.png" />
                            </image>
@@ -57,14 +59,14 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToNewsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/notification.png" />
                            </image>
@@ -74,7 +76,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -84,7 +86,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="48.0" prefWidth="218.0" styleClass="hbox-selected" stylesheets="@../Styles/SendComunication.css">
                      <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="send_news_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/sendnews.png" />
                            </image>
@@ -94,7 +96,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -104,7 +106,7 @@
                   </HBox>
                   <HBox alignment="CENTER" onMouseClicked="#goToProfileView" prefHeight="48.0" prefWidth="218.0">
                      <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="profile_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/user.png" />
                            </image>
@@ -114,7 +116,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -126,43 +128,47 @@
             </VBox>
          </children>
       </VBox>
-      <VBox prefHeight="550.0" prefWidth="700.0">
+      <VBox prefHeight="389.0" prefWidth="458.0">
          <HBox.margin>
-            <Insets bottom="100.0" left="56.0" right="56.0" top="100.0" />
+            <Insets bottom="70.0" left="56.0" right="56.0" top="100.0" />
          </HBox.margin>
          <children>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="458.0" spacing="5.0">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="71.0" prefWidth="458.0" spacing="5.0">
                <children>
                   <Label text="Title">
                      <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font name="Helvetica Bold" size="16.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="2.0" />
                      </VBox.margin>
                   </Label>
-                  <MFXTextField fx:id="textFieldTitle" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="458.0" styleClass="text-field-border" stylesheets="@../Styles/SendComunication.css" />
+                  <TextField fx:id="textFieldTitle" prefHeight="40.0" prefWidth="458.0" stylesheets="@../Styles/SendComunication.css">
+                     <styleClass>
+                        <String fx:value="text-field-border" />
+                        <String fx:value="text-field" />
+                     </styleClass></TextField>
                </children>
             </VBox>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="458.0" spacing="5.0">
+            <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="201.0" prefWidth="458.0" spacing="5.0">
                <children>
                   <Label text="Message">
                      <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font name="Helvetica Bold" size="16.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="2.0" />
                      </VBox.margin>
                   </Label>
-                  <MFXTextField fx:id="textFieldMessage" floatMode="BORDER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="458.0" styleClass="text-field-border" stylesheets="@../Styles/SendComunication.css" />
+                  <TextArea fx:id="textFieldMessage" prefHeight="164.0" prefWidth="458.0" styleClass="text-field-border" stylesheets="@../Styles/SendComunication.css" />
                </children>
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </VBox>
-            <VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="458.0">
+            <VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="458.0">
                <children>
-                  <MFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#sendAction" prefHeight="35.0" prefWidth="90.0" text="Send" />
+                  <MFXButton fx:id="send_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#sendAction" prefHeight="35.0" prefWidth="90.0" styleClass="outline-button" stylesheets="@../Styles/SendComunication.css" text="Send" />
                </children>
             </VBox>
          </children></VBox>
