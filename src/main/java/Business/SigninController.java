@@ -68,7 +68,8 @@ public class SigninController {
             javafx.application.Platform.runLater(emailTextField::requestFocus);
 
             dialog.setResultConverter(dialogButton -> dialogButton == confirmButtonType ? emailTextField.getText() : null);
-
+            dialog.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+            dialog.getDialogPane().getStyleClass().add("custom-alert");
             java.util.Optional<String> result = dialog.showAndWait();
 
             if (result.isPresent()) {
@@ -82,6 +83,8 @@ public class SigninController {
 
                     javafx.scene.control.ButtonType retryButton = new javafx.scene.control.ButtonType("Retry", javafx.scene.control.ButtonBar.ButtonData.OK_DONE);
                     retryAlert.getButtonTypes().setAll(retryButton, javafx.scene.control.ButtonType.CANCEL);
+                    retryAlert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+                    retryAlert.getDialogPane().getStyleClass().add("custom-alert");
 
                     java.util.Optional<javafx.scene.control.ButtonType> retryResult = retryAlert.showAndWait();
 
