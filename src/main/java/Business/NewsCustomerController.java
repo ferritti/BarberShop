@@ -45,7 +45,8 @@ public class NewsCustomerController implements Initializable {
         titleColumn.setReorderable(false);
         messageColumn.setReorderable(false);
 
-        // Imposta il wrapping per la colonna titolo
+        newsTable.setSelectionModel(null);
+
         titleColumn.setCellFactory(tc -> {
             TableCell<Notification, String> cell = new TableCell<>() {
                 private final Text text = new Text();

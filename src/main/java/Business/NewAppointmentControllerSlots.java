@@ -5,7 +5,7 @@ import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Model.User;
-import Payment.Payment;
+import Payment.PaymentMethod;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
@@ -21,7 +21,6 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -365,13 +364,13 @@ public class NewAppointmentControllerSlots {
                 String barberEmail = barbersData.get(barber);
 
 
-                Payment paymentMethod;
+                PaymentMethod paymentMethod;
                 if (type == paypalButton) {
-                    paymentMethod = Payment.PAYPAL;
+                    paymentMethod = PaymentMethod.PAYPAL;
                 } else if (type == cardButton) {
-                    paymentMethod = Payment.CREDIT_CARD;
+                    paymentMethod = PaymentMethod.CREDIT_CARD;
                 } else {
-                    paymentMethod = Payment.SHOP;
+                    paymentMethod = PaymentMethod.SHOP;
                 }
 
 
@@ -414,7 +413,6 @@ public class NewAppointmentControllerSlots {
 
                     goToAppointmentsView();
                 } else {
-
                     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setTitle("Booking Error");
                     errorAlert.setHeaderText("Could not complete booking");

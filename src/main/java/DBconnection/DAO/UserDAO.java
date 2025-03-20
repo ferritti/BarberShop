@@ -1,6 +1,6 @@
 package DBconnection.DAO;
-import Model.User;
 
+import Model.User;
 import java.util.HashMap;
 
 public interface UserDAO {
