@@ -89,31 +89,10 @@ public class NewsCustomerController implements Initializable {
             return cell;
         });
 
-        centerTextInColumn(titleColumn);
-        centerTextInColumn(messageColumn);
-
         newsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         loadNews();
     }
-
-    private <T> void centerTextInColumn(TableColumn<Notification, T> column) {
-        column.setCellFactory(tc -> new TableCell<>() {
-            @Override
-            protected void updateItem(T item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(item.toString());
-                    setAlignment(Pos.CENTER);
-                }
-            }
-        });
-    }
-
 
     private void loadNews() {
         SessionManager sessionManager = SessionManager.getInstance();

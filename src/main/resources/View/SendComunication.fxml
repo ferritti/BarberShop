@@ -39,7 +39,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -160,7 +160,7 @@
                         <Insets left="2.0" />
                      </VBox.margin>
                   </Label>
-                  <TextArea fx:id="textFieldMessage" prefHeight="164.0" prefWidth="458.0" styleClass="text-field-border" stylesheets="@../Styles/SendComunication.css" />
+                  <TextArea fx:id="textFieldMessage" prefHeight="164.0" prefWidth="458.0" styleClass="text-field-border" stylesheets="@../Styles/SendComunication.css" wrapText="true" />
                </children>
                <VBox.margin>
                   <Insets top="20.0" />

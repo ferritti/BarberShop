@@ -37,7 +37,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -57,7 +57,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -74,7 +74,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -91,7 +91,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -108,7 +108,7 @@
                               <Insets left="7.0" />
                            </HBox.margin>
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Helvetica" size="16.0" />
                            </font>
                         </Label>
                      </children>
