@@ -84,6 +84,13 @@ public class AppointmentCustomerController implements Initializable {
 
         tableViewCustomerAppointments.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+        paymentColumn.setMinWidth(95);
+        dateColumn.setMinWidth(80);
+
+        deleteColumn.setMaxWidth(40);
+        timeColumn.setMaxWidth(50);
+        priceColumn.setMaxWidth(40);
+
         loadAppointments();
 
     }

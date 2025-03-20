@@ -18,10 +18,6 @@ public class AvailableSlot {
         return barberEmail;
     }
 
-    public void setBarberEmail(String barberEmail) {
-        this.barberEmail = barberEmail;
-    }
-
     public LocalDate getDate() {
         return date;
     }
@@ -32,10 +28,6 @@ public class AvailableSlot {
 
     public LocalTime getStartTime() {
         return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
     }
 
 }

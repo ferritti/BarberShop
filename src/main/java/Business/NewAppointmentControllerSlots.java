@@ -5,6 +5,7 @@ import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Model.User;
+import Payment.Payment;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
@@ -364,13 +365,13 @@ public class NewAppointmentControllerSlots {
                 String barberEmail = barbersData.get(barber);
 
 
-                Appointment.Payment paymentMethod;
+                Payment paymentMethod;
                 if (type == paypalButton) {
-                    paymentMethod = Appointment.Payment.PAYPAL;
+                    paymentMethod = Payment.PAYPAL;
                 } else if (type == cardButton) {
-                    paymentMethod = Appointment.Payment.CREDIT_CARD;
+                    paymentMethod = Payment.CREDIT_CARD;
                 } else {
-                    paymentMethod = Appointment.Payment.SHOP;
+                    paymentMethod = Payment.SHOP;
                 }
 
 
@@ -426,8 +427,6 @@ public class NewAppointmentControllerSlots {
         public void setDate(LocalDate date) {
             dateLabel.setText(date.toString());
         }
-
-
 
 }
 

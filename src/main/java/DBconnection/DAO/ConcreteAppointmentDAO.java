@@ -2,6 +2,7 @@ package DBconnection.DAO;
 
 import DBconnection.Database.DBManager;
 import Model.Appointment;
+import Payment.Payment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -79,7 +80,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
             while (rs.next()) {
                 Appointment appointment = new Appointment(
-                        Appointment.Payment.valueOf(rs.getString("payment")),
+                        Payment.valueOf(rs.getString("payment")),
                         rs.getString("service_name"),
                         rs.getString("barber_name"),
                         rs.getString("barber_email"),
