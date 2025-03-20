@@ -1,5 +1,5 @@
 package Model;
-import Payment.Payment;
+import Payment.PaymentMethod;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,10 +14,10 @@ public class Appointment {
     private String customerPhone;
     private String serviceTypeName;
     private double servicePrice;
-    private final Payment payment;
+    private final PaymentMethod paymentMethod;
 
-    public Appointment(Payment payment, String serviceTypeName, String barberName, String barberEmail, String customerEmail, String customerPhone, LocalTime time, LocalDate date, double servicePrice) {
-        this.payment = payment;
+    public Appointment(PaymentMethod paymentMethod, String serviceTypeName, String barberName, String barberEmail, String customerEmail, String customerPhone, LocalTime time, LocalDate date, double servicePrice) {
+        this.paymentMethod = paymentMethod;
         this.serviceTypeName = serviceTypeName;
         this.barberName = barberName;
         this.barberEmail = barberEmail;
@@ -48,7 +48,7 @@ public class Appointment {
         return serviceTypeName;
     }
 
-    public Payment getPayment() {return payment; }
+    public PaymentMethod getPayment() {return paymentMethod; }
 
     public String getBarberName() {
         return barberName;
