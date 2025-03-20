@@ -93,6 +93,8 @@ public class SigninController {
                     successAlert.setTitle("Email Sent");
                     successAlert.setHeaderText(null);
                     successAlert.setContentText("A password recovery email has been sent to: " + email);
+                    successAlert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+                    successAlert.getDialogPane().getStyleClass().add("custom-alert");
                     successAlert.showAndWait();
                 }
             }

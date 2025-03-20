@@ -87,6 +87,8 @@ public class ServicesController implements Initializable {
         ButtonType buttonTypeYes = new ButtonType("Yes");
         ButtonType buttonTypeNo = new ButtonType("No");
         confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+        confirmDialog.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+        confirmDialog.getDialogPane().getStyleClass().add("custom-alert");
 
         confirmDialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == buttonTypeYes) {
@@ -106,6 +108,8 @@ public class ServicesController implements Initializable {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
+        alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+        alert.getDialogPane().getStyleClass().add("custom-alert");
         alert.showAndWait();
     }
 
@@ -262,6 +266,8 @@ public class ServicesController implements Initializable {
         ButtonType buttonTypeYes = new ButtonType("Yes");
         ButtonType buttonTypeNo = new ButtonType("No");
         confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+        confirmDialog.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+        confirmDialog.getDialogPane().getStyleClass().add("custom-alert");
 
         confirmDialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == buttonTypeYes) {
@@ -282,6 +288,8 @@ public class ServicesController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Error while deleting the service.");
+            alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+            alert.getDialogPane().getStyleClass().add("custom-alert");
             alert.showAndWait();
         }
     }

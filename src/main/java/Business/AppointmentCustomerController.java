@@ -184,6 +184,9 @@ public class AppointmentCustomerController implements Initializable {
         ButtonType buttonTypeOk = new ButtonType("Ok");
         alert.getButtonTypes().setAll(buttonTypeOk);
 
+        alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+        alert.getDialogPane().getStyleClass().add("custom-alert");
+
         alert.showAndWait().ifPresent(buttonType -> {;
             if (buttonType == buttonTypeOk) {
                 alert.close();
@@ -201,6 +204,9 @@ public class AppointmentCustomerController implements Initializable {
         ButtonType buttonTypeYes = new ButtonType("Yes");
         ButtonType buttonTypeNo = new ButtonType("No");
         confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+        confirmDialog.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+        confirmDialog.getDialogPane().getStyleClass().add("custom-alert");
 
         confirmDialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == buttonTypeYes) {
@@ -225,6 +231,9 @@ public class AppointmentCustomerController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Error while deleting the appointment.");
+
+            alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+            alert.getDialogPane().getStyleClass().add("custom-alert");
             alert.showAndWait();
         }
     }

@@ -15,11 +15,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -307,6 +306,8 @@ public class NewAppointmentControllerSlots {
                 alert.setTitle("Error");
                 alert.setHeaderText("An appointment already exists");
                 alert.setContentText("You have already an appointment in this date and time");
+                alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+                alert.getDialogPane().getStyleClass().add("custom-alert");
                 alert.showAndWait();
                 return;
             }
@@ -317,10 +318,17 @@ public class NewAppointmentControllerSlots {
 
 
         if (selectedService == null || selectedService.isEmpty()) {
+
+
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle("Error");
             errorAlert.setHeaderText("Service Selection Required");
             errorAlert.setContentText("Please select a service before booking an appointment.");
+            errorAlert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+            errorAlert.getDialogPane().getStyleClass().add("custom-alert");
+
+            errorAlert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+            errorAlert.getDialogPane().getStyleClass().add("custom-alert");
             errorAlert.showAndWait();
             return;
         }
@@ -334,9 +342,11 @@ public class NewAppointmentControllerSlots {
                 "Date: " + date + "\n" +
                 "Time: " + time + "\n" );
 
-        ButtonType paymentButton = new ButtonType("Proceed to Payment", ButtonBar.ButtonData.YES);
         ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(paymentButton, cancelButton);
+        ButtonType paymentButton = new ButtonType("Proceed to Payment", ButtonBar.ButtonData.YES);
+        alert.getButtonTypes().setAll(cancelButton, paymentButton);
+        alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+        alert.getDialogPane().getStyleClass().add("custom-alert");
 
         alert.showAndWait().ifPresent(type -> {
             if (type == paymentButton) {
@@ -362,6 +372,11 @@ public class NewAppointmentControllerSlots {
         ButtonType shopButton = new ButtonType("Pay at Shop", ButtonBar.ButtonData.RIGHT);
 
         paymentAlert.getButtonTypes().setAll(paypalButton, cardButton, shopButton, backButton);
+
+        paymentAlert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+        paymentAlert.getDialogPane().getStyleClass().add("custom-alert");
+
+
 
         paymentAlert.showAndWait().ifPresent(type -> {
             if (type == paypalButton || type == cardButton || type == shopButton) {
@@ -406,17 +421,21 @@ public class NewAppointmentControllerSlots {
                 if (slotRemoved && appointmentAdded) {
                     PaymentStrategy paymentStrategy = PaymentFactory.getPaymentMethod(paymentMethod);
 
-                    // Crea il contesto per il pagamento
                     PaymentContext paymentContext = new PaymentContext(paymentStrategy);
 
-                    // Esegui il pagamento
                     String paymentMSG = paymentContext.executePayment(servicePrice);
 
+                    // Crea l'alert
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                     successAlert.setTitle("Booking Confirmed");
                     successAlert.setHeaderText("Appointment Booked Successfully");
-                    successAlert.setContentText("Your appointment has been confirmed.\n" +
-                            paymentMSG);
+                    successAlert.setContentText("Your appointment has been confirmed.\n" + paymentMSG);
+
+// Applica uno stile CSS per migliorare l'aspetto
+                    successAlert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+                    successAlert.getDialogPane().getStyleClass().add("custom-alert");
+
+// Mostra l'alert
                     successAlert.showAndWait();
 
 
@@ -427,6 +446,8 @@ public class NewAppointmentControllerSlots {
                     errorAlert.setTitle("Booking Error");
                     errorAlert.setHeaderText("Could not complete booking");
                     errorAlert.setContentText("There was an error while processing your request. Please try again.");
+                    errorAlert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+                    errorAlert.getDialogPane().getStyleClass().add("custom-alert");
                     errorAlert.showAndWait();
                 }
             }
