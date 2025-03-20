@@ -49,10 +49,11 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE FROM Appointments WHERE app_date = ? AND customer_email = ?");
+                    "DELETE FROM Appointments WHERE app_date = ? AND app_time = ? AND barber_email = ?");
 
             stmt.setDate(1, java.sql.Date.valueOf(appointment.getDate()));
-            stmt.setString(2, appointment.getCustomerEmail());
+            stmt.setTime(2, java.sql.Time.valueOf(appointment.getTime()));
+            stmt.setString(3, appointment.getBarberEmail());
 
             int rows = stmt.executeUpdate();
             stmt.close();
