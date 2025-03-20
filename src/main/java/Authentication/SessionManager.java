@@ -1,6 +1,5 @@
 package Authentication;
 
-import Model.Notification;
 import Model.User;
 
 public class SessionManager {
@@ -16,11 +15,11 @@ public class SessionManager {
     }
 
     public void setCurrentUser(User user) {
-            currentUser = user;
+        currentUser = user;
     }
 
     public User getCurrentUser() {
-            return currentUser;
+        return currentUser;
     }
 
     public void closeSession() {

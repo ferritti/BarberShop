@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -293,6 +294,20 @@ public class NewAppointmentControllerSlots {
         LocalTime time = LocalTime.parse(timeString);
 
         LocalDate date = LocalDate.parse(dateLabel.getText());
+
+        List<Appointment> userAppointments = appointmentDAO.findByEmailOfUser(SessionManager.getInstance().getCurrentUser().getEmail());
+
+        for (Appointment appointment : userAppointments) {
+            if(appointment.getDate().equals(date) && appointment.getTime().equals(time)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("An appointment already exists");
+                alert.setContentText("You have already an appointment in this date and time");
+                alert.showAndWait();
+                return;
+            }
+        }
+
         String selectedBarber = barberComboBox.getSelectionModel().getSelectedItem();
         String selectedService = serviceComboBox.getSelectionModel().getSelectedItem();
 
