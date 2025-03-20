@@ -5,7 +5,10 @@ import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Model.User;
+import Payment.PaymentContext;
+import Payment.PaymentFactory;
 import Payment.PaymentMethod;
+import Payment.PaymentStrategy;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
@@ -401,12 +404,19 @@ public class NewAppointmentControllerSlots {
                 boolean appointmentAdded = appointmentDAO.addAppointment(appointment);
 
                 if (slotRemoved && appointmentAdded) {
+                    PaymentStrategy paymentStrategy = PaymentFactory.getPaymentMethod(paymentMethod);
+
+                    // Crea il contesto per il pagamento
+                    PaymentContext paymentContext = new PaymentContext(paymentStrategy);
+
+                    // Esegui il pagamento
+                    String paymentMSG = paymentContext.executePayment(servicePrice);
 
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                     successAlert.setTitle("Booking Confirmed");
                     successAlert.setHeaderText("Appointment Booked Successfully");
                     successAlert.setContentText("Your appointment has been confirmed.\n" +
-                            "Payment method: " + paymentMethod);
+                            paymentMSG);
                     successAlert.showAndWait();
 
 
