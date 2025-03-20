@@ -60,7 +60,7 @@ public class NewsCustomerController implements Initializable {
                         setGraphic(null);
                     } else {
                         text.setText(item);
-                        text.setWrappingWidth(titleColumn.getWidth() - 10); // Adatta alla colonna
+                        text.setWrappingWidth(titleColumn.getWidth() - 10);
                         setGraphic(text);
                     }
                 }
@@ -81,7 +81,7 @@ public class NewsCustomerController implements Initializable {
                         setGraphic(null);
                     } else {
                         text.setText(item);
-                        text.setWrappingWidth(messageColumn.getWidth() - 10); // Adatta alla colonna
+                        text.setWrappingWidth(messageColumn.getWidth() - 10);
                         setGraphic(text);
                     }
                 }
@@ -91,6 +91,8 @@ public class NewsCustomerController implements Initializable {
 
         centerTextInColumn(titleColumn);
         centerTextInColumn(messageColumn);
+
+        newsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         loadNews();
     }
@@ -106,7 +108,7 @@ public class NewsCustomerController implements Initializable {
                     setGraphic(null);
                 } else {
                     setText(item.toString());
-                    setAlignment(Pos.CENTER); // Imposta l'allineamento al centro
+                    setAlignment(Pos.CENTER);
                 }
             }
         });

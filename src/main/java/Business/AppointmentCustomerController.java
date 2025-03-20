@@ -1,11 +1,10 @@
 package Business;
 
 import Authentication.SessionManager;
-import DBconnection.DAO.AppointmentDAO;
-import DBconnection.DAO.AvailableSlotDAO;
-import DBconnection.DAO.ConcreteAppointmentDAO;
+import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
+import Model.Notification;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,7 +52,8 @@ public class AppointmentCustomerController implements Initializable {
     private TableColumn<Appointment, Void> deleteColumn;
 
     private final AppointmentDAO appointmentDAO = new ConcreteAppointmentDAO();
-    private final AvailableSlotDAO availableSlotDAO = new DBconnection.DAO.ConcreteAvailableSlotDAO();
+    private final AvailableSlotDAO availableSlotDAO = new ConcreteAvailableSlotDAO();
+    private final NewsDAO newsDAO = new ConcreteNewsDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -218,6 +218,8 @@ public class AppointmentCustomerController implements Initializable {
 
         if (deleted) {
             tableViewCustomerAppointments.getItems().remove(appointment);
+            Notification notification = new Notification("Appointment available", "An appointment has become available on " + appointment.getDate() + " at " + appointment.getTime(), Notification.TargetType.CUSTOMER);
+            newsDAO.addNews(notification);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
