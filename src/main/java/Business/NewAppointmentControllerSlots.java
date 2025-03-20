@@ -365,21 +365,19 @@ public class NewAppointmentControllerSlots {
                 String barberEmail = barbersData.get(barber);
 
 
-                Payment paymentMethod;
+                PaymentMethod paymentMethod;
                 if (type == paypalButton) {
-                    paymentMethod = Payment.PAYPAL;
+                    paymentMethod = PaymentMethod.PAYPAL;
                 } else if (type == cardButton) {
-                    paymentMethod = Payment.CREDIT_CARD;
+                    paymentMethod = PaymentMethod.CREDIT_CARD;
                 } else {
-                    paymentMethod = Payment.SHOP;
+                    paymentMethod = PaymentMethod.SHOP;
                 }
 
 
                 User currentUser = SessionManager.getInstance().getCurrentUser();
 
 
-                System.out.println(service);
-                System.out.println(servicesData.get(service));
                 double servicePrice = servicesData.get(service);
 
 
