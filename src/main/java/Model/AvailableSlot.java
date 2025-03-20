@@ -22,12 +22,7 @@ public class AvailableSlot {
         return date;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public LocalTime getStartTime() {
         return startTime;
     }
-
 }

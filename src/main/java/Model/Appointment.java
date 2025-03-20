@@ -32,16 +32,8 @@ public class Appointment {
         return date;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public LocalTime getTime() {
         return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
     }
 
     public String getCustomerEmail() {
