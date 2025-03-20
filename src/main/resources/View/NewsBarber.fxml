@@ -134,7 +134,7 @@
                 <TableColumn fx:id="message_col" prefWidth="318.0" text="Message" />
               </columns>
                <VBox.margin>
-                  <Insets left="56.0" right="56.0" top="30.0" />
+                  <Insets left="46.0" right="46.0" top="30.0" />
                </VBox.margin>
             </TableView>
          </children></VBox>

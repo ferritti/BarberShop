@@ -72,6 +72,9 @@ public class AppointmentBarberController implements Initializable {
         centerTextInColumn(timeColumn);
         centerTextInColumn(paymentColumn);
 
+        paymentColumn.setMinWidth(95);
+        dateColumn.setMinWidth(80);
+
         tableViewBarberAppointments.setSelectionModel(null);
 
         tableViewBarberAppointments.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

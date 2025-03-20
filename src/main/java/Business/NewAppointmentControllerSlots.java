@@ -5,10 +5,7 @@ import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Model.User;
-import Payment.PaymentContext;
-import Payment.PaymentFactory;
 import Payment.PaymentMethod;
-import Payment.PaymentStrategy;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
@@ -24,6 +21,7 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -350,10 +348,10 @@ public class NewAppointmentControllerSlots {
         paymentAlert.setHeaderText("Select Payment Method");
         paymentAlert.setContentText(
                 "Barber: " + barber + "\n" +
-                        "Price: " + servicesData.get(service) + "€" + "\n" +
-                        "Service: " + service + "\n" +
-                        "Date: " + date + "\n" +
-                        "Time: " + time);
+                "Price: " + servicesData.get(service) + "€" + "\n" +
+                "Service: " + service + "\n" +
+                "Date: " + date + "\n" +
+                "Time: " + time);
 
         ButtonType backButton = new ButtonType("Back", ButtonBar.ButtonData.LEFT);
         ButtonType paypalButton = new ButtonType("PayPal", ButtonBar.ButtonData.OTHER);
@@ -366,23 +364,25 @@ public class NewAppointmentControllerSlots {
             if (type == paypalButton || type == cardButton || type == shopButton) {
                 String barberEmail = barbersData.get(barber);
 
-                // Determina il metodo di pagamento selezionato
-                PaymentMethod paymentMethod;
+
+                Payment paymentMethod;
                 if (type == paypalButton) {
-                    paymentMethod = PaymentMethod.PAYPAL;
+                    paymentMethod = Payment.PAYPAL;
                 } else if (type == cardButton) {
-                    paymentMethod = PaymentMethod.CREDIT_CARD;
+                    paymentMethod = Payment.CREDIT_CARD;
                 } else {
-                    paymentMethod = PaymentMethod.SHOP;
+                    paymentMethod = Payment.SHOP;
                 }
 
-                // Ottieni l'utente corrente
+
                 User currentUser = SessionManager.getInstance().getCurrentUser();
 
-                // Ottieni il prezzo del servizio dalla mappa servicesData
+
+                System.out.println(service);
+                System.out.println(servicesData.get(service));
                 double servicePrice = servicesData.get(service);
 
-                // Crea un nuovo appuntamento
+
                 Appointment appointment = new Appointment(
                         paymentMethod,
                         service,
@@ -395,35 +395,26 @@ public class NewAppointmentControllerSlots {
                         servicePrice
                 );
 
-                // Rimuovi lo slot disponibile
+
                 AvailableSlot selectedSlot = new AvailableSlot(barberEmail, date, time);
                 boolean slotRemoved = availableSlotDAO.removeAvSlot(selectedSlot);
 
-                // Aggiungi l'appuntamento al database
+
                 boolean appointmentAdded = appointmentDAO.addAppointment(appointment);
 
                 if (slotRemoved && appointmentAdded) {
-                    // Ottieni la strategia di pagamento tramite la factory
-                    PaymentStrategy paymentStrategy = PaymentFactory.getPaymentMethod(paymentMethod);
 
-                    // Crea il contesto per il pagamento
-                    PaymentContext paymentContext = new PaymentContext(paymentStrategy);
-
-                    // Esegui il pagamento
-                    String paymentMsg = paymentContext.executePayment(servicePrice);
-
-                    // Mostra conferma finale
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                     successAlert.setTitle("Booking Confirmed");
                     successAlert.setHeaderText("Appointment Booked Successfully");
                     successAlert.setContentText("Your appointment has been confirmed.\n" +
-                            paymentMsg);
+                            "Payment method: " + paymentMethod);
                     successAlert.showAndWait();
 
-                    // Reindirizza alla vista degli appuntamenti
+
                     goToAppointmentsView();
                 } else {
-                    // Mostra errore se la rimozione dello slot o l'aggiunta dell'appuntamento fallisce
+
                     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setTitle("Booking Error");
                     errorAlert.setHeaderText("Could not complete booking");
@@ -433,8 +424,7 @@ public class NewAppointmentControllerSlots {
             }
         });
     }
-
-    public void setDate(LocalDate date) {
+        public void setDate(LocalDate date) {
             dateLabel.setText(date.toString());
         }
 

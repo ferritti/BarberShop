@@ -49,6 +49,8 @@ public class NewsBarberController implements Initializable {
         title_col.setReorderable(false);
         message_col.setReorderable(false);
 
+        news_table.setSelectionModel(null);
+
         // Imposta il wrapping per la colonna titolo
         title_col.setCellFactory(tc -> {
             TableCell<Notification, String> cell = new TableCell<>() {
