@@ -361,8 +361,8 @@ public class NewAppointmentControllerSlots {
         paymentAlert.setHeaderText("Select Payment Method");
         paymentAlert.setContentText(
                 "Barber: " + barber + "\n" +
-                "Price: " + servicesData.get(service) + "€" + "\n" +
                 "Service: " + service + "\n" +
+                "Price: " + servicesData.get(service) + "€" + "\n" +
                 "Date: " + date + "\n" +
                 "Time: " + time);
 
