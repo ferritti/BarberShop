@@ -227,7 +227,7 @@
             </VBox>
             <HBox alignment="CENTER_LEFT" prefHeight="88.0" prefWidth="570.0">
                <children>
-                  <MFXButton fx:id="backButton" buttonType="RAISED" onAction="#backToCalendar" prefHeight="22.0" prefWidth="91.0" stylesheets="@../Styles/NewAppointment.css" text="Back">
+                  <MFXButton fx:id="backButton" buttonType="RAISED" onAction="#backToCalendar" prefHeight="22.0" prefWidth="91.0" styleClass="purple-border" stylesheets="@../Styles/NewAppointment.css" text="Back">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>

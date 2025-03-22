@@ -115,7 +115,7 @@
                   <MFXButton fx:id="previousButton" onAction="#previousMonth" text="&lt;" />
                   <Label fx:id="yearMonthLabel" text="Anno Mese">
                      <font>
-                        <Font name="System Bold Italic" size="12.0" />
+                        <Font name="Helvetica Bold" size="15.0" />
                      </font>
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
@@ -126,6 +126,9 @@
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="Helvetica" size="13.0" />
+                     </font>
                   </MFXButton>
                </children>
                <opaqueInsets>

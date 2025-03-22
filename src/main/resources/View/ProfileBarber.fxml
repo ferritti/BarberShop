@@ -50,7 +50,7 @@
                               <Image url="@../Images/services.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="27.0" prefWidth="158.0" text="Service">
+                        <Label prefHeight="27.0" prefWidth="158.0" text="Services">
                            <HBox.margin>
                               <Insets left="7.0" />
                            </HBox.margin>
