@@ -39,7 +39,7 @@ public class ProfileBarberController {
     private void logoutAction() {
         try {
 
-            SessionManager.getInstance().closeSession();
+            SessionManager.getInstance().resetUser();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
             Parent root = loader.load();
