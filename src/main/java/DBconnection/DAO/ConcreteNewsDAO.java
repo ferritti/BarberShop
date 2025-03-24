@@ -96,4 +96,22 @@ public class ConcreteNewsDAO implements NewsDAO {
         return notifications;
     }
 
+    public boolean deleteNotification(Notification notification) {
+        try {
+            Connection connection = dbManager.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(
+                    "DELETE FROM News WHERE title = ? AND message = ? AND time = ?");
+
+            stmt.setString(1, notification.getTitle());
+            stmt.setString(2, notification.getMessage());
+            stmt.setTime(3, java.sql.Time.valueOf(notification.getTime()));
+
+            int rows = stmt.executeUpdate();
+            stmt.close();
+            return rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

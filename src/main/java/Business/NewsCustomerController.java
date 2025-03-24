@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -98,11 +99,24 @@ public class NewsCustomerController implements Initializable {
 
         centerTextInColumn(timeColumn);
 
+        deleteOldestNewsIfNecessary();
         loadNews();
 
         timeColumn.setSortType(TableColumn.SortType.DESCENDING);
         newsTable.getSortOrder().add(timeColumn);
         newsTable.sort();
+    }
+
+    private void deleteOldestNewsIfNecessary() {
+        SessionManager sessionManager = SessionManager.getInstance();
+        List<Notification> news = newsDAO.getAllCustomerNews();
+        if (news.size() > 30) {
+            news.sort(Comparator.comparing(Notification::getTime));
+            int numToDelete = news.size() - 30;
+            for (int i = 0; i < numToDelete; i++) {
+                newsDAO.deleteNotification(news.get(i));
+            }
+        }
     }
 
     private void loadNews() {
