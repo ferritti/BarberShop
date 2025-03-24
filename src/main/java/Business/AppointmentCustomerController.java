@@ -225,8 +225,8 @@ public class AppointmentCustomerController implements Initializable {
         if (deleted) {
             tableViewCustomerAppointments.getItems().remove(appointment);
             Notification notification =
-                    new Notification("Appointment available",
-                            "An appointment has become available on " + appointment.getDate() + " at " + appointment.getTime(),
+                    new Notification("Slot available",
+                            "A slot has become available on " + appointment.getDate() + " at " + appointment.getTime(),
                                      appointment.getBarberEmail(),true);
             newsDAO.addNotification(notification);
         } else {

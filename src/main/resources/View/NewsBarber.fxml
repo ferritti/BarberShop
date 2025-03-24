@@ -125,13 +125,13 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="550.0" prefWidth="700.0">
          <children>
-            <TableView fx:id="newsTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="500.0" stylesheets="@../Styles/News.css">
+            <TableView fx:id="newsTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="530.0" stylesheets="@../Styles/News.css">
                <placeholder>
                   <Label text="There are no news!" />
                </placeholder>
               <columns>
-                <TableColumn fx:id="titleColumn" prefWidth="120.0" text="Title" />
-                <TableColumn fx:id="messageColumn" prefWidth="310.0" text="Message" />
+                <TableColumn fx:id="titleColumn" prefWidth="137.0" text="Title" />
+                <TableColumn fx:id="messageColumn" prefWidth="323.0" text="Message" />
                   <TableColumn fx:id="timeColumn" prefWidth="65.0" text="Time" />
               </columns>
                <VBox.margin>
