@@ -284,7 +284,7 @@ public class AppointmentCustomerController implements Initializable {
     }
 
     @FXML
-    void toNewAppointment() {
+    void toNewAppointmentView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentCalendar.fxml"));
             Parent root = loader.load();

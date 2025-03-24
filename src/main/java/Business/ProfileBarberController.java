@@ -54,7 +54,7 @@ public class ProfileBarberController {
     }
 
     @FXML
-    private void goToAppointmentsAction() {
+    private void goToAppointmentsView() {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
@@ -70,7 +70,7 @@ public class ProfileBarberController {
     }
 
     @FXML
-    private void goToServiceView() {
+    private void goToServicesView() {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Services.fxml"));

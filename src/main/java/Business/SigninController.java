@@ -36,9 +36,9 @@ public class SigninController {
         if (userDAO.checkCredentials(emailText, passText)) {
             SessionManager.getInstance().setCurrentUser(userDAO.findByEmail(emailText));
             if(SessionManager.getInstance().getCurrentUser() instanceof Customer)
-                goToAppointmentCustomerView(actionEvent);
+                goToAppointmentsCustomerView(actionEvent);
             else
-                goToAppointmentBarberView(actionEvent);
+                goToAppointmentsBarberView(actionEvent);
         }
         else incorrectLabel.setVisible(true);
     }
@@ -125,7 +125,7 @@ public class SigninController {
         }
     }
 
-    public void goToAppointmentCustomerView(ActionEvent actionEvent){
+    public void goToAppointmentsCustomerView(ActionEvent actionEvent){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
             Parent root = loader.load();
@@ -140,7 +140,7 @@ public class SigninController {
         }
     }
 
-    public void goToAppointmentBarberView(ActionEvent actionEvent){
+    public void goToAppointmentsBarberView(ActionEvent actionEvent){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
             Parent root = loader.load();

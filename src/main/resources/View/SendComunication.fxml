@@ -47,7 +47,7 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToServiceView" prefHeight="48.0" prefWidth="218.0">
+                  <HBox alignment="CENTER" onMouseClicked="#goToServicesView" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fx:id="service_icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>

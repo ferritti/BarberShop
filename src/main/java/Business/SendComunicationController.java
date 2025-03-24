@@ -79,7 +79,7 @@ public class SendComunicationController {
     }
 
     @FXML
-    private void goToServiceView() {
+    private void goToServicesView() {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Services.fxml"));
