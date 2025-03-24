@@ -3,6 +3,7 @@ package Business;
 import Authentication.SessionManager;
 import DBconnection.DAO.ConcreteNewsDAO;
 import DBconnection.DAO.NewsDAO;
+import Model.Appointment;
 import Model.Notification;
 import Model.User;
 import javafx.collections.FXCollections;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -34,6 +36,9 @@ public class NewsCustomerController implements Initializable {
     private TableColumn<Notification, String> messageColumn;
 
     @FXML
+    private TableColumn<Notification, LocalTime> timeColumn;
+
+    @FXML
     private TableColumn<Notification, String > titleColumn;
 
     private NewsDAO newsDAO = new ConcreteNewsDAO();
@@ -42,9 +47,11 @@ public class NewsCustomerController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
 
         titleColumn.setReorderable(false);
         messageColumn.setReorderable(false);
+        timeColumn.setReorderable(false);
 
         newsTable.setSelectionModel(null);
 
@@ -89,16 +96,36 @@ public class NewsCustomerController implements Initializable {
             return cell;
         });
 
-        newsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        centerTextInColumn(timeColumn);
 
         loadNews();
+
+        timeColumn.setSortType(TableColumn.SortType.DESCENDING);
+        newsTable.getSortOrder().add(timeColumn);
+        newsTable.sort();
     }
 
     private void loadNews() {
-        SessionManager sessionManager = SessionManager.getInstance();
-        List<Notification> news = newsDAO.getAllNews(sessionManager.getCurrentUser().getUserType());
+        List<Notification> news = newsDAO.getAllCustomerNews();
         ObservableList<Notification> observableList = FXCollections.observableArrayList(news);
         newsTable.setItems(observableList);
+    }
+
+    private <T> void centerTextInColumn(TableColumn<Notification, T> column) {
+        column.setCellFactory(tc -> new TableCell<>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item.toString());
+                    setAlignment(Pos.CENTER);
+                }
+            }
+        });
     }
 
     @FXML

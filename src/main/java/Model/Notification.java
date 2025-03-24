@@ -1,30 +1,75 @@
 package Model;
 
+import java.time.LocalTime;
+
 public class Notification {
     private String title;
     private String message;
-    private final TargetType targetType;
+    private String barberEmail;
+    private LocalTime time;
+    private boolean toCustomers;
 
-    public static enum TargetType {
-        CUSTOMER, BARBER, ALL;
-    }
-
-    public Notification(String title, String message, TargetType targetType) {
+    //per inviare al barber notifica di appuntamento prenotato e inviare al barbiere e i customers appuntamento cancellato
+    public Notification(String title, String message, String barberEmail, boolean toCustomers) {
         this.title = title;
         this.message = message;
-        this.targetType = targetType;
+        time = LocalTime.now().withNano(0);
+        this.barberEmail = barberEmail;
+        this.toCustomers = toCustomers;
+    }
+
+    public Notification(String title, String message, boolean toCustomers) {
+        this.title = title;
+        this.message = message;
+        time = LocalTime.now().withNano(0);
+        this.barberEmail = null;
+        this.toCustomers = toCustomers;
+    }
+
+    public Notification(String title, String message,LocalTime time) {
+        this.title = title;
+        this.message = message;
+        this.time = time;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getMessage() {
         return message;
     }
 
-    public TargetType getTargetType() {
-        return targetType;
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getBarberEmail() {
+        return barberEmail;
+    }
+
+    public void setBarberEmail(String barberEmail) {
+        this.barberEmail = barberEmail;
+    }
+
+    public boolean isToCustomers() {
+        return toCustomers;
+    }
+
+    public void setToCustomers(boolean toCustomers) {
+        this.toCustomers = toCustomers;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 }
 

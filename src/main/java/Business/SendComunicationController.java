@@ -58,8 +58,8 @@ public class SendComunicationController {
 
         confirmDialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == buttonTypeYes) {
-                Notification notification = new Notification(title, message, Notification.TargetType.CUSTOMER);
-                if(newsDAO.addNews(notification)){
+                Notification notification = new Notification(title, message, true);
+                if(newsDAO.addNotification(notification)){
                     sendAlert("Success", "Communication sent successfully!");
                 } else {
                     sendAlert("Error", "Error while sending the communication.");

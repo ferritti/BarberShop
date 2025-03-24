@@ -123,7 +123,7 @@
             </VBox>
          </children>
       </VBox>
-      <VBox prefHeight="550.0" prefWidth="700.0">
+      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="700.0">
          <children>
             <TableView fx:id="newsTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="500.0" stylesheets="@../Styles/News.css">
                <placeholder>
@@ -131,11 +131,11 @@
                </placeholder>
               <columns>
                 <TableColumn fx:id="titleColumn" prefWidth="120.0" text="Title" />
-                <TableColumn fx:id="messageColumn" prefWidth="290.0" text="Message" />
-                  <TableColumn fx:id="timeColumn" prefWidth="85.0" text="Time" />
+                <TableColumn fx:id="messageColumn" prefWidth="310.0" text="Message" />
+                  <TableColumn fx:id="timeColumn" prefWidth="65.0" text="Time" />
               </columns>
                <VBox.margin>
-                  <Insets bottom="30.0" left="35.0" right="20.0" top="30.0" />
+                  <Insets />
                </VBox.margin>
             </TableView>
          </children></VBox>

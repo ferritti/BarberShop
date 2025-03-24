@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface NewsDAO {
 
-    public boolean addNews(Notification notification);
-    public boolean removeNews(Notification notification);
-    public List<Notification> getAllNews(User.UserType userType);
+    public boolean addNotification(Notification notification);
+    public List<Notification> getAllBarberNews(String barberEmail);
+    public List<Notification> getAllCustomerNews();
 }

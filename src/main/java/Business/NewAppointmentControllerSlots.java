@@ -4,6 +4,7 @@ import Authentication.SessionManager;
 import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
+import Model.Notification;
 import Model.User;
 import Payment.PaymentContext;
 import Payment.PaymentFactory;
@@ -78,6 +79,7 @@ public class NewAppointmentControllerSlots {
     private ServiceTypeDAO serviceTypeDAO = new ConcreteServiceTypeDAO();
     private AvailableSlotDAO availableSlotDAO = new ConcreteAvailableSlotDAO();
     private AppointmentDAO appointmentDAO = new ConcreteAppointmentDAO();
+    private NewsDAO newsDAO = new ConcreteNewsDAO();
 
     HashMap<String, String> barbersData = userDAO.getBarbersData();
     HashMap<String, Double> servicesData = serviceTypeDAO.getServices();
@@ -418,7 +420,15 @@ public class NewAppointmentControllerSlots {
 
                 boolean appointmentAdded = appointmentDAO.addAppointment(appointment);
 
-                if (slotRemoved && appointmentAdded) {
+                Notification notification =
+                        new Notification("New Appointment",
+                                SessionManager.getInstance().getCurrentUser().getName() + " "
+                                        + SessionManager.getInstance().getCurrentUser().getSurname()
+                                        + " has booked an appointment with you", barberEmail, false);
+
+                boolean notificationAdded = newsDAO.addNotification(notification);
+
+                if (slotRemoved && appointmentAdded && notificationAdded) {
                     PaymentStrategy paymentStrategy = PaymentFactory.getPaymentMethod(paymentMethod);
 
                     PaymentContext paymentContext = new PaymentContext(paymentStrategy);

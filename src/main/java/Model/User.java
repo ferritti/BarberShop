@@ -8,7 +8,7 @@ public abstract class User {
     private String email;
     private String hashedPass;
     private String phone;
-    public static enum UserType {CUSTOMER, BARBER};
+    public static enum UserType {CUSTOMER, BARBER}; //potrebbe aver senso metterlo in un file a parte
     private final UserType userType;
 
     public User(String name, String surname,
