@@ -107,7 +107,7 @@ public class AppointmentBarberController implements Initializable {
 
 
     @FXML
-    private void goToProfileAction() {
+    private void goToProfileView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileBarber.fxml"));
             Parent root = loader.load();

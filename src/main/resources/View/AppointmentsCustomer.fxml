@@ -62,7 +62,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToNewsAction" prefHeight="48.0" prefWidth="218.0">
+                  <HBox alignment="CENTER" onMouseClicked="#goToNewsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -79,7 +79,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToProfileAction" prefHeight="48.0" prefWidth="230.0">
+                  <HBox alignment="CENTER" onMouseClicked="#goToProfileView" prefHeight="48.0" prefWidth="230.0">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>

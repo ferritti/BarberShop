@@ -243,7 +243,7 @@ public class AppointmentCustomerController implements Initializable {
 
 
     @FXML
-    private void goToNewsAction() {
+    private void goToNewsView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
             Parent root = loader.load();
@@ -258,7 +258,7 @@ public class AppointmentCustomerController implements Initializable {
     }
 
     @FXML
-    private void goToProfileAction() {
+    private void goToProfileView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileCustomer.fxml"));
             Parent root = loader.load();

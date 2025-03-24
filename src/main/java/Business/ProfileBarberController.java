@@ -70,7 +70,7 @@ public class ProfileBarberController {
     }
 
     @FXML
-    private void goToServiceAction() {
+    private void goToServiceView() {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Services.fxml"));
