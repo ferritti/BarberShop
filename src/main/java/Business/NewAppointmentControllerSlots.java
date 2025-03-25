@@ -75,14 +75,10 @@ public class NewAppointmentControllerSlots {
     @FXML
     private Label dateLabel;
 
-    private UserDAO userDAO = new ConcreteUserDAO();
-    private ServiceTypeDAO serviceTypeDAO = new ConcreteServiceTypeDAO();
-    private AvailableSlotDAO availableSlotDAO = new ConcreteAvailableSlotDAO();
-    private AppointmentDAO appointmentDAO = new ConcreteAppointmentDAO();
-    private NewsDAO newsDAO = new ConcreteNewsDAO();
+    NewAppointmentControllerSlotsService newAppointmentControllerSlotsService = new NewAppointmentControllerSlotsService();
 
-    HashMap<String, String> barbersData = userDAO.getBarbersData();
-    HashMap<String, Double> servicesData = serviceTypeDAO.getServices();
+    HashMap<String, String> barbersData = newAppointmentControllerSlotsService.getBarbersData();
+    HashMap<String, Double> servicesData = newAppointmentControllerSlotsService.getServicesData();
 
     @FXML
     public void initialize() {
@@ -152,7 +148,8 @@ public class NewAppointmentControllerSlots {
         LocalDate date = LocalDate.parse(dateLabel.getText());
 
         String selectedBarber = barberComboBox.getSelectionModel().getSelectedItem();
-        List<AvailableSlot> barberSlots = availableSlotDAO.getAvSlotsAtSelectedDate(date, barbersData.get(selectedBarber));
+
+        List<AvailableSlot> barberSlots = newAppointmentControllerSlotsService.getAvailableSlots(barbersData.get(selectedBarber), date);
 
         for (AvailableSlot slot : barberSlots) {
             LocalTime startTime = slot.getStartTime();
@@ -300,10 +297,10 @@ public class NewAppointmentControllerSlots {
 
         LocalDate date = LocalDate.parse(dateLabel.getText());
 
-        List<Appointment> userAppointments = appointmentDAO.findByEmailOfUser(SessionManager.getInstance().getCurrentUser().getEmail());
+        List<Appointment> userAppointments = newAppointmentControllerSlotsService.getAppointments();
 
         for (Appointment appointment : userAppointments) {
-            if(appointment.getDate().equals(date) && appointment.getTime().equals(time)){
+            if(newAppointmentControllerSlotsService.isSameDateTime(appointment, date, time)){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("An appointment already exists");
@@ -415,18 +412,12 @@ public class NewAppointmentControllerSlots {
 
 
                 AvailableSlot selectedSlot = new AvailableSlot(barberEmail, date, time);
-                boolean slotRemoved = availableSlotDAO.removeAvSlot(selectedSlot);
+                boolean slotRemoved = newAppointmentControllerSlotsService.removeAvSlot(selectedSlot);
 
 
-                boolean appointmentAdded = appointmentDAO.addAppointment(appointment);
+                boolean appointmentAdded = newAppointmentControllerSlotsService.addAppointment(appointment);
 
-                Notification notification =
-                        new Notification("New Appointment",
-                                SessionManager.getInstance().getCurrentUser().getName() + " "
-                                        + SessionManager.getInstance().getCurrentUser().getSurname()
-                                        + " has booked an appointment with you", barberEmail, false);
-
-                boolean notificationAdded = newsDAO.addNotification(notification);
+                boolean notificationAdded = newAppointmentControllerSlotsService.addNotification(barberEmail);
 
                 if (slotRemoved && appointmentAdded && notificationAdded) {
                     PaymentStrategy paymentStrategy = PaymentFactory.getPaymentMethod(paymentMethod);
