@@ -1,9 +1,6 @@
 package Business;
 
 import Authentication.SessionManager;
-import DBconnection.DAO.ConcreteNewsDAO;
-import DBconnection.DAO.NewsDAO;
-import Model.Appointment;
 import Model.Notification;
 import Model.User;
 import javafx.collections.FXCollections;
@@ -24,7 +21,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -42,7 +38,7 @@ public class NewsCustomerController implements Initializable {
     @FXML
     private TableColumn<Notification, String > titleColumn;
 
-    private NewsDAO newsDAO = new ConcreteNewsDAO();
+    private final NewsService newsService = new NewsService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -99,7 +95,7 @@ public class NewsCustomerController implements Initializable {
 
         centerTextInColumn(timeColumn);
 
-        deleteOldestNewsIfNecessary();
+        newsService.deleteOldestNewsIfNecessary();
         loadNews();
 
         timeColumn.setSortType(TableColumn.SortType.DESCENDING);
@@ -107,20 +103,8 @@ public class NewsCustomerController implements Initializable {
         newsTable.sort();
     }
 
-    private void deleteOldestNewsIfNecessary() {
-        SessionManager sessionManager = SessionManager.getInstance();
-        List<Notification> news = newsDAO.getAllCustomerNews();
-        if (news.size() > 30) {
-            news.sort(Comparator.comparing(Notification::getTime));
-            int numToDelete = news.size() - 30;
-            for (int i = 0; i < numToDelete; i++) {
-                newsDAO.deleteNotification(news.get(i));
-            }
-        }
-    }
-
     private void loadNews() {
-        List<Notification> news = newsDAO.getAllCustomerNews();
+        List<Notification> news = newsService.getNews();
         ObservableList<Notification> observableList = FXCollections.observableArrayList(news);
         newsTable.setItems(observableList);
     }
