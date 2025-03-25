@@ -1,7 +1,5 @@
 package Business;
 
-import DBconnection.DAO.ConcreteUserDAO;
-import DBconnection.DAO.UserDAO;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
@@ -22,16 +20,7 @@ public class SignUpController {
     @FXML
     private Label notEmptyAlert, secretCodeAlert;
 
-    private final SignUpService signUpService;
-
-    public SignUpController() {
-        UserDAO userDAO = new ConcreteUserDAO();
-        this.signUpService = new SignUpService(userDAO);
-    }
-
-    public SignUpController(SignUpService signUpService) {
-        this.signUpService = signUpService; // Per i test
-    }
+    private SignUpService signUpService = new SignUpService();
 
     public void signupAction(ActionEvent actionEvent) {
         String result = signUpService.registerUser(

@@ -16,8 +16,8 @@ class SignUpServiceTest {
 
     @BeforeEach
     void setUp() {
-        userDAO = mock(UserDAO.class);  // Creiamo un mock di UserDAO
-        signUpService = new SignUpService(userDAO); // Iniettiamo il mock nel servizio
+        userDAO = mock(UserDAO.class);
+        signUpService = new SignUpService(userDAO);
     }
 
     @Test
