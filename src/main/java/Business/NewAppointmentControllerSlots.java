@@ -1,10 +1,8 @@
 package Business;
 
 import Authentication.SessionManager;
-import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
-import Model.Notification;
 import Model.User;
 import Payment.PaymentContext;
 import Payment.PaymentFactory;
@@ -17,14 +15,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,7 +70,7 @@ public class NewAppointmentControllerSlots {
     @FXML
     private Label dateLabel;
 
-    NewAppointmentControllerSlotsService newAppointmentControllerSlotsService = new NewAppointmentControllerSlotsService();
+    NewAppointmentSlotsService newAppointmentControllerSlotsService = new NewAppointmentSlotsService();
 
     HashMap<String, String> barbersData = newAppointmentControllerSlotsService.getBarbersData();
     HashMap<String, Double> servicesData = newAppointmentControllerSlotsService.getServicesData();

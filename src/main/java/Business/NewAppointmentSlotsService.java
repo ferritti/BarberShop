@@ -11,7 +11,7 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 
-public class NewAppointmentControllerSlotsService {
+public class NewAppointmentSlotsService {
     private UserDAO userDAO;
     private ServiceTypeDAO serviceTypeDAO;
     private AvailableSlotDAO availableSlotDAO;
@@ -19,7 +19,7 @@ public class NewAppointmentControllerSlotsService {
     private NewsDAO newsDAO;
     private SessionManager sessionManager = SessionManager.getInstance();
 
-    public NewAppointmentControllerSlotsService() {
+    public NewAppointmentSlotsService() {
         this.userDAO = new ConcreteUserDAO();
         this.serviceTypeDAO = new ConcreteServiceTypeDAO();
         this.availableSlotDAO = new ConcreteAvailableSlotDAO();
@@ -27,7 +27,7 @@ public class NewAppointmentControllerSlotsService {
         this.newsDAO = new ConcreteNewsDAO();
     }
 
-    public NewAppointmentControllerSlotsService(UserDAO userDAO, ServiceTypeDAO serviceTypeDAO, AvailableSlotDAO availableSlotDAO, AppointmentDAO appointmentDAO, NewsDAO newsDAO) {
+    public NewAppointmentSlotsService(UserDAO userDAO, ServiceTypeDAO serviceTypeDAO, AvailableSlotDAO availableSlotDAO, AppointmentDAO appointmentDAO, NewsDAO newsDAO) {
         this.userDAO = userDAO;
         this.serviceTypeDAO = serviceTypeDAO;
         this.availableSlotDAO = availableSlotDAO;
