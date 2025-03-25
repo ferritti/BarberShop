@@ -1,8 +1,6 @@
 package Business;
 
 import Authentication.SessionManager;
-import DBconnection.DAO.ConcreteServiceTypeDAO;
-import DBconnection.DAO.ServiceTypeDAO;
 import Model.ServiceType;
 import Model.User;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -46,31 +44,25 @@ public class ServicesController implements Initializable {
     @FXML
     private MFXTextField textFieldPrice;
 
-    private ServiceTypeDAO serviceTypeDAO = new ConcreteServiceTypeDAO();
+    private final ServicesService servicesService = new ServicesService();
 
     @FXML
     void addNewService() {
         String name = textFieldName.getText();
         String priceText = textFieldPrice.getText();
 
-        if (name.isEmpty() || priceText.isEmpty()) {
+        if (servicesService.areEmptyFields(name, priceText)) {
             sendAlert("Error", "Both fields must be filled out.");
             return;
         }
 
-        double price;
-        try {
-            price = Double.parseDouble(priceText);
-        } catch (NumberFormatException e) {
-            sendAlert("Error", "Price must be a valid number.");
+        String priceValidationError = servicesService.validatePrice(priceText);
+        if (priceValidationError != null) {
+            sendAlert("Error", priceValidationError);
             return;
         }
 
-        if (price <= 0) {
-            sendAlert("Error", "Price must be greater than 0.");
-            return;
-        }
-
+        double price = Double.parseDouble(priceText);
         confirmAndAddNewService(name, price);
 
         textFieldName.clear();
@@ -92,8 +84,7 @@ public class ServicesController implements Initializable {
 
         confirmDialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == buttonTypeYes) {
-                ServiceType serviceType = new ServiceType(title, price);
-                if(serviceTypeDAO.addServiceType(serviceType)) {
+                if(servicesService.addService(title, price)) {
                     sendAlert("Success", "Service added successfully.");
                     loadServices();
                 } else {
@@ -131,7 +122,7 @@ public class ServicesController implements Initializable {
     }
 
     private void loadServices() {
-        List<ServiceType> serviceTypes = serviceTypeDAO.getAllServiceTypes();
+        List<ServiceType> serviceTypes = servicesService.getService();
         ObservableList<ServiceType> observableList = FXCollections.observableArrayList(serviceTypes);
         serviceTable.setItems(observableList);
     }
@@ -278,7 +269,7 @@ public class ServicesController implements Initializable {
 
 
     private void deleteService(ServiceType serviceType) {
-        boolean deleted = serviceTypeDAO.removeServiceType(serviceType);
+        boolean deleted = servicesService.deleteService(serviceType);
 
         if (deleted) {
             loadServices();
