@@ -1,9 +1,7 @@
 package Business;
 
-import Authentication.SessionManager;
 import DBconnection.DAO.ConcreteUserDAO;
 import DBconnection.DAO.UserDAO;
-import Model.Customer;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import javafx.event.ActionEvent;
@@ -18,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SigninController {
+public class SignInController {
     @FXML
     private MFXTextField emailField;
     @FXML
@@ -28,22 +26,26 @@ public class SigninController {
 
     UserDAO userDAO = new ConcreteUserDAO();
 
-    public SigninController() {
+    private final SignInService signinService = new SignInService();
+
+
+    public SignInController() {
     }
 
+    @FXML
     public void signinAction(ActionEvent actionEvent) {
         String emailText = emailField.getText();
         String passText = passwordField.getText();
 
-
-        if (userDAO.checkCredentials(emailText, passText)) {
-            SessionManager.getInstance().setCurrentUser(userDAO.findByEmail(emailText));
-            if(SessionManager.getInstance().getCurrentUser() instanceof Customer)
+        if (signinService.authenticateUser(emailText, passText)) {
+            if (signinService.isCustomer()) {
                 goToAppointmentsCustomerView(actionEvent);
-            else
+            } else {
                 goToAppointmentsBarberView(actionEvent);
+            }
+        } else {
+            incorrectLabel.setVisible(true);
         }
-        else incorrectLabel.setVisible(true);
     }
 
     @FXML
@@ -78,7 +80,7 @@ public class SigninController {
             if (result.isPresent()) {
                 String email = result.get();
 
-                if (!checkEmailExists(email)) {
+                if (!signinService.checkEmailExists(email)) {
                     javafx.scene.control.Alert retryAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
                     retryAlert.setTitle("Error");
                     retryAlert.setHeaderText(null);
@@ -106,10 +108,6 @@ public class SigninController {
             }
             break;
         }
-    }
-
-    private boolean checkEmailExists(String email) {
-        return userDAO.findByEmail(email) != null;
     }
 
 
