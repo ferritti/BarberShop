@@ -28,6 +28,9 @@ public class SigninController {
 
     UserDAO userDAO = new ConcreteUserDAO();
 
+    public SigninController() {
+    }
+
     public void signinAction(ActionEvent actionEvent) {
         String emailText = emailField.getText();
         String passText = passwordField.getText();
