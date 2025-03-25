@@ -25,14 +25,14 @@ public class SendComunicationController {
     @FXML
     private TextField textFieldTitle;
 
-    NewsDAO newsDAO = new ConcreteNewsDAO();
+    private final SendComunicationService sendComunicationService = new SendComunicationService();
 
     @FXML
     private void sendAction() {
         String title = textFieldTitle.getText().trim();
         String message = textFieldMessage.getText().trim();
 
-        if (title.isEmpty() || message.isEmpty()) {
+        if (sendComunicationService.areEmptyFields(title, message)) {
             sendAlert("Error", "Both fields must be filled out.");
             return;
         }
@@ -58,8 +58,7 @@ public class SendComunicationController {
 
         confirmDialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == buttonTypeYes) {
-                Notification notification = new Notification(title, message, true);
-                if(newsDAO.addNotification(notification)){
+                if(sendComunicationService.addComunication(title, message)){
                     sendAlert("Success", "Communication sent successfully!");
                 } else {
                     sendAlert("Error", "Error while sending the communication.");
