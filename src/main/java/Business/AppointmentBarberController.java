@@ -1,8 +1,6 @@
 package Business;
 
 import Authentication.SessionManager;
-import DBconnection.DAO.AppointmentDAO;
-import DBconnection.DAO.ConcreteAppointmentDAO;
 import Model.Appointment;
 import Model.User;
 import javafx.collections.FXCollections;
@@ -46,7 +44,8 @@ public class AppointmentBarberController implements Initializable {
 
     @FXML
     private TableColumn<Appointment, LocalTime> timeColumn;
-    private final AppointmentDAO appointmentDAO = new ConcreteAppointmentDAO();
+
+    private final AppointmentService appointmentService = new AppointmentService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -100,7 +99,7 @@ public class AppointmentBarberController implements Initializable {
 
 
     private void loadAppointments() {
-        List<Appointment> appointments = appointmentDAO.findByEmailOfUser(SessionManager.getInstance().getCurrentUser().getEmail());
+        List<Appointment> appointments = appointmentService.getAppointments();
         ObservableList<Appointment> observableList = FXCollections.observableArrayList(appointments);
         tableViewBarberAppointments.setItems(observableList);
     }
