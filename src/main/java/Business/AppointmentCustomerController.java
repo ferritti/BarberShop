@@ -1,7 +1,6 @@
 package Business;
 
 import Authentication.SessionManager;
-import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Model.Notification;
@@ -51,9 +50,7 @@ public class AppointmentCustomerController implements Initializable {
     @FXML
     private TableColumn<Appointment, Void> deleteColumn;
 
-    private final AppointmentDAO appointmentDAO = new ConcreteAppointmentDAO();
-    private final AvailableSlotDAO availableSlotDAO = new ConcreteAvailableSlotDAO();
-    private final NewsDAO newsDAO = new ConcreteNewsDAO();
+    private final AppointmentService appointmentService = new AppointmentService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -114,7 +111,7 @@ public class AppointmentCustomerController implements Initializable {
 
 
     private void loadAppointments() {
-        List<Appointment> appointments = appointmentDAO.findByEmailOfUser(SessionManager.getInstance().getCurrentUser().getEmail());
+        List<Appointment> appointments = appointmentService.getAppointments();
         ObservableList<Appointment> observableList = FXCollections.observableArrayList(appointments);
         tableViewCustomerAppointments.setItems(observableList);
     }
@@ -135,7 +132,7 @@ public class AppointmentCustomerController implements Initializable {
                 deleteButton.setOnAction(event -> {
                     Appointment appointment = getTableView().getItems().get(getIndex());
 
-                    if (isPastAppointment(appointment)) {
+                    if (AppointmentService.isPastAppointment(appointment)) {
                         showPastAppointmentError();
                     } else {
                         confirmAndDeleteAppointment(appointment);
@@ -155,7 +152,7 @@ public class AppointmentCustomerController implements Initializable {
                 } else {
                     Appointment appointment = getTableView().getItems().get(getIndex());
 
-                    if (isPastAppointment(appointment)) {
+                    if (AppointmentService.isPastAppointment(appointment)) {
                         deleteButton.setOpacity(0.3);
                     } else {
                         deleteButton.setOpacity(1.0);
@@ -166,14 +163,6 @@ public class AppointmentCustomerController implements Initializable {
             }
         });
     }
-
-
-    private boolean isPastAppointment(Appointment appointment) {
-        LocalDateTime appointmentDateTime = LocalDateTime.of(appointment.getDate(), appointment.getTime());
-        LocalDateTime now = LocalDateTime.now();
-        return appointmentDateTime.isBefore(now);
-    }
-
 
     private void showPastAppointmentError() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -212,23 +201,18 @@ public class AppointmentCustomerController implements Initializable {
             if (buttonType == buttonTypeYes) {
                 deleteAppointment(appointment);
 
-                AvailableSlot availableSlot = new AvailableSlot(appointment.getBarberEmail(), appointment.getDate(), appointment.getTime());
-                availableSlotDAO.addAvSlot(availableSlot);
+                AppointmentService.addAvailableSlot(appointment);
             }
         });
     }
 
 
     private void deleteAppointment(Appointment appointment) {
-        boolean deleted = appointmentDAO.deleteAppointment(appointment);
+        boolean deleted = appointmentService.deleteAppointment(appointment);
 
         if (deleted) {
             tableViewCustomerAppointments.getItems().remove(appointment);
-            Notification notification =
-                    new Notification("Slot available",
-                            "A slot has become available on " + appointment.getDate() + " at " + appointment.getTime(),
-                                     appointment.getBarberEmail(),true);
-            newsDAO.addNotification(notification);
+            AppointmentService.addNotification(appointment);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
