@@ -10,6 +10,8 @@ import Model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -88,5 +90,36 @@ class NewsServiceTest {
         newsService.deleteOldestNewsIfNecessary();
 
         verify(newsDAO, never()).deleteNotification(any());
+    }
+
+    @Test
+    void deleteOldestNewsIfNecessary_WhenNewsAreMoreThanLimit_ShouldDeleteOldestNews() {
+        // Preparazione dati
+        User barber = new Barber("John", "Doe", "barber@example.com", "password", "123456789");
+        when(sessionManager.getCurrentUser()).thenReturn(barber);
+
+        // Creo una lista di 35 notifiche
+        List<Notification> news = new ArrayList<>();
+        LocalTime now = LocalTime.now();
+        for (int i = 0; i < 35; i++) {
+            Notification notification = new Notification("Title" + i, "Message" + i, null);
+            // Imposto tempi leggermente diversi partendo dall'ora corrente
+            notification.setTime(now.minusMinutes(i));
+            news.add(notification);
+        }
+
+        when(newsDAO.getAllBarberNews(barber.getEmail())).thenReturn(news);
+
+        // Esecuzione del metodo da testare
+        newsService.deleteOldestNewsIfNecessary();
+
+        // Verifiche
+        verify(newsDAO, times(5)).deleteNotification(argThat(
+                notification -> news.subList(0, 5).contains(notification)
+        ));
+
+        verify(newsDAO, never()).deleteNotification(argThat(
+                notification -> news.subList(5, 35).contains(notification)
+        ));
     }
 }
