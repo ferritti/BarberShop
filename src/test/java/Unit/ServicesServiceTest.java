@@ -20,15 +20,18 @@ class ServicesServiceTest {
     }
 
     @Test
-    void testAreEmptyFields() {
+    void testAreEmptyFields_WhenServiceTypeIsEmpty_ReturnsTrue() {
         // Test con nome vuoto e prezzo valido
-        assertTrue(servicesService.areEmptyFields("  ", "10.0"), "Fields should be empty if name is blank");
+        assertTrue(servicesService.areEmptyFields("  ", "10.0"));
 
         // Test con nome valido e prezzo vuoto
-        assertTrue(servicesService.areEmptyFields("Test Service", "  "), "Fields should be empty if price is blank");
+        assertTrue(servicesService.areEmptyFields("Test Service", " "));
+    }
 
+    @Test
+    void testAreEmptyFields_WhenServiceTypeIsEmpty_ReturnsFalse() {
         // Test con entrambi i campi validi
-        assertFalse(servicesService.areEmptyFields("Test Service", "10.0"), "Fields should not be empty if both are filled");
+        assertFalse(servicesService.areEmptyFields("Test Service", "10.0"));
     }
 
     // Test per il metodo validatePrice
@@ -42,12 +45,12 @@ class ServicesServiceTest {
         // Test con prezzo non valido (input non numerico)
         String invalidPrice = "abc";
         result = servicesService.validatePrice(invalidPrice);
-        assertEquals("Price must be a valid number.", result, "Price should be invalid if not a number");
+        assertEquals("Price must be a valid number.", result);
 
         // Test con prezzo negativo
         String negativePrice = "-5.0";
         result = servicesService.validatePrice(negativePrice);
-        assertEquals("Price must be greater than 0.", result, "Price should be invalid if less than or equal to 0");
+        assertEquals("Price must be greater than 0.", result);
     }
 
     @Test
@@ -57,7 +60,7 @@ class ServicesServiceTest {
 
         // Testa l'aggiunta di un servizio
         boolean result = servicesService.addService("Test Service", 10.0);
-        assertTrue(result, "Service should be added successfully");
+        assertTrue(result);
 
         // Verifica che il metodo addServiceType del DAO sia stato chiamato
         verify(mockServiceTypeDAO, times(1)).addServiceType(any(ServiceType.class));
