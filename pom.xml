@@ -67,5 +67,41 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Escludi le classi di sistema (per esempio, classe CLDRLocaleDataMetaInfo) -->
+                            <excludes>
+                                <exclude>sun/**/*</exclude>
+                                <exclude>java/util/Locale*</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <!-- Specifica il percorso di destinazione del report -->
+                            <outputDirectory>${project.build.directory}/jacoco-report</outputDirectory> <!-- Modifica il percorso se vuoi un altro -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>
