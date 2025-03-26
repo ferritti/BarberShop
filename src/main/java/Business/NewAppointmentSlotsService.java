@@ -5,6 +5,7 @@ import DBconnection.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Model.Notification;
+import Model.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,12 +28,13 @@ public class NewAppointmentSlotsService {
         this.newsDAO = new ConcreteNewsDAO();
     }
 
-    public NewAppointmentSlotsService(UserDAO userDAO, ServiceTypeDAO serviceTypeDAO, AvailableSlotDAO availableSlotDAO, AppointmentDAO appointmentDAO, NewsDAO newsDAO) {
+    public NewAppointmentSlotsService(UserDAO userDAO, ServiceTypeDAO serviceTypeDAO, AvailableSlotDAO availableSlotDAO, AppointmentDAO appointmentDAO, NewsDAO newsDAO, SessionManager sessionManager) {
         this.userDAO = userDAO;
         this.serviceTypeDAO = serviceTypeDAO;
         this.availableSlotDAO = availableSlotDAO;
         this.appointmentDAO = appointmentDAO;
         this.newsDAO = newsDAO;
+        this.sessionManager = sessionManager;
     }
 
     public HashMap<String, String> getBarbersData() {
@@ -60,11 +62,13 @@ public class NewAppointmentSlotsService {
     }
 
     public boolean addNotification(String barberEmail) {
-        Notification notification =
-                new Notification("New Appointment",
-                        SessionManager.getInstance().getCurrentUser().getName() + " "
-                                + SessionManager.getInstance().getCurrentUser().getSurname()
-                                + " has booked an appointment with you", barberEmail, false);
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+        Notification notification = new Notification(
+                "New Appointment",
+                currentUser.getName() + " " + currentUser.getSurname() + " has booked an appointment with you",
+                barberEmail,
+                false
+        );
         return newsDAO.addNotification(notification);
     }
 
