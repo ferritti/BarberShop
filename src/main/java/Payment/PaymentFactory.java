@@ -2,6 +2,10 @@ package Payment;
 
 public class PaymentFactory {
     public static PaymentStrategy getPaymentMethod(PaymentMethod paymentMethodType) {
+        if (paymentMethodType == null) {
+            throw new IllegalArgumentException("Payment method cannot be null");
+        }
+
         switch (paymentMethodType) {
             case PAYPAL:
                 return new PaypalPayment();
@@ -13,6 +17,7 @@ public class PaymentFactory {
                 throw new IllegalArgumentException("Unknown payment type");
         }
     }
+
 }
 
 
