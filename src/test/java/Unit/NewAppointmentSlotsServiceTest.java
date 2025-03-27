@@ -2,11 +2,8 @@ package Unit;
 
 import Business.NewAppointmentSlotsService;
 import DBconnection.DAO.*;
-import Model.Appointment;
-import Model.AvailableSlot;
-import Model.Notification;
+import Model.*;
 import Authentication.SessionManager;
-import Model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -128,4 +125,98 @@ class NewAppointmentSlotsServiceTest {
         verify(appointment, times(1)).getDate();
         verify(appointment, times(1)).getTime();
     }
+
+    @Test
+    void testIsSameDateTime_WhenDateIsNotSame_ReturnFalse() {
+        // Mock dell'appuntamento
+        Appointment appointment = mock(Appointment.class);
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+
+        // Simuliamo un appuntamento con una data e/o ora diversa
+        when(appointment.getDate()).thenReturn(date.plusDays(1));
+        when(appointment.getTime()).thenReturn(time.plusHours(1)); // Ora diversa
+
+        // Esegui il test
+        boolean result = service.isSameDateTime(appointment, date, time);
+
+        // Il risultato deve essere falso perché la data e/o l'ora non coincidono
+        assertFalse(result);
+        verify(appointment, times(1)).getDate();
+    }
+
+    @Test
+    void testIsSameDateTime_WhenTimeIsNotSame_ReturnFalse() {
+        // Mock dell'appuntamento
+        Appointment appointment = mock(Appointment.class);
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+
+        // Simuliamo un appuntamento con una data e/o ora diversa
+        when(appointment.getDate()).thenReturn(date);
+        when(appointment.getTime()).thenReturn(time.plusHours(1)); // Ora diversa
+
+        // Esegui il test
+        boolean result = service.isSameDateTime(appointment, date, time);
+
+        // Il risultato deve essere falso perché la data e/o l'ora non coincidono
+        assertFalse(result);
+        verify(appointment, times(1)).getDate();
+        verify(appointment, times(1)).getTime();
+
+    }
+
+//    @Test
+//    void testAddNotification() {
+//        // Mock statico di SessionManager
+//        try (MockedStatic<SessionManager> mockedSessionManager = mockStatic(SessionManager.class)) {
+//            // Simuliamo il comportamento di SessionManager
+//            User currentUser = mock(User.class);
+//            mockedSessionManager.when(SessionManager::getInstance).thenReturn(sessionManager);
+//            when(sessionManager.getCurrentUser()).thenReturn(currentUser);
+//            when(currentUser.getName()).thenReturn("John");
+//            when(currentUser.getSurname()).thenReturn("Doe");
+//
+//            // Mock della notifica
+//            String barberEmail = "barber@example.com";
+//            Notification notification = new Notification(
+//                    "New Appointment",
+//                    "John Doe has booked an appointment with you",
+//                    barberEmail,
+//                    false
+//            );
+//
+//            // Simuliamo che newsDAO aggiunga la notifica correttamente
+//            when(newsDAO.addNotification(notification)).thenReturn(true);
+//
+//            // Eseguiamo il test
+//            boolean result = service.addNotification(barberEmail);
+//
+//            // Verifica che il risultato sia true
+//            assertTrue(result);
+//
+//            // Verifica che il metodo addNotification di newsDAO venga chiamato una volta con il parametro corretto
+//            verify(newsDAO, times(1)).addNotification(eq(notification));
+//        }
+//    }
+//
+//
+//    @Test
+//    void testAddNotification_Failure() {
+//        // Mock dell'utente nella sessione
+//        Customer mockCustomer = new Customer("Mario", "Rossi", "mario.rossi@email.com", "password", "123456789");
+//        when(sessionManager.getInstance()).thenReturn(sessionManager);
+//        when(sessionManager.getCurrentUser()).thenReturn(mockCustomer);
+//
+//        // Mock dell'operazione di salvataggio fallita
+//        when(newsDAO.addNotification(any(Notification.class))).thenReturn(false);
+//
+//        // Esegui il test
+//        boolean result = service.addNotification("barber@email.com");
+//
+//        // Verifica il risultato
+//        assertFalse(result);
+//        verify(newsDAO, times(1)).addNotification(any(Notification.class));
+//    }
+
 }
