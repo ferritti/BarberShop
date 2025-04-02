@@ -116,7 +116,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="18.0" prefWidth="489.0">
                <children>
-                  <MFXButton buttonType="RAISED" onAction="#signupAction" prefHeight="29.0" prefWidth="105.0" styleClass="outline-button" stylesheets="@../Styles/Signup.css" text="Sign up">
+                  <MFXButton fx:id="signUpButton" buttonType="RAISED" onAction="#signupAction" prefHeight="29.0" prefWidth="105.0" styleClass="outline-button" stylesheets="@../Styles/Signup.css" text="Sign up">
                      <opaqueInsets>
                         <Insets top="10.0" />
                      </opaqueInsets>
