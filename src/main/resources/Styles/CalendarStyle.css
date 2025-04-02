@@ -1,0 +1,40 @@
+.calendar-header {
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-background-color: #651FFF;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Helvetica";
+    -fx-text-fill: white;
+}
+
+.calendar-header.left-radius {
+    -fx-background-radius: 10px 0 0 0;
+}
+
+.calendar-header.right-radius {
+    -fx-background-radius: 0 10px 0 0;
+}
+
+.day-cell {
+    -fx-alignment: center;
+    -fx-padding: 10px;
+}
+
+.day-cell.normal {
+    -fx-background-color: #e1e1e1;
+}
+
+.day-cell.today {
+    -fx-background-color: #cacaca;
+    -fx-font-weight: bold;
+}
+
+.day-cell.disabled {
+    -fx-background-color: #e1e1e1;
+    -fx-opacity: 0.5;
+}
+
+.nav-button {
+    -fx-border-color: #651FFF;
+}

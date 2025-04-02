@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class NewAppointmentControllerCalendar {
+
     @FXML private Label yearMonthLabel;
     @FXML private GridPane calendarGrid;
     @FXML private MFXButton previousButton;
@@ -29,6 +30,12 @@ public class NewAppointmentControllerCalendar {
 
     @FXML
     public void initialize() {
+        calendarGrid.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.getStylesheets().add(getClass().getResource("/styles/CalendarStyle.css").toExternalForm());
+            }
+        });
+
         currentYearMonth = YearMonth.now();
         updateCalendar();
     }
@@ -40,76 +47,21 @@ public class NewAppointmentControllerCalendar {
         calendarGrid.getChildren().clear();
         calendarGrid.getRowConstraints().clear();
 
-        String[] dayNames = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-        for (int i = 0; i < 7; i++) {
-            Text text = new Text(dayNames[i]);
-            StackPane cell = new StackPane(text);
-
-            String style = "-fx-font-weight: bold; -fx-alignment: center; -fx-background-color: #651FFF; " +
-                    "-fx-padding: 5px; -fx-font-size: 14px; -fx-font-family: 'Helvetica'; -fx-text-fill: white;";
-
-            if (i == 0) {
-                style += "-fx-background-radius: 10px 0 0 0;";
-            } else if (i == 6) {
-                style += "-fx-background-radius: 0 10px 0 0;";
-            }
-
-            cell.setStyle(style);
-            text.setFill(javafx.scene.paint.Color.WHITE);
-
-            calendarGrid.add(cell, i, 0);
-        }
-
-        RowConstraints headerRowConstraints = new RowConstraints();
-        headerRowConstraints.setPrefHeight(30);
-        headerRowConstraints.setMinHeight(30);
-        calendarGrid.getRowConstraints().add(headerRowConstraints);
+        createCalendarHeader();
 
         LocalDate firstOfMonth = currentYearMonth.atDay(1);
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue() - 1;
         int daysInMonth = currentYearMonth.lengthOfMonth();
-
         int row = 1;
         int col = dayOfWeek;
-        int day = 1;
+        LocalDate today = LocalDate.now();
         int maxRow = 1;
 
-        LocalDate today = LocalDate.now();
-
-        while (day <= daysInMonth) {
-            Text text = new Text(String.valueOf(day));
-            StackPane cell = new StackPane(text);
-
-            if (today.getYear() == currentYearMonth.getYear() &&
-                    today.getMonth() == currentYearMonth.getMonth() &&
-                    today.getDayOfMonth() == day) {
-                cell.setStyle("-fx-background-color: #cacaca; -fx-font-weight: bold; -fx-alignment: center; -fx-padding: 10px;");
-            } else {
-                cell.setStyle("-fx-background-color: #e1e1e1; -fx-alignment: center; -fx-padding: 10px;");
-            }
-
-            LocalDate cellDate = currentYearMonth.atDay(day);
-
-            if (cellDate.isBefore(today)) {
-                cell.setDisable(true);
-                cell.setStyle("-fx-background-color: #e1e1e1; -fx-opacity: 0.5;"); // Grigio con trasparenza
-            }
-
-            text.setOnMouseClicked(event -> {
-                String content = text.getText();
-                if (content.matches("\\d+")) { // Se è un numero (un giorno del mese)
-                    int clickedDay = Integer.parseInt(content);
-                    LocalDate selectedDate = currentYearMonth.atDay(clickedDay);
-
-                    goToSlots(selectedDate);
-                }
-            });
-
+        for (int day = 1; day <= daysInMonth; day++) {
+            StackPane cell = createDayCell(day, today);
             calendarGrid.add(cell, col, row);
             maxRow = Math.max(maxRow, row);
-            day++;
             col++;
-
             if (col > 6) {
                 col = 0;
                 row++;
@@ -118,44 +70,90 @@ public class NewAppointmentControllerCalendar {
 
         for (int i = 1; i <= maxRow; i++) {
             RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPrefHeight(64);  // Altezza preferita per le righe dei giorni
-            rowConstraints.setMinHeight(64);   // Altezza minima per garantire lo spazio
+            rowConstraints.setPrefHeight(64);
+            rowConstraints.setMinHeight(64);
             calendarGrid.getRowConstraints().add(rowConstraints);
         }
 
-        if(currentYearMonth.equals(YearMonth.now())) {
-            previousButton.setStyle("-fx-border-color: #651FFF");
-            previousButton.setOpacity(0.5);
-            previousButton.setDisable(true);
+        updateNavigationButtons();
+    }
 
+    private void createCalendarHeader() {
+        String[] dayNames = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        for (int i = 0; i < dayNames.length; i++) {
+            Text dayText = new Text(dayNames[i]);
+            StackPane cell = new StackPane(dayText);
+            cell.getStyleClass().add("calendar-header");
+            if (i == 0) {
+                cell.getStyleClass().add("left-radius");
+            } else if (i == 6) {
+                cell.getStyleClass().add("right-radius");
+            }
+            dayText.setFill(javafx.scene.paint.Color.WHITE);
+            calendarGrid.add(cell, i, 0);
+        }
+        RowConstraints headerRowConstraints = new RowConstraints();
+        headerRowConstraints.setPrefHeight(30);
+        headerRowConstraints.setMinHeight(30);
+        calendarGrid.getRowConstraints().add(headerRowConstraints);
+    }
+
+    private StackPane createDayCell(int day, LocalDate today) {
+        Text dayText = new Text(String.valueOf(day));
+        StackPane cell = new StackPane(dayText);
+        LocalDate cellDate = currentYearMonth.atDay(day);
+
+        cell.getStyleClass().add("day-cell");
+        if (cellDate.equals(today)) {
+            cell.getStyleClass().add("today");
+        } else {
+            cell.getStyleClass().add("normal");
+        }
+        if (cellDate.isBefore(today)) {
+            cell.setDisable(true);
+            cell.getStyleClass().add("disabled");
+        }
+
+        dayText.setOnMouseClicked(event -> {
+            if (dayText.getText().matches("\\d+")) {
+                LocalDate selectedDate = currentYearMonth.atDay(Integer.parseInt(dayText.getText()));
+                goToSlots(selectedDate);
+            }
+        });
+        return cell;
+    }
+
+    private void updateNavigationButtons() {
+        YearMonth now = YearMonth.now();
+
+        previousButton.getStyleClass().add("nav-button");
+        nextButton.getStyleClass().add("nav-button");
+        todayButton.getStyleClass().add("nav-button");
+
+        if (currentYearMonth.equals(now)) {
+            previousButton.setDisable(true);
+            previousButton.setOpacity(0.5);
             todayButton.setDisable(true);
             todayButton.setVisible(false);
         } else {
             previousButton.setDisable(false);
             previousButton.setOpacity(1);
-
             todayButton.setDisable(false);
             todayButton.setVisible(true);
-
-            previousButton.setStyle("-fx-border-color: #651FFF");
-            todayButton.setStyle(" -fx-border-color: #651FFF");
         }
 
-        if(currentYearMonth.equals(YearMonth.now().plusMonths(6))) {
-            nextButton.setStyle("-fx-border-color: #651FFF");
-            nextButton.setOpacity(0.5);
+        if (currentYearMonth.equals(now.plusMonths(6))) {
             nextButton.setDisable(true);
-        }
-        else {
-            nextButton.setOpacity(1);
+            nextButton.setOpacity(0.5);
+        } else {
             nextButton.setDisable(false);
-            nextButton.setStyle("-fx-border-color: #651FFF; ");
+            nextButton.setOpacity(1);
         }
     }
 
     @FXML
     private void nextMonth() {
-        if(currentYearMonth.isBefore(YearMonth.now().plusMonths(6))){
+        if (currentYearMonth.isBefore(YearMonth.now().plusMonths(6))) {
             currentYearMonth = currentYearMonth.plusMonths(1);
             updateCalendar();
         }
@@ -163,12 +161,11 @@ public class NewAppointmentControllerCalendar {
 
     @FXML
     public void previousMonth() {
-        if(currentYearMonth.isAfter(YearMonth.now())) {
+        if (currentYearMonth.isAfter(YearMonth.now())) {
             currentYearMonth = currentYearMonth.minusMonths(1);
             updateCalendar();
         }
     }
-
 
     private void goToSlots(LocalDate selectedDate) {
         try {
@@ -198,9 +195,8 @@ public class NewAppointmentControllerCalendar {
     }
 
     @FXML
-    void goToProfileView () {
+    void goToProfileView() {
         SceneNavigator.switchScene(calendarGrid, "/View/ProfileCustomer.fxml", "Profile");
     }
-
-
 }
+
