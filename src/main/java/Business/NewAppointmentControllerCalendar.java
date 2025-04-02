@@ -169,20 +169,6 @@ public class NewAppointmentControllerCalendar {
         }
     }
 
-    @FXML
-    void goToAppointmentsView() {
-        SceneNavigator.switchScene(calendarGrid, "/View/AppointmentCustomer.fxml", "Appointments");
-    }
-
-    @FXML
-    void goToNewsView() {
-        SceneNavigator.switchScene(calendarGrid, "/View/NewsCustomer.fxml", "News");
-    }
-
-    @FXML
-    void goToProfileView () {
-        SceneNavigator.switchScene(calendarGrid, "/View/ProfileCustomer.fxml", "Profile");
-    }
 
     private void goToSlots(LocalDate selectedDate) {
         try {
@@ -200,5 +186,21 @@ public class NewAppointmentControllerCalendar {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void goToAppointmentsView() {
+        SceneNavigator.switchScene(calendarGrid, "/View/AppointmentsCustomer.fxml", "Appointments");
+    }
+
+    @FXML
+    void goToNewsView() {
+        SceneNavigator.switchScene(calendarGrid, "/View/NewsCustomer.fxml", "News");
+    }
+
+    @FXML
+    void goToProfileView () {
+        SceneNavigator.switchScene(calendarGrid, "/View/ProfileCustomer.fxml", "Profile");
+    }
+
 
 }
