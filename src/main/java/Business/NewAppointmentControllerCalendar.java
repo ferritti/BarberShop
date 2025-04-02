@@ -194,7 +194,7 @@ public class NewAppointmentControllerCalendar {
 
             Stage stage = (Stage) calendarGrid.getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Seleziona il Barbiere");
+            stage.setTitle("Slots");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

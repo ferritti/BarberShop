@@ -1,21 +1,12 @@
 package Business;
 
-import Authentication.SessionManager;
 import Model.Appointment;
-import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.TableCell;
-import javafx.stage.Stage;
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -56,19 +47,8 @@ public class AppointmentBarberController implements Initializable {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         paymentColumn.setCellValueFactory(new PropertyValueFactory<>("payment"));
 
-        customerColumn.setReorderable(false);
-        dateColumn.setReorderable(false);
-        priceColumn.setReorderable(false);
-        serviceColumn.setReorderable(false);
-        timeColumn.setReorderable(false);
-        paymentColumn.setReorderable(false);
-
-        centerTextInColumn(customerColumn);
-        centerTextInColumn(dateColumn);
-        centerTextInColumn(priceColumn);
-        centerTextInColumn(serviceColumn);
-        centerTextInColumn(timeColumn);
-        centerTextInColumn(paymentColumn);
+        SceneNavigator.centerTextInColumns(customerColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
+        SceneNavigator.setColumnsNotReorderable(customerColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
 
         paymentColumn.setMinWidth(95);
         dateColumn.setMinWidth(80);
@@ -78,23 +58,6 @@ public class AppointmentBarberController implements Initializable {
         tableViewBarberAppointments.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         loadAppointments();
-    }
-
-    private <T> void centerTextInColumn(TableColumn<Appointment, T> column) {
-        column.setCellFactory(tc -> new TableCell<>() {
-            @Override
-            protected void updateItem(T item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(item.toString());
-                    setAlignment(Pos.CENTER);
-                }
-            }
-        });
     }
 
 

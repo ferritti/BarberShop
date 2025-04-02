@@ -1,25 +1,17 @@
 package Business;
 
-import Authentication.SessionManager;
 import Model.ServiceType;
-import Model.User;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -45,6 +37,23 @@ public class ServicesController implements Initializable {
     private MFXTextField textFieldPrice;
 
     private final ServicesService servicesService = new ServicesService();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("serviceName"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        SceneNavigator.setColumnsNotReorderable(nameColumn, priceColumn);
+        SceneNavigator.centerTextInColumns(nameColumn, priceColumn);
+
+        serviceTable.setSelectionModel(null);
+
+        serviceTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        addDeleteButtonToTable();
+
+        loadServices();
+    }
 
     @FXML
     void addNewService() {
@@ -104,22 +113,6 @@ public class ServicesController implements Initializable {
         alert.showAndWait();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("serviceName"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        nameColumn.setReorderable(false);
-        priceColumn.setReorderable(false);
-
-        serviceTable.setSelectionModel(null);
-
-        serviceTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        addDeleteButtonToTable();
-
-        loadServices();
-    }
 
     private void loadServices() {
         List<ServiceType> serviceTypes = servicesService.getService();
@@ -128,41 +121,35 @@ public class ServicesController implements Initializable {
     }
 
     private void addDeleteButtonToTable() {
-        // Impostiamo la cella di eliminazione
         deleteColumn.setCellFactory(param -> new TableCell<ServiceType, Void>() {
             private final ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/delete.png")));
             private final Button deleteButton = new Button();
             private final StackPane pane = new StackPane();
 
             {
-                // Impostiamo le dimensioni e l'icona del pulsante
                 deleteIcon.setFitWidth(15);
                 deleteIcon.setFitHeight(15);
                 deleteButton.setGraphic(deleteIcon);
                 deleteButton.setStyle("-fx-background-color: transparent;");
 
-                // Azione di eliminazione del servizio
                 deleteButton.setOnAction(event -> {
                     ServiceType serviceType = getTableView().getItems().get(getIndex());
-                    confirmAndDeleteService(serviceType);  // Chiama la funzione di conferma per eliminare
+                    confirmAndDeleteService(serviceType);
                 });
 
-                // Aggiungiamo il pulsante al pannello di StackPane
                 pane.getChildren().add(deleteButton);
-                pane.setAlignment(Pos.CENTER);  // Centriamo il pulsante nella cella
+                pane.setAlignment(Pos.CENTER);
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
 
-                // Se la cella è vuota o non c'è un ServiceType valido in questa riga, non mostrare nulla
                 if (empty || getIndex() >= getTableView().getItems().size()) {
                     setGraphic(null);
                     return;
                 }
 
-                // Verifica se c'è un ServiceType valido prima di mostrare il pulsante
                 ServiceType serviceType = getTableView().getItems().get(getIndex());
                 if (serviceType != null) {
                     setGraphic(pane);

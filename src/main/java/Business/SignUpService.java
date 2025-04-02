@@ -20,7 +20,7 @@ public class SignUpService {
 
     public String registerUser(String name, String surname, String email, String password, String phone, String code) {
         if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty()) {
-            return "notEmptyAlert"; // Messaggio per il controller
+            return "notEmptyAlert";
         }
 
         User newUser;

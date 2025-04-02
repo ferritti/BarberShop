@@ -1,20 +1,11 @@
 package Business;
 
-import Authentication.SessionManager;
 import Model.Appointment;
-import Model.AvailableSlot;
-import Model.Notification;
-import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -22,12 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -63,19 +51,8 @@ public class AppointmentCustomerController implements Initializable {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         paymentColumn.setCellValueFactory(new PropertyValueFactory<>("payment"));
 
-        barberColumn.setReorderable(false);
-        dateColumn.setReorderable(false);
-        priceColumn.setReorderable(false);
-        serviceColumn.setReorderable(false);
-        timeColumn.setReorderable(false);
-        paymentColumn.setReorderable(false);
-
-        centerTextInColumn(barberColumn);
-        centerTextInColumn(dateColumn);
-        centerTextInColumn(priceColumn);
-        centerTextInColumn(serviceColumn);
-        centerTextInColumn(timeColumn);
-        centerTextInColumn(paymentColumn);
+        SceneNavigator.centerTextInColumns(barberColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
+        SceneNavigator.setColumnsNotReorderable(barberColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
 
         tableViewCustomerAppointments.setSelectionModel(null);
 
@@ -93,24 +70,6 @@ public class AppointmentCustomerController implements Initializable {
         loadAppointments();
 
     }
-
-    private <T> void centerTextInColumn(TableColumn<Appointment, T> column) {
-        column.setCellFactory(tc -> new TableCell<>() {
-            @Override
-            protected void updateItem(T item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(item.toString());
-                    setAlignment(Pos.CENTER);
-                }
-            }
-        });
-    }
-
 
     private void loadAppointments() {
         List<Appointment> appointments = appointmentService.getAppointments();
@@ -238,7 +197,7 @@ public class AppointmentCustomerController implements Initializable {
     }
 
     @FXML
-    void toNewAppointmentView() {
+    void goToNewAppointmentView() {
         SceneNavigator.switchScene(tableViewCustomerAppointments, "/View/NewAppointmentCalendar.fxml", "New Appointment");
     }
 

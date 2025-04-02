@@ -5,8 +5,8 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-public class SignUpController {
 
+public class SignUpController {
     @FXML
     private MFXTextField emailField, nameField, phoneField, secretCodeField, surnameField;
     @FXML
