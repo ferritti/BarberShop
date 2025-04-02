@@ -6,6 +6,7 @@ import Model.Appointment;
 import Model.AvailableSlot;
 import Model.Notification;
 import Model.User;
+import Payment.PaymentMethod;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -53,23 +54,36 @@ public class NewAppointmentSlotsService {
         return appointmentDAO.findByEmailOfUser(sessionManager.getCurrentUser().getEmail());
     }
 
-    public boolean removeAvSlot(AvailableSlot availableSlot) {
-        return availableSlotDAO.removeAvSlot(availableSlot);
-    }
+    public boolean bookAppointment(String barber, String service, LocalDate date, LocalTime time, PaymentMethod paymentMethod) {
+        String barberEmail = getBarbersData().get(barber);
+        User currentUser = sessionManager.getCurrentUser();
+        double servicePrice = getServicesData().get(service);
 
-    public boolean addAppointment(Appointment appointment) {
-        return appointmentDAO.addAppointment(appointment);
-    }
+        Appointment appointment = new Appointment(
+                paymentMethod,
+                service,
+                barber,
+                barberEmail,
+                currentUser.getEmail(),
+                currentUser.getPhone(),
+                time,
+                date,
+                servicePrice
+        );
 
-    public boolean addNotification(String barberEmail) {
-        User currentUser = SessionManager.getInstance().getCurrentUser();
         Notification notification = new Notification(
                 "New Appointment",
                 currentUser.getName() + " " + currentUser.getSurname() + " has booked an appointment with you",
                 barberEmail,
                 false
         );
-        return newsDAO.addNotification(notification);
+
+        AvailableSlot selectedSlot = new AvailableSlot(barberEmail, date, time);
+        boolean slotRemoved = availableSlotDAO.removeAvSlot(selectedSlot);
+        boolean appointmentAdded = appointmentDAO.addAppointment(appointment);
+        boolean notificationAdded = newsDAO.addNotification(notification);
+
+        return slotRemoved && appointmentAdded && notificationAdded;
     }
 
     public boolean isSameDateTime(Appointment appointment, LocalDate date, LocalTime time) {
