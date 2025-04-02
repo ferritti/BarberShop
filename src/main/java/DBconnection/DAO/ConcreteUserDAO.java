@@ -15,7 +15,7 @@ import Authentication.HashingPassword;
 
 public class ConcreteUserDAO implements UserDAO{
 
-    private DBManager dbManager = DBManager.getInstance();
+    private DBManager dbManager = DBManager.getInstance(false);
 
     public boolean addUser(User user) {
         try {

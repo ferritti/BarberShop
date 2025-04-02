@@ -1,6 +1,7 @@
 package Functional.Unit;
 
 import Business.SignUpController;
+import DBconnection.Database.DBManager;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXMLLoader;
@@ -8,9 +9,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+
+import java.sql.Connection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +32,7 @@ public class SignUpControllerTest extends ApplicationTest {
         stage.setScene(new Scene(root));
         stage.show();
 
-        // Prima inizializzi i campi
+        // Inizializza i campi del form
         nameField = (MFXTextField) root.lookup("#nameField");
         surnameField = (MFXTextField) root.lookup("#surnameField");
         emailField = (MFXTextField) root.lookup("#emailField");
@@ -37,7 +42,7 @@ public class SignUpControllerTest extends ApplicationTest {
         notEmptyAlert = (Label) root.lookup("#notEmptyAlert");
         secretCodeAlert = (Label) root.lookup("#secretCodeAlert");
 
-        // Dopo aver inizializzato i campi, setti gli oggetti nel controller
+        // Setta i campi nel controller
         SignUpController controller = loader.getController();
         controller.setNameField(nameField);
         controller.setSurnameField(surnameField);
@@ -49,6 +54,11 @@ public class SignUpControllerTest extends ApplicationTest {
         controller.setSecretCodeAlert(secretCodeAlert);
     }
 
+    @BeforeAll
+    public static void setupDatabaseConnection() {
+        DBManager manager = DBManager.getInstance(true);
+        Connection connection = manager.getConnection();
+    }
 
     @BeforeEach
     public void resetFields() {
@@ -60,6 +70,12 @@ public class SignUpControllerTest extends ApplicationTest {
         passwordField.clear();
         notEmptyAlert.setVisible(false);
         secretCodeAlert.setVisible(false);
+    }
+
+    @AfterAll
+    public static void closeDatabaseConnection() {
+        DBManager manager = DBManager.getInstance(true);
+        manager.close();
     }
 
     @Test
@@ -103,6 +119,7 @@ public class SignUpControllerTest extends ApplicationTest {
 
         assertTrue(secretCodeAlert.isVisible());
     }
+
     private void performClickOn() {
         clickOn("#signUpButton");
     }

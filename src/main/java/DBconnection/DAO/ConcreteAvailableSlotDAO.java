@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
 
-    private DBManager dbManager = DBManager.getInstance();
+    private DBManager dbManager = DBManager.getInstance(false);
 
     @Override
     public boolean addAvSlot(AvailableSlot avSlot) {

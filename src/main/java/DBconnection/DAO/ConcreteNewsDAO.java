@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConcreteNewsDAO implements NewsDAO {
-    private DBManager dbManager = DBManager.getInstance();
+    private DBManager dbManager = DBManager.getInstance(false);
 
     @Override
     public boolean addNotification(Notification notification) {

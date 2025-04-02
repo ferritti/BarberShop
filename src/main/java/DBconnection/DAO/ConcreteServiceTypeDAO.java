@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
-    private DBManager dbManager = DBManager.getInstance();
+    private DBManager dbManager = DBManager.getInstance(false);
 
     public boolean addServiceType(ServiceType serviceType) {
         try {

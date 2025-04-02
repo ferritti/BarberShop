@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ConcreteAppointmentDAO implements AppointmentDAO {
 
-    private DBManager dbManager = DBManager.getInstance();
+    private DBManager dbManager = DBManager.getInstance(false);
 
     @Override
     public boolean addAppointment(Appointment appointment) {
