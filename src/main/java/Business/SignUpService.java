@@ -10,12 +10,10 @@ public class SignUpService {
     private UserDAO userDAO;
     private static final String BARBER_CODE = "I-AM-A-BARBER";
 
-    // Aggiungi un costruttore per accettare un mock o un'istanza di UserDAO
     public SignUpService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
-    // Costruttore di default
     public SignUpService() {
         this.userDAO = new ConcreteUserDAO();
     }
@@ -31,10 +29,10 @@ public class SignUpService {
         } else if (code.isEmpty()) {
             newUser = new Customer(name, surname, email, password, phone);
         } else {
-            return "secretCodeAlert"; // Messaggio per il controller
+            return "secretCodeAlert";
         }
 
         userDAO.addUser(newUser);
-        return "success"; // Registrazione avvenuta con successo
+        return "success";
     }
 }

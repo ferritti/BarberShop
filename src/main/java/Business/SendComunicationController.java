@@ -79,76 +79,21 @@ public class SendComunicationController {
 
     @FXML
     private void goToServicesView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Services.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) textFieldMessage.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Service");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+       SceneNavigator.switchScene(textFieldMessage, "/View/Services.fxml", "Services");
     }
 
     @FXML
     private void goToAppointmentsView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) textFieldMessage.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Appointments");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(textFieldMessage, "/View/AppointmentsBarber.fxml", "Appointments");
     }
 
     @FXML
     private void goToNewsView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) textFieldMessage.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("News");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(textFieldMessage, "/View/NewsBarber.fxml", "News");
     }
 
     @FXML
     private void goToProfileView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileBarber.fxml"));
-            Parent root = loader.load();
-
-            ProfileBarberController controller = loader.getController();
-            User currentUser = SessionManager.getInstance().getCurrentUser();
-
-            if (currentUser != null) {
-                controller.profileAction(
-                        currentUser.getName(),
-                        currentUser.getSurname(),
-                        currentUser.getEmail(),
-                        currentUser.getPhone());
-            }
-
-            Stage stage = (Stage) textFieldMessage.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Profile");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(textFieldMessage, "/View/ProfileBarber.fxml", "Profile");
     }
 }

@@ -13,7 +13,6 @@ public class DBManager {
     public static final String PASSWORD = "swepass";
 
     private DBManager() {
-
         try {
             this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Connection established");

@@ -1,7 +1,5 @@
 package Business;
 
-import Authentication.SessionManager;
-import Model.User;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -103,7 +101,7 @@ public class NewAppointmentControllerCalendar {
                     int clickedDay = Integer.parseInt(content);
                     LocalDate selectedDate = currentYearMonth.atDay(clickedDay);
 
-                    goToBarberSelection(selectedDate);
+                    goToSlots(selectedDate);
                 }
             });
 
@@ -161,7 +159,6 @@ public class NewAppointmentControllerCalendar {
             currentYearMonth = currentYearMonth.plusMonths(1);
             updateCalendar();
         }
-
     }
 
     @FXML
@@ -172,7 +169,22 @@ public class NewAppointmentControllerCalendar {
         }
     }
 
-    private void goToBarberSelection(LocalDate selectedDate) {
+    @FXML
+    void goToAppointmentsView() {
+        SceneNavigator.switchScene(calendarGrid, "/View/AppointmentCustomer.fxml", "Appointments");
+    }
+
+    @FXML
+    void goToNewsView() {
+        SceneNavigator.switchScene(calendarGrid, "/View/NewsCustomer.fxml", "News");
+    }
+
+    @FXML
+    void goToProfileView () {
+        SceneNavigator.switchScene(calendarGrid, "/View/ProfileCustomer.fxml", "Profile");
+    }
+
+    private void goToSlots(LocalDate selectedDate) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentSlots.fxml"));
             Parent root = loader.load();
@@ -189,59 +201,4 @@ public class NewAppointmentControllerCalendar {
         }
     }
 
-    @FXML
-    void goToAppointmentsView() {
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) calendarGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Appointments");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void goToNewsView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) calendarGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("News");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-        @FXML
-        void goToProfileView () {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileCustomer.fxml"));
-                Parent root = loader.load();
-
-                ProfileCustomerController controller = loader.getController();
-                User currentUser = SessionManager.getInstance().getCurrentUser();
-
-                if (currentUser != null) {
-                    controller.profileAction(
-                            currentUser.getName(),
-                            currentUser.getSurname(),
-                            currentUser.getEmail(),
-                            currentUser.getPhone());
-                }
-
-                Stage stage = (Stage) calendarGrid.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Profile");
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+}

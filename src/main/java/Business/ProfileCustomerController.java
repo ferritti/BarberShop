@@ -1,17 +1,16 @@
 package Business;
 
+import Model.User;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import Authentication.SessionManager;
-import javafx.stage.Stage;
+import javafx.fxml.Initializable;
+import java.util.ResourceBundle;
 
-import java.io.IOException;
+import java.net.URL;
 
-public class ProfileCustomerController {
+public class ProfileCustomerController implements Initializable{
 
     @FXML
     private Label emailLabel;
@@ -29,72 +28,38 @@ public class ProfileCustomerController {
     private ImageView logoutIcon;
 
 
-    public void profileAction(String name, String surname, String email, String phone) {
-        nameLabel.setText(name);
-        surnameLabel.setText(surname);
-        emailLabel.setText(email);
-        phoneLabel.setText(phone);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            nameLabel.setText(currentUser.getName());
+            surnameLabel.setText(currentUser.getSurname());
+            emailLabel.setText(currentUser.getEmail());
+            phoneLabel.setText(currentUser.getPhone());
+        } else {
+            System.err.println("Nessun utente loggato nella sessione.");
+        }
     }
 
     @FXML
     private void logoutAction() {
-        try {
-            SessionManager.getInstance().resetUser();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutIcon.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Signin");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SessionManager.getInstance().resetUser();
+        SceneNavigator.switchScene(logoutIcon, "/View/Signin.fxml", "Signin");
     }
 
     @FXML
     private void goToAppointmentsView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutIcon.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Appointments");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(logoutIcon, "/View/AppointmentsCustomer.fxml", "Appointments");
     }
 
     @FXML
     private void goToNewsView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutIcon.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("News");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(logoutIcon, "/View/NewsCustomer.fxml", "News");
     }
 
     @FXML
     void goToNewAppointmentView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentCalendar.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutIcon.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("New Appointment");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(logoutIcon, "/View/NewAppointmentCalendar.fxml", "Nuovo Appuntamento");
     }
 }

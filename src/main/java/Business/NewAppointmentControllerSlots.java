@@ -204,79 +204,23 @@ public class NewAppointmentControllerSlots {
 
     @FXML
     void backToCalendar() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentCalendar.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) serviceComboBox.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Calendar");
-            stage.show();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(barberComboBox, "/View/NewAppointmentCalendar.fxml", "Calendar");
     }
 
     @FXML
     void goToAppointmentsView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) serviceComboBox.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Appointments");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        SceneNavigator.switchScene(serviceComboBox, "/View/AppointmentsCustomer.fxml", "Appointments");
     }
 
     @FXML
     void goToNewsView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) serviceComboBox.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("News");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
+        SceneNavigator.switchScene(serviceComboBox, "/View/NewsCustomer.fxml", "News");
     }
 
-        @FXML
-        void goToProfileView () {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileCustomer.fxml"));
-                Parent root = loader.load();
-
-                ProfileCustomerController controller = loader.getController();
-                User currentUser = SessionManager.getInstance().getCurrentUser();
-
-                if (currentUser != null) {
-                    controller.profileAction(
-                            currentUser.getName(),
-                            currentUser.getSurname(),
-                            currentUser.getEmail(),
-                            currentUser.getPhone());
-                }
-
-                Stage stage = (Stage) serviceComboBox.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Profile");
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
+    @FXML
+    void goToProfileView () {
+        SceneNavigator.switchScene(serviceComboBox, "/View/ProfileCustomer.fxml", "Profile");
+    }
 
     @FXML
     public void selectSlotAction(javafx.event.ActionEvent actionEvent) {
@@ -421,17 +365,15 @@ public class NewAppointmentControllerSlots {
 
                     String paymentMSG = paymentContext.executePayment(servicePrice);
 
-                    // Crea l'alert
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                     successAlert.setTitle("Booking Confirmed");
                     successAlert.setHeaderText("Appointment Booked Successfully");
                     successAlert.setContentText("Your appointment has been confirmed.\n" + paymentMSG);
 
-// Applica uno stile CSS per migliorare l'aspetto
+
                     successAlert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
                     successAlert.getDialogPane().getStyleClass().add("custom-alert");
 
-// Mostra l'alert
                     successAlert.showAndWait();
 
 

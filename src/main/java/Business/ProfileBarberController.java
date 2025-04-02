@@ -1,17 +1,17 @@
 package Business;
 
 import Authentication.SessionManager;
+import Model.User;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ProfileBarberController {
+
+public class ProfileBarberController implements Initializable {
 
     @FXML
     private Label emailLabel;
@@ -28,91 +28,43 @@ public class ProfileBarberController {
     @FXML
     private Label surnameLabel;
 
-    public void profileAction(String name, String surname, String email, String phone) {
-        nameLabel.setText(name);
-        surnameLabel.setText(surname);
-        emailLabel.setText(email);
-        phoneLabel.setText(phone);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            nameLabel.setText(currentUser.getName());
+            surnameLabel.setText(currentUser.getSurname());
+            emailLabel.setText(currentUser.getEmail());
+            phoneLabel.setText(currentUser.getPhone());
+        } else {
+            System.err.println("No user logged in the session.");
+        }
     }
 
     @FXML
     private void logoutAction() {
-        try {
-
-            SessionManager.getInstance().resetUser();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutIcon.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Signin");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SessionManager.getInstance().resetUser();
+        SceneNavigator.switchScene(logoutIcon, "/View/Signin.fxml", "Signin");
     }
 
     @FXML
     private void goToAppointmentsView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutIcon.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("AppointmentsBarber");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(logoutIcon, "/View/AppointmentsBarber.fxml", "Appointments");
     }
 
     @FXML
     private void goToServicesView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Services.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutIcon.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Service");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(logoutIcon, "/View/Services.fxml", "Services");
     }
 
     @FXML
     private void goToSendComunicationView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SendComunication.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutIcon.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Send Comunication");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(logoutIcon, "/View/SendComunication.fxml", "Send Comunication");
     }
 
     @FXML
     void goToNewsView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutIcon.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("News");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(logoutIcon, "/View/NewsBarber.fxml", "News");
     }
 }

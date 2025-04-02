@@ -7,6 +7,8 @@ import Model.Notification;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -225,62 +227,19 @@ public class AppointmentCustomerController implements Initializable {
         }
     }
 
-
     @FXML
     private void goToNewsView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsCustomer.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) tableViewCustomerAppointments.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("News");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(tableViewCustomerAppointments, "/View/NewsCustomer.fxml", "News");
     }
 
     @FXML
     private void goToProfileView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileCustomer.fxml"));
-            Parent root = loader.load();
-
-            ProfileCustomerController controller = loader.getController();
-            User currentUser = SessionManager.getInstance().getCurrentUser();
-
-            if (currentUser != null) {
-                controller.profileAction(
-                        currentUser.getName(),
-                        currentUser.getSurname(),
-                        currentUser.getEmail(),
-                        currentUser.getPhone());
-            }
-
-            Stage stage = (Stage) tableViewCustomerAppointments.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Profile");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(tableViewCustomerAppointments, "/View/ProfileCustomer.fxml", "Profile");
     }
 
     @FXML
     void toNewAppointmentView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentCalendar.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) tableViewCustomerAppointments.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("New Appointment");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        SceneNavigator.switchScene(tableViewCustomerAppointments, "/View/NewAppointmentCalendar.fxml", "New Appointment");
     }
 
 }

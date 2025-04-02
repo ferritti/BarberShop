@@ -128,58 +128,17 @@ public class NewsCustomerController implements Initializable {
 
     @FXML
     private void goToAppointmentsView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) newsTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Appointments");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(newsTable, "/View/AppointmentsCustomer.fxml", "Appointments");
     }
 
     @FXML
     private void goToProfileView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileCustomer.fxml"));
-            Parent root = loader.load();
-
-            ProfileCustomerController controller = loader.getController();
-            User currentUser = SessionManager.getInstance().getCurrentUser();
-
-            if (currentUser != null) {
-                controller.profileAction(
-                        currentUser.getName(),
-                        currentUser.getSurname(),
-                        currentUser.getEmail(),
-                        currentUser.getPhone());
-            }
-
-            Stage stage = (Stage) newsTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Profile");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(newsTable, "/View/ProfileCustomer.fxml", "Profile");
     }
 
     @FXML
-    void goToNewAppointmentView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentCalendar.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) newsTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("New Appointment");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void goToNewAppointmentView() {
+        SceneNavigator.switchScene(newsTable, "/View/NewAppointmentCalendar.fxml", "New Appointment");
     }
 
 }

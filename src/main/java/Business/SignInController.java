@@ -24,13 +24,10 @@ public class SignInController {
     @FXML
     private Label incorrectLabel;
 
-    UserDAO userDAO = new ConcreteUserDAO();
-
     private final SignInService signinService = new SignInService();
 
 
-    public SignInController() {
-    }
+    public SignInController() {}
 
     @FXML
     public void signinAction(ActionEvent actionEvent) {
@@ -39,9 +36,9 @@ public class SignInController {
 
         if (signinService.authenticateUser(emailText, passText)) {
             if (signinService.isCustomer()) {
-                goToAppointmentsCustomerView(actionEvent);
+                goToAppointmentsCustomerView();
             } else {
-                goToAppointmentsBarberView(actionEvent);
+                goToAppointmentsBarberView();
             }
         } else {
             incorrectLabel.setVisible(true);
@@ -110,49 +107,19 @@ public class SignInController {
         }
     }
 
-
+    @FXML
     public void goToSignupView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signup.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) emailField.getScene().getWindow();
-
-            stage.setScene(new Scene(root));
-            stage.setTitle("Signup");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(emailField, "/View/Signup.fxml", "Sign Up");
     }
 
-    public void goToAppointmentsCustomerView(ActionEvent actionEvent){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
-            Parent root = loader.load();
+    @FXML
+    public void goToAppointmentsCustomerView(){
+        SceneNavigator.switchScene(emailField, "/View/AppointmentsCustomer.fxml", "Customer");
 
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            stage.setScene(new Scene(root));
-            stage.setTitle("Appointments");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void goToAppointmentsBarberView(ActionEvent actionEvent){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            stage.setScene(new Scene(root));
-            stage.setTitle("Appointments");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @FXML
+    public void goToAppointmentsBarberView(){
+       SceneNavigator.switchScene(emailField, "/View/AppointmentsBarber.fxml", "Barber");
     }
 }

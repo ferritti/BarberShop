@@ -107,72 +107,21 @@ public class AppointmentBarberController implements Initializable {
 
     @FXML
     private void goToProfileView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileBarber.fxml"));
-            Parent root = loader.load();
-
-            ProfileBarberController controller = loader.getController();
-            User currentUser = SessionManager.getInstance().getCurrentUser();
-
-            if (currentUser != null) {
-                controller.profileAction(
-                        currentUser.getName(),
-                        currentUser.getSurname(),
-                        currentUser.getEmail(),
-                        currentUser.getPhone());
-            }
-
-            Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Profile");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(tableViewBarberAppointments, "/View/ProfileBarber.fxml", "Profile");
     }
 
     @FXML
     private void goToNewsView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("News");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(tableViewBarberAppointments, "/View/NewsBarber.fxml", "News");
     }
 
     @FXML
     private void goToServiceView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Services.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Service");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(tableViewBarberAppointments, "/View/Services.fxml", "Service");
     }
 
     @FXML
     private void goToSendComunicationView() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SendComunication.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) tableViewBarberAppointments.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Send Comunication");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(tableViewBarberAppointments, "/View/SendComunication.fxml", "Send Comunication");
     }
 }

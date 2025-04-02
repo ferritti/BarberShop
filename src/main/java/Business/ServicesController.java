@@ -127,81 +127,6 @@ public class ServicesController implements Initializable {
         serviceTable.setItems(observableList);
     }
 
-    @FXML
-    private void goToProfileView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileBarber.fxml"));
-            Parent root = loader.load();
-
-            ProfileBarberController controller = loader.getController();
-            User currentUser = SessionManager.getInstance().getCurrentUser();
-
-            if (currentUser != null) {
-                controller.profileAction(
-                        currentUser.getName(),
-                        currentUser.getSurname(),
-                        currentUser.getEmail(),
-                        currentUser.getPhone());
-            }
-
-            Stage stage = (Stage) serviceTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Profile");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void goToNewsView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewsBarber.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) serviceTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("News");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void goToAppointmentsView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsBarber.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) serviceTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Appointments");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void goToSendComunicationView() {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SendComunication.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) serviceTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Comunication");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void addDeleteButtonToTable() {
         // Impostiamo la cella di eliminazione
         deleteColumn.setCellFactory(param -> new TableCell<ServiceType, Void>() {
@@ -267,7 +192,6 @@ public class ServicesController implements Initializable {
         });
     }
 
-
     private void deleteService(ServiceType serviceType) {
         boolean deleted = servicesService.deleteService(serviceType);
 
@@ -283,5 +207,25 @@ public class ServicesController implements Initializable {
             alert.getDialogPane().getStyleClass().add("custom-alert");
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    private void goToProfileView() {
+        SceneNavigator.switchScene(serviceTable, "/View/ProfileBarber.fxml", "Profile");
+    }
+
+    @FXML
+    private void goToNewsView() {
+        SceneNavigator.switchScene(serviceTable, "/View/NewsBarber.fxml", "News");
+    }
+
+    @FXML
+    private void goToAppointmentsView() {
+        SceneNavigator.switchScene(serviceTable, "/View/AppointmentsBarber.fxml", "Appointments");
+    }
+
+    @FXML
+    private void goToSendComunicationView() {
+        SceneNavigator.switchScene(serviceTable, "/View/SendComunication.fxml", "Send Comunication");
     }
 }
