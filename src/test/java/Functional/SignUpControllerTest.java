@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SignUpControllerTest extends ApplicationTest {
@@ -57,7 +60,24 @@ public class SignUpControllerTest extends ApplicationTest {
     public static void setupDatabaseConnection() {
         DBManager manager = DBManager.getInstance(true);
         Connection connection = manager.getConnection();
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute("""
+            CREATE TABLE Users (
+                name VARCHAR(100) NOT NULL,
+                surname VARCHAR(100) NOT NULL,
+                email VARCHAR(100) PRIMARY KEY,
+                pass_hash VARCHAR(255) NOT NULL,
+                phone VARCHAR(20) UNIQUE,
+                role VARCHAR(10) CHECK (role IN ('CUSTOMER', 'BARBER')) NOT NULL
+            );
+        """);
+            System.out.println("Tabella 'Users' creata nel DB H2.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail("Errore nella creazione della tabella Users nel DB H2");
+        }
     }
+
 
     @BeforeEach
     public void resetFields() {
