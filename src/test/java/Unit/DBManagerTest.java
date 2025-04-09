@@ -1,4 +1,4 @@
-/*package Unit;
+package Unit;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -31,13 +31,13 @@ class DBManagerTest {
     void testSingletonInstance() {
         DBManager instance1 = DBManager.getInstance(false);
         DBManager instance2 = DBManager.getInstance(false);
-        assertSame(instance1, instance2, "DBManager deve essere un singleton");
+        assertSame(instance1, instance2);
     }
 
     @Test
     void testGetConnection() {
         DBManager dbManager = DBManager.getInstance(false);
-        assertNotNull(dbManager.getConnection(), "La connessione non dovrebbe essere null");
+        assertNotNull(dbManager.getConnection());
     }
 
     @Test
@@ -57,5 +57,3 @@ class DBManagerTest {
         instance.set(null, null);
     }
 }
-
- */
