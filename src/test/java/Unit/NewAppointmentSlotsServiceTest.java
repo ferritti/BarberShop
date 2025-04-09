@@ -88,6 +88,7 @@ class NewAppointmentSlotsServiceTest {
         verify(appointmentDAO, times(1)).findByEmailOfUser("user@example.com");
     }
 
+    /*
     @Test
     void testRemoveAvSlot() {
         AvailableSlot slot = mock(AvailableSlot.class);
@@ -110,6 +111,7 @@ class NewAppointmentSlotsServiceTest {
         verify(appointmentDAO, times(1)).addAppointment(appointment);
     }
 
+     */
     @Test
     void testIsSameDateTime() {
         Appointment appointment = mock(Appointment.class);

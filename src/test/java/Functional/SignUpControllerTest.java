@@ -1,6 +1,6 @@
-package Functional.Unit;
+package Functional;
 
-import Business.SignUpController;
+import Controllers.SignUpController;
 import DBconnection.Database.DBManager;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;

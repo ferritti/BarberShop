@@ -1,5 +1,7 @@
-package Business;
+package Controllers;
 
+import Business.AppointmentService;
+import Helpers.SceneNavigator;
 import Model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

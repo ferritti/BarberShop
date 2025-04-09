@@ -1,5 +1,7 @@
-package Business;
+package Controllers;
 
+import Business.NewsService;
+import Helpers.SceneNavigator;
 import Model.Notification;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,12 +16,13 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class NewsBarberController implements Initializable {
-    @FXML
-    private TableColumn<Notification, String> messageColumn;
+public class NewsCustomerController implements Initializable {
 
     @FXML
     private TableView<Notification> newsTable;
+
+    @FXML
+    private TableColumn<Notification, String> messageColumn;
 
     @FXML
     private TableColumn<Notification, LocalTime> timeColumn;
@@ -35,6 +38,10 @@ public class NewsBarberController implements Initializable {
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
 
+
+
+        newsTable.setSelectionModel(null);
+
         SceneNavigator.setTextWrapping(titleColumn, 10);
         SceneNavigator.setTextWrapping(messageColumn, 10);
 
@@ -42,7 +49,6 @@ public class NewsBarberController implements Initializable {
         SceneNavigator.setColumnsNotReorderable(titleColumn, messageColumn, timeColumn);
 
         newsService.deleteOldestNewsIfNecessary();
-
         loadNews();
 
         timeColumn.setSortType(TableColumn.SortType.DESCENDING);
@@ -57,22 +63,18 @@ public class NewsBarberController implements Initializable {
     }
 
     @FXML
-    private void goToProfileView() {
-        SceneNavigator.switchScene(newsTable, "/View/ProfileBarber.fxml", "Profile");
-    }
-
-    @FXML
-    private void goToServicesView() {
-        SceneNavigator.switchScene(newsTable, "/View/Services.fxml", "Services");
-    }
-
-    @FXML
-    private void goToSendComunicationView() {
-        SceneNavigator.switchScene(newsTable, "/View/SendComunication.fxml", "Send Comunication");
-    }
-
-    @FXML
     private void goToAppointmentsView() {
-        SceneNavigator.switchScene(newsTable, "/View/AppointmentsBarber.fxml", "Appointments");
+        SceneNavigator.switchScene(newsTable, "/View/AppointmentsCustomer.fxml", "Appointments");
     }
+
+    @FXML
+    private void goToProfileView() {
+        SceneNavigator.switchScene(newsTable, "/View/ProfileCustomer.fxml", "Profile");
+    }
+
+    @FXML
+    private void goToNewAppointmentView() {
+        SceneNavigator.switchScene(newsTable, "/View/NewAppointmentCalendar.fxml", "New Appointment");
+    }
+
 }

@@ -1,5 +1,8 @@
-package Business;
+package Controllers;
 
+import Business.NewAppointmentSlotsService;
+import Helpers.AlertHelper;
+import Helpers.SceneNavigator;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Payment.PaymentContext;

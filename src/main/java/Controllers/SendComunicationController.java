@@ -1,5 +1,7 @@
-package Business;
+package Controllers;
 
+import Business.SendComunicationService;
+import Helpers.SceneNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

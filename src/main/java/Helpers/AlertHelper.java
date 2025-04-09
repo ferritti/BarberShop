@@ -1,4 +1,4 @@
-package Business;
+package Helpers;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -10,7 +10,6 @@ public class AlertHelper {
     private static final String ALERT_CSS = "/styles/AlertStyle.css";
     private static final String CUSTOM_ALERT_CLASS = "custom-alert";
 
-    // Impedisce l'instanziazione della classe di utilità
     private AlertHelper() {}
 
     private static Alert createAlert(Alert.AlertType type, String title, String message) {

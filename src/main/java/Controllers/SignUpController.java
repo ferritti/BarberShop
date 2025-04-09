@@ -1,5 +1,7 @@
-package Business;
+package Controllers;
 
+import Business.SignUpService;
+import Helpers.SceneNavigator;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;

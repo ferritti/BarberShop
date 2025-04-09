@@ -1,4 +1,4 @@
-package Business;
+package Helpers;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -12,7 +12,7 @@ import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 
-public abstract class SceneNavigator {
+public class SceneNavigator {
 
     public static void switchScene(Node node, String fxmlPath, String title) {
         try {

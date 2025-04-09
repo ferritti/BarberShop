@@ -1,23 +1,23 @@
-package Business;
+package Controllers;
 
-import Authentication.SessionManager;
+import Helpers.SceneNavigator;
 import Model.User;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-
-import java.net.URL;
+import Authentication.SessionManager;
+import javafx.fxml.Initializable;
 import java.util.ResourceBundle;
 
+import java.net.URL;
 
-public class ProfileBarberController implements Initializable {
+public class ProfileCustomerController implements Initializable{
 
     @FXML
     private Label emailLabel;
 
     @FXML
-    private ImageView logoutIcon;
+    private Label surnameLabel;
 
     @FXML
     private Label nameLabel;
@@ -26,7 +26,8 @@ public class ProfileBarberController implements Initializable {
     private Label phoneLabel;
 
     @FXML
-    private Label surnameLabel;
+    private ImageView logoutIcon;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,7 +39,7 @@ public class ProfileBarberController implements Initializable {
             emailLabel.setText(currentUser.getEmail());
             phoneLabel.setText(currentUser.getPhone());
         } else {
-            System.err.println("No user logged in the session.");
+            System.err.println("Nessun utente loggato nella sessione.");
         }
     }
 
@@ -50,21 +51,16 @@ public class ProfileBarberController implements Initializable {
 
     @FXML
     private void goToAppointmentsView() {
-        SceneNavigator.switchScene(logoutIcon, "/View/AppointmentsBarber.fxml", "Appointments");
+        SceneNavigator.switchScene(logoutIcon, "/View/AppointmentsCustomer.fxml", "Appointments");
     }
 
     @FXML
-    private void goToServicesView() {
-        SceneNavigator.switchScene(logoutIcon, "/View/Services.fxml", "Services");
+    private void goToNewsView() {
+        SceneNavigator.switchScene(logoutIcon, "/View/NewsCustomer.fxml", "News");
     }
 
     @FXML
-    private void goToSendComunicationView() {
-        SceneNavigator.switchScene(logoutIcon, "/View/SendComunication.fxml", "Send Comunication");
-    }
-
-    @FXML
-    void goToNewsView() {
-        SceneNavigator.switchScene(logoutIcon, "/View/NewsBarber.fxml", "News");
+    void goToNewAppointmentView() {
+        SceneNavigator.switchScene(logoutIcon, "/View/NewAppointmentCalendar.fxml", "Nuovo Appuntamento");
     }
 }
