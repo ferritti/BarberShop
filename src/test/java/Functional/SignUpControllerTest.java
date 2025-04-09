@@ -105,7 +105,7 @@ public class SignUpControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testSuccessfulSignup() {
+    public void testSuccessfulSignupNavigatesToSignin() throws Exception {
         write(nameField, "John");
         write(surnameField, "Doe");
         write(emailField, "john.doe@example.com");
@@ -115,7 +115,16 @@ public class SignUpControllerTest extends ApplicationTest {
 
         performClickOn();
 
-        assertFalse(secretCodeAlert.isVisible());
+        WaitForAsyncUtils.waitForFxEvents();
+
+        long startTime = System.currentTimeMillis();
+        while (!"Signin".equals(stage.getTitle()) &&
+               System.currentTimeMillis() - startTime < 5000) {
+            Thread.sleep(100);
+        }
+
+        assertEquals("Signin", stage.getTitle(),
+                "Dopo una registrazione valida, dovrebbe andare alla finestra di login");
     }
 
     @Test
@@ -144,44 +153,6 @@ public class SignUpControllerTest extends ApplicationTest {
         performClickOn();
 
         assertTrue(secretCodeAlert.isVisible());
-    }
-
-    @Test
-    public void testGoToSigninView() throws Exception {
-        boolean navigationSuccessful = false;
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
-            Parent signinRoot = loader.load();
-
-            final Scene originalScene = stage.getScene();
-
-            Platform.runLater(() -> {
-                try {
-                    controller.goToSigninView();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            WaitForAsyncUtils.waitForFxEvents();
-
-            long startTime = System.currentTimeMillis();
-            while (!"Signin".equals(stage.getTitle()) &&
-                   System.currentTimeMillis() - startTime < 5000) {
-                Thread.sleep(100);
-            }
-
-            assertEquals("Signin", stage.getTitle(),
-                    "Il titolo della finestra dovrebbe essere cambiato a 'Signin'");
-            navigationSuccessful = true;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail("Errore nel caricamento della vista Signin: " + e.getMessage());
-        }
-
-        assertTrue(navigationSuccessful, "La navigazione dovrebbe essere completata con successo");
     }
 
     private void performClickOn() {
