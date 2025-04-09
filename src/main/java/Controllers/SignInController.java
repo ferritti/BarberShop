@@ -107,7 +107,6 @@ public class SignInController {
     @FXML
     public void goToAppointmentsCustomerView(){
         SceneNavigator.switchScene(emailField, "/View/AppointmentsCustomer.fxml", "Customer");
-
     }
 
     @FXML

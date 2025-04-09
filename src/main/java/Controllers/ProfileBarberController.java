@@ -1,14 +1,14 @@
 package Controllers;
 
-import Authentication.SessionManager;
+import Business.ProfileService;
 import Helpers.SceneNavigator;
-import Model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 
@@ -29,15 +29,18 @@ public class ProfileBarberController implements Initializable {
     @FXML
     private Label surnameLabel;
 
+    private final ProfileService profileService = new ProfileService();
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        User currentUser = SessionManager.getInstance().getCurrentUser();
+        Map<String, String> userData = profileService.getUserData();
 
-        if (currentUser != null) {
-            nameLabel.setText(currentUser.getName());
-            surnameLabel.setText(currentUser.getSurname());
-            emailLabel.setText(currentUser.getEmail());
-            phoneLabel.setText(currentUser.getPhone());
+        if (!userData.isEmpty()) {
+            nameLabel.setText(userData.get("name"));
+            surnameLabel.setText(userData.get("surname"));
+            emailLabel.setText(userData.get("email"));
+            phoneLabel.setText(userData.get("phone"));
         } else {
             System.err.println("No user logged in the session.");
         }
@@ -45,7 +48,7 @@ public class ProfileBarberController implements Initializable {
 
     @FXML
     private void logoutAction() {
-        SessionManager.getInstance().resetUser();
+        profileService.logout();
         SceneNavigator.switchScene(logoutIcon, "/View/Signin.fxml", "Signin");
     }
 

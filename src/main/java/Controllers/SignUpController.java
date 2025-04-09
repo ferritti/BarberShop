@@ -2,16 +2,13 @@ package Controllers;
 
 import Business.SignUpService;
 import Helpers.SceneNavigator;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class SignUpController {
-    @FXML
-    private MFXButton signUpButton;
+
     @FXML
     private MFXTextField emailField;
     @FXML
@@ -26,9 +23,11 @@ public class SignUpController {
     private MFXPasswordField passwordField;
     @FXML
     private Label notEmptyAlert, secretCodeAlert;
+
     private SignUpService signUpService = new SignUpService();
 
-    public void signupAction(ActionEvent actionEvent) {
+    @FXML
+    public void signupAction() {
         String result = signUpService.registerUser(
                 nameField.getText(),
                 surnameField.getText(),
@@ -46,11 +45,13 @@ public class SignUpController {
         }
     }
 
+    @FXML
     public void goToSigninView() {
         SceneNavigator.switchScene(emailField, "/View/Signin.fxml", "Signin");
     }
 
 
+    //only for testing
     public void setEmailField(MFXTextField emailField) {
         this.emailField = emailField;
     }
