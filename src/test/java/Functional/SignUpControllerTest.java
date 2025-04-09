@@ -4,6 +4,7 @@ import Controllers.SignUpController;
 import DBconnection.Database.DBManager;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,7 +15,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,9 +29,12 @@ public class SignUpControllerTest extends ApplicationTest {
     private MFXTextField nameField, surnameField, emailField, phoneField, secretCodeField;
     private MFXPasswordField passwordField;
     private Label notEmptyAlert, secretCodeAlert;
+    private SignUpController controller;
+    private Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SignUp.fxml"));
         Parent root = loader.load();
         stage.setScene(new Scene(root));
@@ -45,7 +51,7 @@ public class SignUpControllerTest extends ApplicationTest {
         secretCodeAlert = (Label) root.lookup("#secretCodeAlert");
 
         // Setta i campi nel controller
-        SignUpController controller = loader.getController();
+        controller = loader.getController();
         controller.setNameField(nameField);
         controller.setSurnameField(surnameField);
         controller.setEmailField(emailField);
@@ -78,17 +84,18 @@ public class SignUpControllerTest extends ApplicationTest {
         }
     }
 
-
     @BeforeEach
     public void resetFields() {
-        nameField.clear();
-        surnameField.clear();
-        emailField.clear();
-        phoneField.clear();
-        secretCodeField.clear();
-        passwordField.clear();
-        notEmptyAlert.setVisible(false);
-        secretCodeAlert.setVisible(false);
+        Platform.runLater(() -> {
+            nameField.clear();
+            surnameField.clear();
+            emailField.clear();
+            phoneField.clear();
+            secretCodeField.clear();
+            passwordField.clear();
+            notEmptyAlert.setVisible(false);
+            secretCodeAlert.setVisible(false);
+        });
     }
 
     @AfterAll
@@ -137,6 +144,44 @@ public class SignUpControllerTest extends ApplicationTest {
         performClickOn();
 
         assertTrue(secretCodeAlert.isVisible());
+    }
+
+    @Test
+    public void testGoToSigninView() throws Exception {
+        boolean navigationSuccessful = false;
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Signin.fxml"));
+            Parent signinRoot = loader.load();
+
+            final Scene originalScene = stage.getScene();
+
+            Platform.runLater(() -> {
+                try {
+                    controller.goToSigninView();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            WaitForAsyncUtils.waitForFxEvents();
+
+            long startTime = System.currentTimeMillis();
+            while (!"Signin".equals(stage.getTitle()) &&
+                   System.currentTimeMillis() - startTime < 5000) {
+                Thread.sleep(100);
+            }
+
+            assertEquals("Signin", stage.getTitle(),
+                    "Il titolo della finestra dovrebbe essere cambiato a 'Signin'");
+            navigationSuccessful = true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("Errore nel caricamento della vista Signin: " + e.getMessage());
+        }
+
+        assertTrue(navigationSuccessful, "La navigazione dovrebbe essere completata con successo");
     }
 
     private void performClickOn() {
