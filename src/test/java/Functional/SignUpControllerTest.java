@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import java.sql.Connection;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SignUpControllerTest extends ApplicationTest {
