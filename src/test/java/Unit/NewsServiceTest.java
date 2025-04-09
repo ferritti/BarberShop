@@ -39,8 +39,8 @@ class NewsServiceTest {
         when(sessionManager.getCurrentUser()).thenReturn(barber);
 
         List<Notification> barberNews = Arrays.asList(
-                new Notification("Title1", "Message1", null),
-                new Notification("Title2", "Message2", null)
+                new Notification("Title1", "Message1", "barber@example.com", false),
+                new Notification("Title2", "Message2", "barber@example.com", false)
         );
         when(newsDAO.getAllBarberNews(barber.getEmail())).thenReturn(barberNews);
 
@@ -56,7 +56,7 @@ class NewsServiceTest {
         when(sessionManager.getCurrentUser()).thenReturn(customer);
 
         List<Notification> customerNews = Arrays.asList(
-                new Notification("TitleA", "MessageA", null)
+                new Notification("TitleA", "MessageA", true)
         );
         when(newsDAO.getAllCustomerNews()).thenReturn(customerNews);
 
@@ -82,8 +82,8 @@ class NewsServiceTest {
         when(sessionManager.getCurrentUser()).thenReturn(barber);
 
         List<Notification> news = Arrays.asList(
-                new Notification("Title1", "Message1", null),
-                new Notification("Title2", "Message2", null)
+                new Notification("Title1", "Message1", false),
+                new Notification("Title2", "Message2", false)
         );
         when(newsDAO.getAllBarberNews(barber.getEmail())).thenReturn(news);
 
@@ -102,7 +102,7 @@ class NewsServiceTest {
         List<Notification> news = new ArrayList<>();
         LocalTime now = LocalTime.now();
         for (int i = 0; i < 35; i++) {
-            Notification notification = new Notification("Title" + i, "Message" + i, null);
+            Notification notification = new Notification("Title" + i, "Message" + i, false);
             // Imposto tempi leggermente diversi partendo dall'ora corrente
             notification.setTime(now.minusMinutes(i));
             news.add(notification);
