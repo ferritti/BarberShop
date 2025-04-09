@@ -1,12 +1,13 @@
 package Controllers;
 
+import Business.ProfileService;
 import Helpers.SceneNavigator;
-import Model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import Authentication.SessionManager;
 import javafx.fxml.Initializable;
+
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import java.net.URL;
@@ -28,24 +29,25 @@ public class ProfileCustomerController implements Initializable{
     @FXML
     private ImageView logoutIcon;
 
+    private final ProfileService profileService = new ProfileService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        User currentUser = SessionManager.getInstance().getCurrentUser();
+        Map<String, String> userData = profileService.getUserData();
 
-        if (currentUser != null) {
-            nameLabel.setText(currentUser.getName());
-            surnameLabel.setText(currentUser.getSurname());
-            emailLabel.setText(currentUser.getEmail());
-            phoneLabel.setText(currentUser.getPhone());
+        if (!userData.isEmpty()) {
+            nameLabel.setText(userData.get("name"));
+            surnameLabel.setText(userData.get("surname"));
+            emailLabel.setText(userData.get("email"));
+            phoneLabel.setText(userData.get("phone"));
         } else {
-            System.err.println("Nessun utente loggato nella sessione.");
+            System.err.println("No user logged in the session.");
         }
     }
 
     @FXML
     private void logoutAction() {
-        SessionManager.getInstance().resetUser();
+        profileService.logout();
         SceneNavigator.switchScene(logoutIcon, "/View/Signin.fxml", "Signin");
     }
 
