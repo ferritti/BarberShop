@@ -1,10 +1,9 @@
 package Controllers;
 
 import Business.SendComunicationService;
+import Helpers.AlertHelper;
 import Helpers.SceneNavigator;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -24,7 +23,7 @@ public class SendComunicationController {
         String message = textFieldMessage.getText().trim();
 
         if (sendComunicationService.areEmptyFields(title, message)) {
-            sendAlert("Error", "Both fields must be filled out.");
+            AlertHelper.showError("Error", "Both fields must be filled out.");
             return;
         }
 
@@ -36,36 +35,15 @@ public class SendComunicationController {
     }
 
     private void confirmAndSendComunication(String title, String message) {
-        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmDialog.setTitle("Confirm Send Communication");
-        confirmDialog.setHeaderText(null);
-        confirmDialog.setContentText("Are you sure you want to send this communication?");
+        boolean confirmed = AlertHelper.showConfirmation("Confirm Send Communication", "Are you sure you want to send this communication?");
 
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeNo = new ButtonType("No");
-        confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-        confirmDialog.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
-        confirmDialog.getDialogPane().getStyleClass().add("custom-alert");
-
-        confirmDialog.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == buttonTypeYes) {
-                if(sendComunicationService.addComunication(title, message)){
-                    sendAlert("Success", "Communication sent successfully!");
-                } else {
-                    sendAlert("Error", "Error while sending the communication.");
+        if (confirmed) {
+            if (sendComunicationService.addComunication(title, message)) {
+                AlertHelper.showInformation("Success", "Communication sent successfully!");
+            } else {
+                AlertHelper.showError("Error", "Error while sending the communication.");
             }
         }
-        });
-    }
-
-    private void sendAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
-        alert.getDialogPane().getStyleClass().add("custom-alert");
-        alert.showAndWait();
     }
 
     @FXML

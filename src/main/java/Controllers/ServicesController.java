@@ -1,6 +1,7 @@
 package Controllers;
 
 import Business.ServicesService;
+import Helpers.AlertHelper;
 import Helpers.SceneNavigator;
 import Model.ServiceType;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -63,13 +64,13 @@ public class ServicesController implements Initializable {
         String priceText = textFieldPrice.getText();
 
         if (servicesService.areEmptyFields(name, priceText)) {
-            sendAlert("Error", "Both fields must be filled out.");
+            AlertHelper.showError("Error", "Both fields must be filled out.");
             return;
         }
 
         String priceValidationError = servicesService.validatePrice(priceText);
         if (priceValidationError != null) {
-            sendAlert("Error", priceValidationError);
+            AlertHelper.showError("Error", priceValidationError);
             return;
         }
 
@@ -81,40 +82,17 @@ public class ServicesController implements Initializable {
     }
 
 
-    private void confirmAndAddNewService(String title, double price) {
-        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmDialog.setTitle("Confirm Add Service");
-        confirmDialog.setHeaderText(null);
-        confirmDialog.setContentText("Are you sure you want to add this service?");
-
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeNo = new ButtonType("No");
-        confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-        confirmDialog.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
-        confirmDialog.getDialogPane().getStyleClass().add("custom-alert");
-
-        confirmDialog.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == buttonTypeYes) {
-                if(servicesService.addService(title, price)) {
-                    sendAlert("Success", "Service added successfully.");
-                    loadServices();
-                } else {
-                    sendAlert("Error", "Service could not be added.");
-                }
+    private void confirmAndAddNewService(String name, double price) {
+        boolean confirmed = AlertHelper.showConfirmation("Confirm Add Service", "Are you sure you want to add this service?");
+        if (confirmed) {
+            if (servicesService.addService(name, price)) {
+                AlertHelper.showInformation("Success", "Service added successfully.");
+                loadServices();
+            } else {
+                AlertHelper.showError("Error", "Service could not be added.");
             }
-        });
+        }
     }
-
-    private void sendAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
-        alert.getDialogPane().getStyleClass().add("custom-alert");
-        alert.showAndWait();
-    }
-
 
     private void loadServices() {
         List<ServiceType> serviceTypes = servicesService.getService();
@@ -163,38 +141,19 @@ public class ServicesController implements Initializable {
     }
 
     private void confirmAndDeleteService(ServiceType serviceType) {
-        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmDialog.setTitle("Confirm deletion");
-        confirmDialog.setHeaderText(null);
-        confirmDialog.setContentText("Are you sure you want to delete this service?");
-
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeNo = new ButtonType("No");
-        confirmDialog.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-        confirmDialog.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
-        confirmDialog.getDialogPane().getStyleClass().add("custom-alert");
-
-        confirmDialog.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == buttonTypeYes) {
-                deleteService(serviceType);
-            }
-        });
+        boolean confirmed = AlertHelper.showConfirmation("Confirm deletion", "Are you sure you want to delete this service?");
+        if (confirmed) {
+            deleteService(serviceType);
+        }
     }
 
     private void deleteService(ServiceType serviceType) {
         boolean deleted = servicesService.deleteService(serviceType);
-
         if (deleted) {
             loadServices();
-            sendAlert("Success", "Service deleted successfully.");
+            AlertHelper.showInformation("Success", "Service deleted successfully.");
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Error while deleting the service.");
-            alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
-            alert.getDialogPane().getStyleClass().add("custom-alert");
-            alert.showAndWait();
+            AlertHelper.showError("Error", "Error while deleting the service.");
         }
     }
 

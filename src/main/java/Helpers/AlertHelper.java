@@ -26,6 +26,17 @@ public class AlertHelper {
         alert.showAndWait();
     }
 
+    public static boolean showError(String title, String message, String button1Text, String button2Text) {
+        Alert alert = createAlert(Alert.AlertType.ERROR, title, message);
+        ButtonType button1 = new ButtonType(button1Text, ButtonBar.ButtonData.OK_DONE);
+        ButtonType button2 = new ButtonType(button2Text, ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(button1, button2);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == button1;
+    }
+
+
     public static void showInformation(String title, String message) {
         Alert alert = createAlert(Alert.AlertType.INFORMATION, title, message);
         alert.showAndWait();
@@ -35,10 +46,10 @@ public class AlertHelper {
         return showConfirmation(title, message, "Yes", "No");
     }
 
-    public static boolean showConfirmation(String title, String message, String yesText, String noText) {
+    public static boolean showConfirmation(String title, String message, String button1Text, String button2Text) {
         Alert alert = createAlert(Alert.AlertType.CONFIRMATION, title, message);
-        ButtonType buttonYes = new ButtonType(yesText, ButtonBar.ButtonData.YES);
-        ButtonType buttonNo = new ButtonType(noText, ButtonBar.ButtonData.NO);
+        ButtonType buttonYes = new ButtonType(button1Text, ButtonBar.ButtonData.YES);
+        ButtonType buttonNo = new ButtonType(button2Text, ButtonBar.ButtonData.NO);
         alert.getButtonTypes().setAll(buttonYes, buttonNo);
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == buttonYes;
