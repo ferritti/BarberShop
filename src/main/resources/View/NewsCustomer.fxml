@@ -113,9 +113,10 @@
                   <Label text="There are no news!" />
                </placeholder>
               <columns>
-                <TableColumn fx:id="titleColumn" prefWidth="137.0" text="Title" />
-                <TableColumn fx:id="messageColumn" prefWidth="323.0" text="Message" />
-                  <TableColumn fx:id="timeColumn" prefWidth="65.0" text="Time" />
+                <TableColumn fx:id="titleColumn" maxWidth="105.0" minWidth="105.0" prefWidth="105.0" text="Title" />
+                <TableColumn fx:id="messageColumn" maxWidth="265.0" minWidth="265.0" prefWidth="265.0" text="Message" />
+                  <TableColumn fx:id="timeColumn" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Time" />
+                  <TableColumn fx:id="dateColumn" maxWidth="84.0" minWidth="84.0" prefWidth="84.0" text="Date" />
               </columns>
                <VBox.margin>
                   <Insets />

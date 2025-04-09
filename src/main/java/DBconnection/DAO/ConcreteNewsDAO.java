@@ -19,14 +19,15 @@ public class ConcreteNewsDAO implements NewsDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO News (title, message, barber_email, to_customers, time) " +
-                            "VALUES (?, ?, ?, ?, ?)");
+                    "INSERT INTO News (title, message, barber_email, to_customers, time, date) " +
+                            "VALUES (?, ?, ?, ?, ?, ?)");
 
             stmt.setString(1, notification.getTitle());
             stmt.setString(2, notification.getMessage());
             stmt.setString(3, notification.getBarberEmail());
             stmt.setBoolean(4, notification.isToCustomers());
             stmt.setTime(5, java.sql.Time.valueOf(notification.getTime()));
+            stmt.setDate(6, java.sql.Date.valueOf(notification.getDate()));
 
             int rows = stmt.executeUpdate();
             stmt.close();
@@ -54,7 +55,8 @@ public class ConcreteNewsDAO implements NewsDAO {
                 Notification notification = new Notification(
                         rs.getString("title"),
                         rs.getString("message"),
-                        rs.getTime("time").toLocalTime()
+                        rs.getTime("time").toLocalTime(),
+                        rs.getDate("date").toLocalDate()
                 );
                 notifications.add(notification);
             }
@@ -82,7 +84,8 @@ public class ConcreteNewsDAO implements NewsDAO {
                 Notification notification = new Notification(
                         rs.getString("title"),
                         rs.getString("message"),
-                        rs.getTime("time").toLocalTime()
+                        rs.getTime("time").toLocalTime(),
+                        rs.getDate("date").toLocalDate()
                 );
                 notifications.add(notification);
             }
@@ -100,11 +103,12 @@ public class ConcreteNewsDAO implements NewsDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE FROM News WHERE title = ? AND message = ? AND time = ?");
+                    "DELETE FROM News WHERE title = ? AND message = ? AND time = ? AND date = ?");
 
             stmt.setString(1, notification.getTitle());
             stmt.setString(2, notification.getMessage());
             stmt.setTime(3, java.sql.Time.valueOf(notification.getTime()));
+            stmt.setDate(4, java.sql.Date.valueOf(notification.getDate()));
 
             int rows = stmt.executeUpdate();
             stmt.close();

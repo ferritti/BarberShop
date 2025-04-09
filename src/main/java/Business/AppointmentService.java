@@ -59,7 +59,7 @@ public class AppointmentService {
 
     public static void addNotification(Appointment appointment) {
         Notification notification = new Notification("Slot available",
-                "A slot has become available on " + appointment.getDate() + " at " + appointment.getTime(),
+                "A slot has become available on " + appointment.getDate() + " at " + appointment.getTime() + " with " + appointment.getBarberName(),
                 appointment.getBarberEmail(),true);
         newsDAO.addNotification(notification);
     }

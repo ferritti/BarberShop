@@ -30,6 +30,9 @@ public class NewsCustomerController implements Initializable {
     @FXML
     private TableColumn<Notification, String > titleColumn;
 
+    @FXML
+    private TableColumn<Notification, String> dateColumn;
+
     private final NewsService newsService = new NewsService();
 
     @Override
@@ -37,24 +40,29 @@ public class NewsCustomerController implements Initializable {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-
-
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         newsTable.setSelectionModel(null);
 
         SceneNavigator.setTextWrapping(titleColumn, 10);
         SceneNavigator.setTextWrapping(messageColumn, 10);
 
-        SceneNavigator.centerTextInColumn(timeColumn);
-        SceneNavigator.setColumnsNotReorderable(titleColumn, messageColumn, timeColumn);
+        SceneNavigator.centerTextInColumns(timeColumn, dateColumn);
+        SceneNavigator.setColumnsNotReorderable(titleColumn, messageColumn, timeColumn, dateColumn);
 
         newsService.deleteOldestNewsIfNecessary();
         loadNews();
 
+        dateColumn.setSortType(TableColumn.SortType.DESCENDING);
         timeColumn.setSortType(TableColumn.SortType.DESCENDING);
+
+        newsTable.getSortOrder().clear();
+        newsTable.getSortOrder().add(dateColumn);
         newsTable.getSortOrder().add(timeColumn);
+
         newsTable.sort();
     }
+
 
     private void loadNews() {
         List<Notification> news = newsService.getNews();

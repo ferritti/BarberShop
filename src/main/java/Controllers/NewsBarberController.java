@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -27,7 +28,12 @@ public class NewsBarberController implements Initializable {
     private TableColumn<Notification, LocalTime> timeColumn;
 
     @FXML
+    private TableColumn<Notification, LocalDate> dateColumn;
+
+    @FXML
     private TableColumn<Notification, String > titleColumn;
+
+
 
     private final NewsService newsService = new NewsService();
 
@@ -36,19 +42,26 @@ public class NewsBarberController implements Initializable {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        newsTable.setSelectionModel(null);
 
         SceneNavigator.setTextWrapping(titleColumn, 10);
         SceneNavigator.setTextWrapping(messageColumn, 10);
 
-        SceneNavigator.centerTextInColumn(timeColumn);
-        SceneNavigator.setColumnsNotReorderable(titleColumn, messageColumn, timeColumn);
+        SceneNavigator.centerTextInColumns(timeColumn, dateColumn);
+        SceneNavigator.setColumnsNotReorderable(titleColumn, messageColumn, timeColumn, dateColumn);
 
         newsService.deleteOldestNewsIfNecessary();
-
         loadNews();
 
+        dateColumn.setSortType(TableColumn.SortType.DESCENDING);
         timeColumn.setSortType(TableColumn.SortType.DESCENDING);
+
+        newsTable.getSortOrder().clear();
+        newsTable.getSortOrder().add(dateColumn);
         newsTable.getSortOrder().add(timeColumn);
+
         newsTable.sort();
     }
 
