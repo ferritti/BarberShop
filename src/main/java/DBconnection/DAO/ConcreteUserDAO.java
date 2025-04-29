@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Objects;
-import Authentication.HashingPassword;
+import Security.HashingPassword;
 
 public class ConcreteUserDAO implements UserDAO{
 
