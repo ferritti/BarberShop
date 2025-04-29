@@ -1,7 +1,7 @@
 package Controllers;
 
 import Business.NewsService;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import Model.Notification;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,11 +46,11 @@ public class NewsBarberController implements Initializable {
 
         newsTable.setSelectionModel(null);
 
-        SceneNavigator.setTextWrapping(titleColumn, 10);
-        SceneNavigator.setTextWrapping(messageColumn, 10);
+        SceneHelper.setTextWrapping(titleColumn, 10);
+        SceneHelper.setTextWrapping(messageColumn, 10);
 
-        SceneNavigator.centerTextInColumns(timeColumn, dateColumn);
-        SceneNavigator.setColumnsNotReorderable(titleColumn, messageColumn, timeColumn, dateColumn);
+        SceneHelper.centerTextInColumns(timeColumn, dateColumn);
+        SceneHelper.setColumnsNotReorderable(titleColumn, messageColumn, timeColumn, dateColumn);
 
         newsService.deleteOldestNewsIfNecessary();
         loadNews();
@@ -73,21 +73,21 @@ public class NewsBarberController implements Initializable {
 
     @FXML
     private void goToProfileView() {
-        SceneNavigator.switchScene(newsTable, "/View/ProfileBarber.fxml", "Profile");
+        SceneHelper.switchScene(newsTable, "/View/ProfileBarber.fxml", "Profile");
     }
 
     @FXML
     private void goToServicesView() {
-        SceneNavigator.switchScene(newsTable, "/View/Services.fxml", "Services");
+        SceneHelper.switchScene(newsTable, "/View/Services.fxml", "Services");
     }
 
     @FXML
     private void goToSendComunicationView() {
-        SceneNavigator.switchScene(newsTable, "/View/SendComunication.fxml", "Send Comunication");
+        SceneHelper.switchScene(newsTable, "/View/SendComunication.fxml", "Send Comunication");
     }
 
     @FXML
     private void goToAppointmentsView() {
-        SceneNavigator.switchScene(newsTable, "/View/AppointmentsBarber.fxml", "Appointments");
+        SceneHelper.switchScene(newsTable, "/View/AppointmentsBarber.fxml", "Appointments");
     }
 }

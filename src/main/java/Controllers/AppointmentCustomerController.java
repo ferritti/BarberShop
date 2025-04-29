@@ -2,7 +2,7 @@ package Controllers;
 
 import Business.AppointmentService;
 import Helpers.AlertHelper;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import Model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,8 +60,8 @@ public class AppointmentCustomerController implements Initializable {
         timeColumn.setMaxWidth(50);
         priceColumn.setMaxWidth(40);
 
-        SceneNavigator.centerTextInColumns(barberColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
-        SceneNavigator.setColumnsNotReorderable(barberColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
+        SceneHelper.centerTextInColumns(barberColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
+        SceneHelper.setColumnsNotReorderable(barberColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
 
         addDeleteButtonToTable();
 
@@ -155,17 +155,17 @@ public class AppointmentCustomerController implements Initializable {
 
     @FXML
     private void goToNewsView() {
-        SceneNavigator.switchScene(tableViewCustomerAppointments, "/View/NewsCustomer.fxml", "News");
+        SceneHelper.switchScene(tableViewCustomerAppointments, "/View/NewsCustomer.fxml", "News");
     }
 
     @FXML
     private void goToProfileView() {
-        SceneNavigator.switchScene(tableViewCustomerAppointments, "/View/ProfileCustomer.fxml", "Profile");
+        SceneHelper.switchScene(tableViewCustomerAppointments, "/View/ProfileCustomer.fxml", "Profile");
     }
 
     @FXML
     private void goToNewAppointmentView() {
-        SceneNavigator.switchScene(tableViewCustomerAppointments, "/View/NewAppointmentCalendar.fxml", "New Appointment");
+        SceneHelper.switchScene(tableViewCustomerAppointments, "/View/NewAppointmentCalendar.fxml", "New Appointment");
     }
 
 }

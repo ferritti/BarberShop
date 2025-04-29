@@ -1,7 +1,7 @@
 package Controllers;
 
 import Business.ProfileService;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -49,26 +49,26 @@ public class ProfileBarberController implements Initializable {
     @FXML
     private void logoutAction() {
         profileService.logout();
-        SceneNavigator.switchScene(logoutIcon, "/View/Signin.fxml", "Signin");
+        SceneHelper.switchScene(logoutIcon, "/View/Signin.fxml", "Signin");
     }
 
     @FXML
     private void goToAppointmentsView() {
-        SceneNavigator.switchScene(logoutIcon, "/View/AppointmentsBarber.fxml", "Appointments");
+        SceneHelper.switchScene(logoutIcon, "/View/AppointmentsBarber.fxml", "Appointments");
     }
 
     @FXML
     private void goToServicesView() {
-        SceneNavigator.switchScene(logoutIcon, "/View/Services.fxml", "Services");
+        SceneHelper.switchScene(logoutIcon, "/View/Services.fxml", "Services");
     }
 
     @FXML
     private void goToSendComunicationView() {
-        SceneNavigator.switchScene(logoutIcon, "/View/SendComunication.fxml", "Send Comunication");
+        SceneHelper.switchScene(logoutIcon, "/View/SendComunication.fxml", "Send Comunication");
     }
 
     @FXML
     void goToNewsView() {
-        SceneNavigator.switchScene(logoutIcon, "/View/NewsBarber.fxml", "News");
+        SceneHelper.switchScene(logoutIcon, "/View/NewsBarber.fxml", "News");
     }
 }

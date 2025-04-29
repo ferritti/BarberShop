@@ -2,7 +2,7 @@ package Controllers;
 
 import Business.NewAppointmentSlotsService;
 import Helpers.AlertHelper;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Payment.PaymentContext;
@@ -228,22 +228,22 @@ public class NewAppointmentControllerSlots {
 
     @FXML
     void backToCalendar() {
-        SceneNavigator.switchScene(barberComboBox, "/View/NewAppointmentCalendar.fxml", "Calendar");
+        SceneHelper.switchScene(barberComboBox, "/View/NewAppointmentCalendar.fxml", "Calendar");
     }
 
     @FXML
     void goToAppointmentsView() {
-        SceneNavigator.switchScene(serviceComboBox, "/View/AppointmentsCustomer.fxml", "Appointments");
+        SceneHelper.switchScene(serviceComboBox, "/View/AppointmentsCustomer.fxml", "Appointments");
     }
 
     @FXML
     void goToNewsView() {
-        SceneNavigator.switchScene(serviceComboBox, "/View/NewsCustomer.fxml", "News");
+        SceneHelper.switchScene(serviceComboBox, "/View/NewsCustomer.fxml", "News");
     }
 
     @FXML
     void goToProfileView () {
-        SceneNavigator.switchScene(serviceComboBox, "/View/ProfileCustomer.fxml", "Profile");
+        SceneHelper.switchScene(serviceComboBox, "/View/ProfileCustomer.fxml", "Profile");
     }
 
     public void setDate(LocalDate date) {

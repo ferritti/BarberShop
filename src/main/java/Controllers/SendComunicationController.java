@@ -2,7 +2,7 @@ package Controllers;
 
 import Business.SendComunicationService;
 import Helpers.AlertHelper;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -48,21 +48,21 @@ public class SendComunicationController {
 
     @FXML
     private void goToServicesView() {
-       SceneNavigator.switchScene(textFieldMessage, "/View/Services.fxml", "Services");
+       SceneHelper.switchScene(textFieldMessage, "/View/Services.fxml", "Services");
     }
 
     @FXML
     private void goToAppointmentsView() {
-        SceneNavigator.switchScene(textFieldMessage, "/View/AppointmentsBarber.fxml", "Appointments");
+        SceneHelper.switchScene(textFieldMessage, "/View/AppointmentsBarber.fxml", "Appointments");
     }
 
     @FXML
     private void goToNewsView() {
-        SceneNavigator.switchScene(textFieldMessage, "/View/NewsBarber.fxml", "News");
+        SceneHelper.switchScene(textFieldMessage, "/View/NewsBarber.fxml", "News");
     }
 
     @FXML
     private void goToProfileView() {
-        SceneNavigator.switchScene(textFieldMessage, "/View/ProfileBarber.fxml", "Profile");
+        SceneHelper.switchScene(textFieldMessage, "/View/ProfileBarber.fxml", "Profile");
     }
 }

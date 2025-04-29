@@ -1,7 +1,7 @@
 package Controllers;
 
 import Business.SignUpService;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
@@ -47,7 +47,7 @@ public class SignUpController {
 
     @FXML
     public void goToSigninView() {
-        SceneNavigator.switchScene(emailField, "/View/Signin.fxml", "Signin");
+        SceneHelper.switchScene(emailField, "/View/Signin.fxml", "Signin");
     }
 
 

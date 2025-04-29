@@ -1,7 +1,7 @@
 package Controllers;
 
 import Business.NewsService;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import Model.Notification;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,11 +44,11 @@ public class NewsCustomerController implements Initializable {
 
         newsTable.setSelectionModel(null);
 
-        SceneNavigator.setTextWrapping(titleColumn, 10);
-        SceneNavigator.setTextWrapping(messageColumn, 10);
+        SceneHelper.setTextWrapping(titleColumn, 10);
+        SceneHelper.setTextWrapping(messageColumn, 10);
 
-        SceneNavigator.centerTextInColumns(timeColumn, dateColumn);
-        SceneNavigator.setColumnsNotReorderable(titleColumn, messageColumn, timeColumn, dateColumn);
+        SceneHelper.centerTextInColumns(timeColumn, dateColumn);
+        SceneHelper.setColumnsNotReorderable(titleColumn, messageColumn, timeColumn, dateColumn);
 
         newsService.deleteOldestNewsIfNecessary();
         loadNews();
@@ -72,17 +72,17 @@ public class NewsCustomerController implements Initializable {
 
     @FXML
     private void goToAppointmentsView() {
-        SceneNavigator.switchScene(newsTable, "/View/AppointmentsCustomer.fxml", "Appointments");
+        SceneHelper.switchScene(newsTable, "/View/AppointmentsCustomer.fxml", "Appointments");
     }
 
     @FXML
     private void goToProfileView() {
-        SceneNavigator.switchScene(newsTable, "/View/ProfileCustomer.fxml", "Profile");
+        SceneHelper.switchScene(newsTable, "/View/ProfileCustomer.fxml", "Profile");
     }
 
     @FXML
     private void goToNewAppointmentView() {
-        SceneNavigator.switchScene(newsTable, "/View/NewAppointmentCalendar.fxml", "New Appointment");
+        SceneHelper.switchScene(newsTable, "/View/NewAppointmentCalendar.fxml", "New Appointment");
     }
 
 }

@@ -12,11 +12,11 @@ import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 
-public class SceneNavigator {
+public class SceneHelper {
 
     public static void switchScene(Node node, String fxmlPath, String title) {
         try {
-            FXMLLoader loader = new FXMLLoader(SceneNavigator.class.getResource(fxmlPath));
+            FXMLLoader loader = new FXMLLoader(SceneHelper.class.getResource(fxmlPath));
             Parent root = loader.load();
 
             Stage stage = (Stage) node.getScene().getWindow();

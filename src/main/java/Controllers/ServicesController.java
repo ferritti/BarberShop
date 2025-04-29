@@ -2,7 +2,7 @@ package Controllers;
 
 import Business.ServicesService;
 import Helpers.AlertHelper;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import Model.ServiceType;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
@@ -46,8 +46,8 @@ public class ServicesController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("serviceName"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        SceneNavigator.setColumnsNotReorderable(nameColumn, priceColumn);
-        SceneNavigator.centerTextInColumns(nameColumn, priceColumn);
+        SceneHelper.setColumnsNotReorderable(nameColumn, priceColumn);
+        SceneHelper.centerTextInColumns(nameColumn, priceColumn);
 
         serviceTable.setSelectionModel(null);
 
@@ -159,21 +159,21 @@ public class ServicesController implements Initializable {
 
     @FXML
     private void goToProfileView() {
-        SceneNavigator.switchScene(serviceTable, "/View/ProfileBarber.fxml", "Profile");
+        SceneHelper.switchScene(serviceTable, "/View/ProfileBarber.fxml", "Profile");
     }
 
     @FXML
     private void goToNewsView() {
-        SceneNavigator.switchScene(serviceTable, "/View/NewsBarber.fxml", "News");
+        SceneHelper.switchScene(serviceTable, "/View/NewsBarber.fxml", "News");
     }
 
     @FXML
     private void goToAppointmentsView() {
-        SceneNavigator.switchScene(serviceTable, "/View/AppointmentsBarber.fxml", "Appointments");
+        SceneHelper.switchScene(serviceTable, "/View/AppointmentsBarber.fxml", "Appointments");
     }
 
     @FXML
     private void goToSendComunicationView() {
-        SceneNavigator.switchScene(serviceTable, "/View/SendComunication.fxml", "Send Comunication");
+        SceneHelper.switchScene(serviceTable, "/View/SendComunication.fxml", "Send Comunication");
     }
 }

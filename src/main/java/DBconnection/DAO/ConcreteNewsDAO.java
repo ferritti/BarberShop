@@ -2,7 +2,6 @@ package DBconnection.DAO;
 
 import DBconnection.Database.DBManager;
 import Model.Notification;
-import Model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

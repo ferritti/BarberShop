@@ -1,6 +1,6 @@
 package Controllers;
 
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -187,17 +187,17 @@ public class NewAppointmentControllerCalendar {
 
     @FXML
     void goToAppointmentsView() {
-        SceneNavigator.switchScene(calendarGrid, "/View/AppointmentsCustomer.fxml", "Appointments");
+        SceneHelper.switchScene(calendarGrid, "/View/AppointmentsCustomer.fxml", "Appointments");
     }
 
     @FXML
     void goToNewsView() {
-        SceneNavigator.switchScene(calendarGrid, "/View/NewsCustomer.fxml", "News");
+        SceneHelper.switchScene(calendarGrid, "/View/NewsCustomer.fxml", "News");
     }
 
     @FXML
     void goToProfileView() {
-        SceneNavigator.switchScene(calendarGrid, "/View/ProfileCustomer.fxml", "Profile");
+        SceneHelper.switchScene(calendarGrid, "/View/ProfileCustomer.fxml", "Profile");
     }
 }
 

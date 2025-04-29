@@ -1,7 +1,7 @@
 package Controllers;
 
 import Business.AppointmentService;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import Model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,8 +49,8 @@ public class AppointmentBarberController implements Initializable {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         paymentColumn.setCellValueFactory(new PropertyValueFactory<>("payment"));
 
-        SceneNavigator.centerTextInColumns(customerColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
-        SceneNavigator.setColumnsNotReorderable(customerColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
+        SceneHelper.centerTextInColumns(customerColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
+        SceneHelper.setColumnsNotReorderable(customerColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
 
         paymentColumn.setMinWidth(95);
         dateColumn.setMinWidth(80);
@@ -72,21 +72,21 @@ public class AppointmentBarberController implements Initializable {
 
     @FXML
     private void goToProfileView() {
-        SceneNavigator.switchScene(tableViewBarberAppointments, "/View/ProfileBarber.fxml", "Profile");
+        SceneHelper.switchScene(tableViewBarberAppointments, "/View/ProfileBarber.fxml", "Profile");
     }
 
     @FXML
     private void goToNewsView() {
-        SceneNavigator.switchScene(tableViewBarberAppointments, "/View/NewsBarber.fxml", "News");
+        SceneHelper.switchScene(tableViewBarberAppointments, "/View/NewsBarber.fxml", "News");
     }
 
     @FXML
     private void goToServiceView() {
-        SceneNavigator.switchScene(tableViewBarberAppointments, "/View/Services.fxml", "Service");
+        SceneHelper.switchScene(tableViewBarberAppointments, "/View/Services.fxml", "Service");
     }
 
     @FXML
     private void goToSendComunicationView() {
-        SceneNavigator.switchScene(tableViewBarberAppointments, "/View/SendComunication.fxml", "Send Comunication");
+        SceneHelper.switchScene(tableViewBarberAppointments, "/View/SendComunication.fxml", "Send Comunication");
     }
 }

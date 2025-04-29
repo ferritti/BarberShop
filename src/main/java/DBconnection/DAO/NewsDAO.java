@@ -1,7 +1,6 @@
 package DBconnection.DAO;
 
 import Model.Notification;
-import Model.User;
 
 import java.util.List;
 

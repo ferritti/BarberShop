@@ -2,7 +2,7 @@ package Controllers;
 
 import Business.SignInService;
 import Helpers.AlertHelper;
-import Helpers.SceneNavigator;
+import Helpers.SceneHelper;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import javafx.application.Platform;
@@ -92,16 +92,16 @@ public class SignInController {
 
     @FXML
     public void goToSignupView() {
-        SceneNavigator.switchScene(emailField, "/View/Signup.fxml", "Sign Up");
+        SceneHelper.switchScene(emailField, "/View/Signup.fxml", "Sign Up");
     }
 
     @FXML
     public void goToAppointmentsCustomerView(){
-        SceneNavigator.switchScene(emailField, "/View/AppointmentsCustomer.fxml", "Customer");
+        SceneHelper.switchScene(emailField, "/View/AppointmentsCustomer.fxml", "Customer");
     }
 
     @FXML
     public void goToAppointmentsBarberView(){
-       SceneNavigator.switchScene(emailField, "/View/AppointmentsBarber.fxml", "Barber");
+       SceneHelper.switchScene(emailField, "/View/AppointmentsBarber.fxml", "Barber");
     }
 }
