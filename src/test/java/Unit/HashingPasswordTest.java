@@ -1,9 +1,8 @@
 package Unit;
 
-import Authentication.HashingPassword;
+import Security.HashingPassword;
 import org.junit.jupiter.api.Test;
-import org.mindrot.jbcrypt.BCrypt;
-import static org.mockito.Mockito.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HashingPasswordTest {

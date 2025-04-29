@@ -1,4 +1,4 @@
-package Authentication;
+package Security;
 
 import org.mindrot.jbcrypt.BCrypt;
 

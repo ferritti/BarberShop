@@ -1,6 +1,6 @@
 package Model;
 
-import Authentication.HashingPassword;
+import Security.HashingPassword;
 
 public abstract class User {
     private String name;
