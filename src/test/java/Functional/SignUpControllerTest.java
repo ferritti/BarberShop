@@ -114,8 +114,7 @@ public class SignUpControllerTest extends ApplicationTest {
             Thread.sleep(100);
         }
 
-        assertEquals("Signin", stage.getTitle(),
-                "Dopo una registrazione valida, dovrebbe andare alla finestra di login");
+        assertEquals("Signin", stage.getTitle());
     }
 
     @Test

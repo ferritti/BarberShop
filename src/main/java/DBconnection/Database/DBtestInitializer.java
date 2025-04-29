@@ -16,8 +16,6 @@ public class DBtestInitializer {
             createAppointmentsTable(stmt);
             createAvailableSlotsTable(stmt);
             createNewsTable(stmt);
-            createCreateSlotsFunction(stmt);
-            createCreateSlotsTrigger(stmt);
 
             System.out.println("Database H2 inizializzato correttamente.");
         } catch (SQLException e) {
@@ -91,60 +89,6 @@ public class DBtestInitializer {
                 PRIMARY KEY (title, message, time),
                 FOREIGN KEY (barber_email) REFERENCES Users(email) ON DELETE CASCADE
             );
-        """);
-    }
-
-    private static void createCreateSlotsFunction(Statement stmt) throws SQLException {
-        stmt.execute("""
-            CREATE OR REPLACE FUNCTION create_slots_for_new_barber_function() 
-            RETURNS TRIGGER AS $$
-            DECLARE
-                start_date DATE;
-                end_date DATE;
-            BEGIN
-                IF NEW.role = 'BARBER' THEN
-                    start_date := CURRENT_DATE;
-                    end_date := start_date + INTERVAL '1 year';
-                    
-                    WHILE start_date < end_date LOOP
-                        IF NOT EXISTS (
-                            SELECT 1
-                            FROM Available_Slots
-                            WHERE barber_email = NEW.email
-                            AND slot_date = start_date
-                            AND start_time IN ('08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00', '13:00:00', 
-                                               '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00')
-                        ) THEN
-                            INSERT INTO Available_Slots (barber_email, slot_date, start_time)
-                            VALUES (NEW.email, start_date, '08:00:00'),
-                                   (NEW.email, start_date, '09:00:00'),
-                                   (NEW.email, start_date, '10:00:00'),
-                                   (NEW.email, start_date, '11:00:00'),
-                                   (NEW.email, start_date, '12:00:00'),
-                                   (NEW.email, start_date, '13:00:00');
-                            INSERT INTO Available_Slots (barber_email, slot_date, start_time)
-                            VALUES (NEW.email, start_date, '15:00:00'),
-                                   (NEW.email, start_date, '16:00:00'),
-                                   (NEW.email, start_date, '17:00:00'),
-                                   (NEW.email, start_date, '18:00:00'),
-                                   (NEW.email, start_date, '19:00:00'),
-                                   (NEW.email, start_date, '20:00:00');
-                        END IF;
-                        start_date := start_date + INTERVAL '1 day';
-                    END LOOP;
-                END IF;
-                RETURN NEW;
-            END;
-            $$ LANGUAGE plpgsql;
-        """);
-    }
-
-    private static void createCreateSlotsTrigger(Statement stmt) throws SQLException {
-        stmt.execute("""
-            CREATE TRIGGER create_slots_for_new_barber
-            AFTER INSERT ON Users
-            FOR EACH ROW
-            EXECUTE FUNCTION create_slots_for_new_barber_function();
         """);
     }
 }
