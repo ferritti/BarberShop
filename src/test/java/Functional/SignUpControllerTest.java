@@ -1,7 +1,7 @@
 package Functional;
 
 import Controllers.SignUpController;
-import DBconnection.Database.DBManager;
+import DBconnection.Database.*;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
@@ -66,21 +66,12 @@ public class SignUpControllerTest extends ApplicationTest {
     public static void setupDatabaseConnection() {
         DBManager manager = DBManager.getInstance(true);
         Connection connection = manager.getConnection();
+
         try (Statement stmt = connection.createStatement()) {
-            stmt.execute("""
-            CREATE TABLE Users (
-                name VARCHAR(100) NOT NULL,
-                surname VARCHAR(100) NOT NULL,
-                email VARCHAR(100) PRIMARY KEY,
-                pass_hash VARCHAR(255) NOT NULL,
-                phone VARCHAR(20) UNIQUE,
-                role VARCHAR(10) CHECK (role IN ('CUSTOMER', 'BARBER')) NOT NULL
-            );
-        """);
-            System.out.println("Tabella 'Users' creata nel DB H2.");
+            DBtestInitializer.createUsersTable(stmt);
         } catch (SQLException e) {
             e.printStackTrace();
-            fail("Errore nella creazione della tabella Users nel DB H2");
+            fail("Errore nell'inizializzazione del database di test H2");
         }
     }
 
