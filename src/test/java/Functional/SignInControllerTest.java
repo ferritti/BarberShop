@@ -12,11 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.*;
+import org.mindrot.jbcrypt.BCrypt;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -47,28 +47,20 @@ public class SignInControllerTest extends ApplicationTest {
     }
 
     @BeforeAll
-    public static void initDb() {
+    public static void setupDatabaseConnection() {
         DBManager manager = DBManager.getInstance(true);
-        try (Connection connection = manager.getConnection();
-             Statement stmt = connection.createStatement()) {
+        Connection connection = manager.getConnection();
+
+        try (Statement stmt = connection.createStatement()) {
             DBtestInitializer.createUsersTable(stmt);
-
-            try (PreparedStatement ps = connection.prepareStatement("""
-                     INSERT INTO Users (name, surname, email, pass_hash, phone, role)
-                     VALUES (?, ?, ?, ?, ?, ?)
-                 """)) {
-                ps.setString(1, "Mario");
-                ps.setString(2, "Rossi");
-                ps.setString(3, "mario.rossi@example.com");
-                ps.setString(4, "password123"); // usa hash reale se necessario
-                ps.setString(5, "1234567890");
-                ps.setString(6, "CUSTOMER");
-                ps.executeUpdate();
-            }
-
+            String hashedPassword = BCrypt.hashpw("password123", BCrypt.gensalt());
+            stmt.executeUpdate("INSERT INTO users (name, surname, email, pass_hash, phone, role) " +
+                    "VALUES ('Mario', 'Rossi', 'mario.rossi@example.com', '" + hashedPassword + "', '1234567890', 'CUSTOMER')");
+            DBtestInitializer.createServiceTypesTable(stmt);
+            DBtestInitializer.createAppointmentsTable(stmt);
         } catch (SQLException e) {
             e.printStackTrace();
-            fail("Errore durante l'inizializzazione del database di test");
+            fail("Errore nell'inizializzazione del database di test H2");
         }
     }
 
@@ -82,8 +74,9 @@ public class SignInControllerTest extends ApplicationTest {
     }
 
     @AfterAll
-    public static void closeDb() {
-        DBManager.getInstance(true).close();
+    public static void closeDatabaseConnection() {
+        DBManager manager = DBManager.getInstance(true);
+        manager.close();
     }
 
     @Test
@@ -112,8 +105,7 @@ public class SignInControllerTest extends ApplicationTest {
 
         performClick();
 
-        assertTrue(incorrectLabel.isVisible(),
-                "Se la password è sbagliata, l'etichetta di errore deve essere visibile");
+        assertTrue(incorrectLabel.isVisible());
     }
 
     private void performClick() {

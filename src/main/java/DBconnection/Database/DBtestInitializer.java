@@ -37,7 +37,7 @@ public class DBtestInitializer {
         """);
     }
 
-    private static void createServiceTypesTable(Statement stmt) throws SQLException {
+    public static void createServiceTypesTable(Statement stmt) throws SQLException {
         stmt.execute("""
             CREATE TABLE IF NOT EXISTS Service_Types (
                 service_name VARCHAR(100) PRIMARY KEY,
@@ -46,7 +46,7 @@ public class DBtestInitializer {
         """);
     }
 
-    private static void createAppointmentsTable(Statement stmt) throws SQLException {
+    public static void createAppointmentsTable(Statement stmt) throws SQLException {
         stmt.execute("""
             CREATE TABLE IF NOT EXISTS Appointments (
                 app_date DATE NOT NULL,
@@ -66,7 +66,7 @@ public class DBtestInitializer {
         """);
     }
 
-    private static void createAvailableSlotsTable(Statement stmt) throws SQLException {
+    public static void createAvailableSlotsTable(Statement stmt) throws SQLException {
         stmt.execute("""
             CREATE TABLE IF NOT EXISTS Available_Slots (
                 barber_email VARCHAR(100) NOT NULL,
@@ -78,7 +78,7 @@ public class DBtestInitializer {
         """);
     }
 
-    private static void createNewsTable(Statement stmt) throws SQLException {
+    public static void createNewsTable(Statement stmt) throws SQLException {
         stmt.execute("""
             CREATE TABLE IF NOT EXISTS News (
                 title VARCHAR(255) NOT NULL,
