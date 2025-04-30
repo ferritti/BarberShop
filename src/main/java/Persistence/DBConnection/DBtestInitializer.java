@@ -80,10 +80,11 @@ public class DBtestInitializer {
 
     public static void createNewsTable(Statement stmt) throws SQLException {
         stmt.execute("""
-            CREATE TABLE IF NOT EXISTS News (
+            CREATE TABLE News (
                 title VARCHAR(255) NOT NULL,
                 message TEXT NOT NULL,
-                time TIME NOT NULL, 
+                time TIME NOT NULL,
+            	date DATE NOT NULL,
                 barber_email VARCHAR(100),
                 to_customers BOOLEAN NOT NULL,
                 PRIMARY KEY (title, message, time),
