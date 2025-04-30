@@ -1,7 +1,7 @@
 package Unit;
 
 import Business.NewAppointmentSlotsService;
-import DBconnection.DAO.*;
+import Persistence.DAO.*;
 import Model.*;
 import Authentication.SessionManager;
 import org.junit.jupiter.api.BeforeEach;

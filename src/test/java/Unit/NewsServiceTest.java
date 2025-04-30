@@ -2,7 +2,7 @@ package Unit;
 
 import Authentication.SessionManager;
 import Business.NewsService;
-import DBconnection.DAO.NewsDAO;
+import Persistence.DAO.NewsDAO;
 import Model.Notification;
 import Model.Barber;
 import Model.Customer;
@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

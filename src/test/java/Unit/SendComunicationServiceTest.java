@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import Business.SendComunicationService;
-import DBconnection.DAO.NewsDAO;
+import Persistence.DAO.NewsDAO;
 import Model.Notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

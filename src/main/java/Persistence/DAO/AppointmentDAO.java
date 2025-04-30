@@ -1,4 +1,4 @@
-package DBconnection.DAO;
+package Persistence.DAO;
 
 import Model.Appointment;
 import java.util.List;

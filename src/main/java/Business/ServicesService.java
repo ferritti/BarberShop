@@ -1,7 +1,7 @@
 package Business;
 
-import DBconnection.DAO.ConcreteServiceTypeDAO;
-import DBconnection.DAO.ServiceTypeDAO;
+import Persistence.DAO.ConcreteServiceTypeDAO;
+import Persistence.DAO.ServiceTypeDAO;
 import Model.ServiceType;
 
 import java.util.List;

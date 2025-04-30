@@ -1,6 +1,6 @@
-package DBconnection.DAO;
+package Persistence.DAO;
 
-import DBconnection.Database.DBManager;
+import Persistence.DBConnection.DBManager;
 import Model.Appointment;
 import Payment.PaymentMethod;
 

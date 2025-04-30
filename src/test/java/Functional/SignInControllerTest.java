@@ -1,8 +1,8 @@
 package Functional;
 
 import Controllers.SignInController;
-import DBconnection.Database.DBManager;
-import DBconnection.Database.DBtestInitializer;
+import Persistence.DBConnection.DBManager;
+import Persistence.DBConnection.DBtestInitializer;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;

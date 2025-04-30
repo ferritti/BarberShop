@@ -1,7 +1,7 @@
 package Unit;
 
 import Business.ServicesService;
-import DBconnection.DAO.ServiceTypeDAO;
+import Persistence.DAO.ServiceTypeDAO;
 import Model.ServiceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

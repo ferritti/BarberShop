@@ -1,12 +1,12 @@
 package Business;
 
 import Authentication.SessionManager;
-import DBconnection.DAO.AppointmentDAO;
-import DBconnection.DAO.AvailableSlotDAO;
-import DBconnection.DAO.ConcreteAppointmentDAO;
-import DBconnection.DAO.NewsDAO;
-import DBconnection.DAO.ConcreteAvailableSlotDAO;
-import DBconnection.DAO.ConcreteNewsDAO;
+import Persistence.DAO.AppointmentDAO;
+import Persistence.DAO.AvailableSlotDAO;
+import Persistence.DAO.ConcreteAppointmentDAO;
+import Persistence.DAO.NewsDAO;
+import Persistence.DAO.ConcreteAvailableSlotDAO;
+import Persistence.DAO.ConcreteNewsDAO;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Model.Notification;

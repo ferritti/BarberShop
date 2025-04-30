@@ -1,7 +1,7 @@
 package Business;
 
-import DBconnection.DAO.ConcreteUserDAO;
-import DBconnection.DAO.UserDAO;
+import Persistence.DAO.ConcreteUserDAO;
+import Persistence.DAO.UserDAO;
 import Model.Barber;
 import Model.Customer;
 import Model.User;

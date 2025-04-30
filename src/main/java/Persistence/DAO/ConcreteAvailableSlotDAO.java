@@ -1,7 +1,7 @@
-package DBconnection.DAO;
+package Persistence.DAO;
 
 
-import DBconnection.Database.DBManager;
+import Persistence.DBConnection.DBManager;
 import Model.AvailableSlot;
 
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package DBconnection.DAO;
+package Persistence.DAO;
 
 import Model.User;
 import java.util.HashMap;

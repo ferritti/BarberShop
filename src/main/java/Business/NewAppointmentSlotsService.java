@@ -1,7 +1,7 @@
 package Business;
 
 import Authentication.SessionManager;
-import DBconnection.DAO.*;
+import Persistence.DAO.*;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Model.Notification;

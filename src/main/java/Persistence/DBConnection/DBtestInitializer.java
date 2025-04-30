@@ -1,4 +1,4 @@
-package DBconnection.Database;
+package Persistence.DBConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;

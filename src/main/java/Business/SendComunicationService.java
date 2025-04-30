@@ -1,7 +1,7 @@
 package Business;
 
-import DBconnection.DAO.ConcreteNewsDAO;
-import DBconnection.DAO.NewsDAO;
+import Persistence.DAO.ConcreteNewsDAO;
+import Persistence.DAO.NewsDAO;
 import Model.Notification;
 
 public class SendComunicationService {
