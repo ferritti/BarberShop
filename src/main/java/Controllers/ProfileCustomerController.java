@@ -29,10 +29,13 @@ public class ProfileCustomerController implements Initializable{
     @FXML
     private ImageView logoutIcon;
 
-    private final ProfileService profileService = new ProfileService();
+    private ProfileService profileService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if(profileService == null) {
+            profileService = new ProfileService();
+        }
         Map<String, String> userData = profileService.getUserData();
 
         if (!userData.isEmpty()) {
@@ -64,5 +67,29 @@ public class ProfileCustomerController implements Initializable{
     @FXML
     void goToNewAppointmentView() {
         SceneHelper.switchScene(logoutIcon, "/View/NewAppointmentCalendar.fxml", "Nuovo Appuntamento");
+    }
+
+    public void setEmailLabel(Label emailLabel) {
+        this.emailLabel = emailLabel;
+    }
+
+    public void setSurnameLabel(Label surnameLabel) {
+        this.surnameLabel = surnameLabel;
+    }
+
+    public void setNameLabel(Label nameLabel) {
+        this.nameLabel = nameLabel;
+    }
+
+    public void setPhoneLabel(Label phoneLabel) {
+        this.phoneLabel = phoneLabel;
+    }
+
+    public void setLogoutIcon(ImageView logoutIcon) {
+        this.logoutIcon = logoutIcon;
+    }
+
+    public void setProfileService(ProfileService profileService) {
+        this.profileService = profileService;
     }
 }
