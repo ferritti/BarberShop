@@ -39,6 +39,21 @@ public class ConcreteUserDAO implements UserDAO{
         return false;
     }
 
+    public void removeUserByEmail(String email) {
+        try {
+            Connection connection = dbManager.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(
+                    "DELETE FROM Users WHERE email = ?"
+            );
+            stmt.setString(1, email);
+
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public User findByEmail(String email) {
         try {
             Connection connection = dbManager.getConnection();
