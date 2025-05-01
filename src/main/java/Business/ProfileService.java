@@ -8,14 +8,19 @@ import java.util.Map;
 
 public class ProfileService {
 
+    private final SessionManager sessionManager;
+    public ProfileService() {
+        this.sessionManager = SessionManager.getInstance();
+    }
+
     public void logout() {
-        SessionManager.getInstance().resetUser();
+        sessionManager.resetUser();
     }
 
     public Map<String, String> getUserData() {
         Map<String, String> data = new HashMap<>();
 
-        User user = SessionManager.getInstance().getCurrentUser();
+        User user = sessionManager.getCurrentUser();
         if (user != null) {
             data.put("name", user.getName());
             data.put("surname", user.getSurname());
