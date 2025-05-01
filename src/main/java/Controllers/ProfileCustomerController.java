@@ -65,7 +65,7 @@ public class ProfileCustomerController implements Initializable{
     }
 
     @FXML
-    void goToNewAppointmentView() {
+    public void goToNewAppointmentView() {
         SceneHelper.switchScene(logoutIcon, "/View/NewAppointmentCalendar.fxml", "Nuovo Appuntamento");
     }
 
