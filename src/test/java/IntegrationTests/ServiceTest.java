@@ -12,13 +12,25 @@ public class ServiceTest {
     private ServicesService servicesService;
     private ConcreteServiceTypeDAO serviceTypeDAO;
 
-    private final String serviceName = "Haircut";
+    private final String serviceName = "Hair";
     private final double servicePrice = 25.0;
 
     @BeforeEach
     void setUp() {
         servicesService = new ServicesService();
         serviceTypeDAO = new ConcreteServiceTypeDAO();
+    }
+
+    @AfterEach
+    void tearDown() {
+        ServiceType serviceToDelete = serviceTypeDAO.getAllServiceTypes().stream()
+                .filter(s -> s.getServiceName().equals(serviceName))
+                .findFirst()
+                .orElse(null);
+
+        if (serviceToDelete != null) {
+            servicesService.deleteService(serviceToDelete);
+        }
     }
 
     @Test
