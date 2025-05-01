@@ -49,7 +49,7 @@ public class ProfileCustomerController implements Initializable{
     }
 
     @FXML
-    private void logoutAction() {
+    public void logoutAction() {
         profileService.logout();
         SceneHelper.switchScene(logoutIcon, "/View/Signin.fxml", "Signin");
     }
