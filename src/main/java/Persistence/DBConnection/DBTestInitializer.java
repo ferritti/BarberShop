@@ -6,24 +6,6 @@ import java.sql.Statement;
 
 public class DBTestInitializer {
 
-    public static void initializeTestDatabase() {
-        DBManager manager = DBManager.getInstance(true);
-        Connection connection = manager.getConnection();
-
-        try (Statement stmt = connection.createStatement()) {
-            createUsersTable(stmt);
-            createServiceTypesTable(stmt);
-            createAppointmentsTable(stmt);
-            createAvailableSlotsTable(stmt);
-            createNewsTable(stmt);
-
-            System.out.println("Database H2 inizializzato correttamente.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Errore nell'inizializzazione del database di test H2");
-        }
-    }
-
     public static void createUsersTable(Statement stmt) throws SQLException {
         stmt.execute("""
             CREATE TABLE IF NOT EXISTS Users (
@@ -81,14 +63,14 @@ public class DBTestInitializer {
     public static void createNewsTable(Statement stmt) throws SQLException {
         stmt.execute("""
             CREATE TABLE News (
-                title VARCHAR(255) NOT NULL,
-                message TEXT NOT NULL,
-                time TIME NOT NULL,
-            	date DATE NOT NULL,
-                barber_email VARCHAR(100),
-                to_customers BOOLEAN NOT NULL,
-                PRIMARY KEY (title, message, time),
-                FOREIGN KEY (barber_email) REFERENCES Users(email) ON DELETE CASCADE
+                    title VARCHAR(255) NOT NULL,
+                    message TEXT NOT NULL,
+                    time TIME NOT NULL,
+                    date DATE NOT NULL,
+                    barber_email VARCHAR(100),
+                    to_customers BOOLEAN NOT NULL,
+                    PRIMARY KEY (title, message, time),
+                    FOREIGN KEY (barber_email) REFERENCES Users(email) ON DELETE CASCADE
             );
         """);
     }
