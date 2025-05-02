@@ -68,7 +68,7 @@ public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
     }
 
     @Override
-    public HashMap<String, Double> getServices() {
+    public HashMap<String, Double> getServicePricesMap() {
         HashMap<String, Double> services = new HashMap<>();
         try {
             Connection conn = dbManager.getConnection();

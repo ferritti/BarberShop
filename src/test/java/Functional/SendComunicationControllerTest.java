@@ -2,7 +2,7 @@ package Functional;
 
 import Controllers.SendComunicationController;
 import Persistence.DBConnection.DBManager;
-import Persistence.DBConnection.DBtestInitializer;
+import Persistence.DBConnection.DBTestInitializer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,8 +47,8 @@ public class SendComunicationControllerTest extends ApplicationTest {
         Connection connection = manager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            DBtestInitializer.createUsersTable(stmt);
-            DBtestInitializer.createNewsTable(stmt); // Assicurati che esista questo metodo
+            DBTestInitializer.createUsersTable(stmt);
+            DBTestInitializer.createNewsTable(stmt); // Assicurati che esista questo metodo
         } catch (SQLException e) {
             e.printStackTrace();
             fail("Errore nell'inizializzazione del database di test H2");

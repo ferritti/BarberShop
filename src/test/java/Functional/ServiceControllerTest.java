@@ -3,21 +3,17 @@ package Functional;
 import Authentication.SessionManager;
 import Controllers.ServicesController;
 import Model.Barber;
-import Model.Customer;
 import Persistence.DBConnection.DBManager;
-import Persistence.DBConnection.DBtestInitializer;
+import Persistence.DBConnection.DBTestInitializer;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import Model.ServiceType;
 import org.junit.jupiter.api.*;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -62,10 +58,10 @@ public class ServiceControllerTest extends ApplicationTest {
         Connection connection = manager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            DBtestInitializer.createUsersTable(stmt);
-            DBtestInitializer.createServiceTypesTable(stmt);
-            DBtestInitializer.createNewsTable(stmt);
-            DBtestInitializer.createAppointmentsTable(stmt);
+            DBTestInitializer.createUsersTable(stmt);
+            DBTestInitializer.createServiceTypesTable(stmt);
+            DBTestInitializer.createNewsTable(stmt);
+            DBTestInitializer.createAppointmentsTable(stmt);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Errore durante l'inizializzazione del database H2");

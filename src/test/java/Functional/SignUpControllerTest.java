@@ -67,7 +67,7 @@ public class SignUpControllerTest extends ApplicationTest {
         Connection connection = manager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            DBtestInitializer.createUsersTable(stmt);
+            DBTestInitializer.createUsersTable(stmt);
         } catch (SQLException e) {
             e.printStackTrace();
             fail("Errore nell'inizializzazione del database di test H2");

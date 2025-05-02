@@ -51,12 +51,12 @@ class NewAppointmentSlotsServiceTest {
     void getServicesDataTest() {
         HashMap<String, Double> mockServices = new HashMap<>();
         mockServices.put("Haircut", 25.0);
-        when(serviceTypeDAO.getServices()).thenReturn(mockServices);
+        when(serviceTypeDAO.getServicePricesMap()).thenReturn(mockServices);
 
         HashMap<String, Double> result = service.getServicesData();
 
         assertEquals(mockServices, result);
-        verify(serviceTypeDAO, times(1)).getServices();
+        verify(serviceTypeDAO, times(1)).getServicePricesMap();
     }
 
     @Test

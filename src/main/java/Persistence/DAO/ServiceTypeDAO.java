@@ -9,5 +9,5 @@ public interface ServiceTypeDAO {
     public boolean addServiceType(ServiceType serviceType) ;
     public boolean removeServiceType(ServiceType serviceType) ;
     public List<ServiceType> getAllServiceTypes();
-    public HashMap<String, Double> getServices();
+    public HashMap<String, Double> getServicePricesMap();
 }

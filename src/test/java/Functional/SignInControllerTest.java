@@ -2,7 +2,7 @@ package Functional;
 
 import Controllers.SignInController;
 import Persistence.DBConnection.DBManager;
-import Persistence.DBConnection.DBtestInitializer;
+import Persistence.DBConnection.DBTestInitializer;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
@@ -52,12 +52,12 @@ public class SignInControllerTest extends ApplicationTest {
         Connection connection = manager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            DBtestInitializer.createUsersTable(stmt);
+            DBTestInitializer.createUsersTable(stmt);
             String hashedPassword = BCrypt.hashpw("password123", BCrypt.gensalt());
             stmt.executeUpdate("INSERT INTO users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Mario', 'Rossi', 'mario.rossi@example.com', '" + hashedPassword + "', '1234567890', 'CUSTOMER')");
-            DBtestInitializer.createServiceTypesTable(stmt);
-            DBtestInitializer.createAppointmentsTable(stmt);
+            DBTestInitializer.createServiceTypesTable(stmt);
+            DBTestInitializer.createAppointmentsTable(stmt);
         } catch (SQLException e) {
             e.printStackTrace();
             fail("Errore nell'inizializzazione del database di test H2");

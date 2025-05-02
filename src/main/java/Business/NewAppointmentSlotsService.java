@@ -43,7 +43,7 @@ public class NewAppointmentSlotsService {
     }
 
     public HashMap<String, Double> getServicesData() {
-        return serviceTypeDAO.getServices();
+        return serviceTypeDAO.getServicePricesMap();
     }
 
     public List<AvailableSlot> getAvailableSlots(String barberEmail, LocalDate date) {
