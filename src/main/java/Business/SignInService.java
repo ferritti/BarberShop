@@ -41,8 +41,4 @@ public class SignInService {
     public boolean checkEmailExists(String email) {
         return userDAO.findByEmail(email) != null;
     }
-
-    public void signOut() {
-        sessionManager.setCurrentUser(null);
-    }
 }
