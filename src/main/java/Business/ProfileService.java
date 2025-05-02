@@ -13,6 +13,10 @@ public class ProfileService {
         this.sessionManager = SessionManager.getInstance();
     }
 
+    public ProfileService(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
+
     public void logout() {
         sessionManager.resetUser();
     }
