@@ -29,11 +29,14 @@ public class ProfileBarberController implements Initializable {
     @FXML
     private Label surnameLabel;
 
-    private final ProfileService profileService = new ProfileService();
+    private ProfileService profileService;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if(profileService == null) {
+            profileService = new ProfileService();
+        }
         Map<String, String> userData = profileService.getUserData();
 
         if (!userData.isEmpty()) {
@@ -70,5 +73,9 @@ public class ProfileBarberController implements Initializable {
     @FXML
     void goToNewsView() {
         SceneHelper.switchScene(logoutIcon, "/View/NewsBarber.fxml", "News");
+    }
+
+    public void setProfileService(ProfileService profileService) {
+        this.profileService = profileService;
     }
 }
