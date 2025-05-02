@@ -111,6 +111,7 @@ public class ServicesController implements Initializable {
                 deleteIcon.setFitHeight(15);
                 deleteButton.setGraphic(deleteIcon);
                 deleteButton.setStyle("-fx-background-color: transparent;");
+                deleteButton.setId("delete-button");
 
                 deleteButton.setOnAction(event -> {
                     ServiceType serviceType = getTableView().getItems().get(getIndex());

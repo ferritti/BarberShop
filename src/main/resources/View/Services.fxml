@@ -28,7 +28,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="297.0" prefWidth="230.0" spacing="10.0">
                <children>
-                  <HBox alignment="CENTER" onMouseClicked="#goToAppointmentsView" prefHeight="48.0" prefWidth="218.0">
+                  <HBox fx:id="appointmentsButton" alignment="CENTER" onMouseClicked="#goToAppointmentsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -68,7 +68,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToNewsView" prefHeight="48.0" prefWidth="218.0">
+                  <HBox fx:id="newsButton" alignment="CENTER" onMouseClicked="#goToNewsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -85,7 +85,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToSendComunicationView" prefHeight="48.0" prefWidth="218.0">
+                  <HBox fx:id="sendComunicationButton" alignment="CENTER" onMouseClicked="#goToSendComunicationView" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -102,7 +102,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToProfileView" prefHeight="48.0" prefWidth="218.0">
+                  <HBox fx:id="profileButton" alignment="CENTER" onMouseClicked="#goToProfileView" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -179,7 +179,7 @@
                   </VBox>
                   <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="340.0">
                      <children>
-                        <MFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addNewService" prefHeight="35.0" prefWidth="128.0" styleClass="outline-button" stylesheets="@../Styles/Services.css" text="Add new service">
+                        <MFXButton fx:id="addNewServiceButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addNewService" prefHeight="35.0" prefWidth="128.0" styleClass="outline-button" stylesheets="@../Styles/Services.css" text="Add new service">
                            <font>
                               <Font name="Helvetica" size="14.0" />
                            </font></MFXButton>
