@@ -1,6 +1,7 @@
 package Controllers;
 
 import Business.NewsService;
+import Business.ProfileService;
 import Helpers.SceneHelper;
 import Model.Notification;
 import javafx.collections.FXCollections;
@@ -33,10 +34,13 @@ public class NewsCustomerController implements Initializable {
     @FXML
     private TableColumn<Notification, String> dateColumn;
 
-    private final NewsService newsService = new NewsService();
+    private NewsService newsService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if(newsService == null) {
+            newsService = new NewsService();
+        }
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -83,6 +87,10 @@ public class NewsCustomerController implements Initializable {
     @FXML
     private void goToNewAppointmentView() {
         SceneHelper.switchScene(newsTable, "/View/NewAppointmentCalendar.fxml", "New Appointment");
+    }
+
+    public void setNewsService(NewsService newsService) {
+        this.newsService = newsService;
     }
 
 }

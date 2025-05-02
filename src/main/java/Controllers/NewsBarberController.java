@@ -35,10 +35,13 @@ public class NewsBarberController implements Initializable {
 
 
 
-    private final NewsService newsService = new NewsService();
+    private NewsService newsService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if(newsService == null) {
+            newsService = new NewsService();
+        }
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -90,4 +93,9 @@ public class NewsBarberController implements Initializable {
     private void goToAppointmentsView() {
         SceneHelper.switchScene(newsTable, "/View/AppointmentsBarber.fxml", "Appointments");
     }
+
+    public void setNewsService(NewsService newsService) {
+        this.newsService = newsService;
+    }
+
 }
