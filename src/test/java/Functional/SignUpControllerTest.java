@@ -144,6 +144,25 @@ public class SignUpControllerTest extends ApplicationTest {
         assertTrue(secretCodeAlert.isVisible());
     }
 
+    @Test
+    public void testGoToSigninView() throws Exception {
+        // Simula il click sul link o pulsante "Create now"
+        clickOn("#signinLabel"); // Assicurati che l'ID corrisponda a quello in SignIn.fxml
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // Attendi cambio scena
+        long start = System.currentTimeMillis();
+        while (!"Signin".equals(stage.getTitle()) &&
+                System.currentTimeMillis() - start < 5000) {
+            Thread.sleep(100);
+        }
+
+        // Verifica che sia avvenuto il cambio alla schermata di registrazione
+        assertEquals("Signin", stage.getTitle(),
+                "Dopo il click su 'Sign in', dovrebbe passare alla schermata di accesso");
+    }
+
     private void performClickOn() {
         clickOn("#signUpButton");
     }
