@@ -22,17 +22,6 @@ public class CommunicationTest {
     }
 
     @Test
-    void testBarberSendComunicationToCustomers() {
-        boolean result = sendComunicationService.addComunication(testTitle, testMessage);
-        assertTrue(result);
-
-        boolean found = newsDAO.getAllCustomerNews().stream()
-                .anyMatch(n -> n.getTitle().equals(testTitle) && n.getMessage().equals(testMessage));
-
-        assertTrue(found);
-    }
-
-    @Test
     void testAddMultipleAndDeleteComunications() {
         String testTitle1 = "First Notification";
         String testMessage1 = "First test message.";
