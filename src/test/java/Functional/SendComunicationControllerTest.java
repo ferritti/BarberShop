@@ -48,7 +48,7 @@ public class SendComunicationControllerTest extends ApplicationTest {
 
         try (Statement stmt = connection.createStatement()) {
             DBTestInitializer.createUsersTable(stmt);
-            DBTestInitializer.createNewsTable(stmt); // Assicurati che esista questo metodo
+            DBTestInitializer.createNewsTable(stmt);
         } catch (SQLException e) {
             e.printStackTrace();
             fail("Errore nell'inizializzazione del database di test H2");
@@ -56,11 +56,16 @@ public class SendComunicationControllerTest extends ApplicationTest {
     }
 
     @BeforeEach
-    public void clearFields() {
+    public void clearFieldsAndCleanNews() throws SQLException {
         Platform.runLater(() -> {
             textFieldTitle.clear();
             textFieldMessage.clear();
         });
+        WaitForAsyncUtils.waitForFxEvents();
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
+            stmt.executeUpdate("DELETE FROM News");
+        }
     }
 
     @AfterAll
@@ -68,24 +73,30 @@ public class SendComunicationControllerTest extends ApplicationTest {
         DBManager.getInstance(true).close();
     }
 
+    @AfterEach
+    public void deleteTestComunication() throws SQLException {
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
+            stmt.executeUpdate("DELETE FROM News WHERE title = 'Nuova Prom'");
+        }
+    }
+
     @Test
     public void testSendComunicationSuccess() throws Exception {
-        write(textFieldTitle, "Nuova Promo");
-        write(textFieldMessage, "Promo taglio a 10€ questa settimana!");
+        write(textFieldTitle, "Nuova Prom");
+        write(textFieldMessage, "Prom taglio a 10€ questa settimana!");
 
         clickOn("#send_button");
 
         clickOn("Yes");
 
-        // Simula la conferma utente (puoi mockare AlertHelper.showConfirmation se necessario)
         WaitForAsyncUtils.waitForFxEvents();
-        Thread.sleep(200); // In attesa della scrittura sul DB
+        Thread.sleep(200);
 
         try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM News WHERE title='Nuova Promo'")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM News WHERE title='Nuova Prom'")) {
 
-            assertTrue(rs.next(), "La comunicazione dovrebbe essere salvata nel database.");
-            assertEquals("Promo taglio a 10€ questa settimana!", rs.getString("message"));
+            assertTrue(rs.next());
+            assertEquals("Prom taglio a 10€ questa settimana!", rs.getString("message"));
         }
     }
 
@@ -93,18 +104,16 @@ public class SendComunicationControllerTest extends ApplicationTest {
     public void testSendComunicationEmptyFields() {
         clickOn("#send_button");
 
-        // Nessuna comunicazione deve essere creata
         try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
              ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM News")) {
 
             rs.next();
             int total = rs.getInt("total");
-            assertEquals(1, total, "Non dovrebbe essere salvato nulla se i campi sono vuoti.");
+            assertEquals(0, total);
         } catch (SQLException e) {
             fail("Errore durante la verifica del database");
         }
     }
-
 
     private void write(TextField field, String text) {
         clickOn(field).write(text);

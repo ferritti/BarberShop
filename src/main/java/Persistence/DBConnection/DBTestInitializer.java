@@ -62,7 +62,7 @@ public class DBTestInitializer {
 
     public static void createNewsTable(Statement stmt) throws SQLException {
         stmt.execute("""
-            CREATE TABLE News (
+            CREATE TABLE IF NOT EXISTS News (
                     title VARCHAR(255) NOT NULL,
                     message TEXT NOT NULL,
                     time TIME NOT NULL,

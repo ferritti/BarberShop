@@ -30,7 +30,7 @@ public class DBTestInitializerTest {
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Service_Types"));
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Appointments"));
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Available_Slots"));
-        verify(mockStmt, never()).execute(contains("CREATE TABLE News"));
+        verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS News"));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class DBTestInitializerTest {
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Users"));
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Appointments"));
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Available_Slots"));
-        verify(mockStmt, never()).execute(contains("CREATE TABLE News"));
+        verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS News"));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class DBTestInitializerTest {
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Users"));
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Service_Types"));
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Available_Slots"));
-        verify(mockStmt, never()).execute(contains("CREATE TABLE News"));
+        verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS News"));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class DBTestInitializerTest {
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Users"));
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Service_Types"));
         verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS Appointments"));
-        verify(mockStmt, never()).execute(contains("CREATE TABLE News"));
+        verify(mockStmt, never()).execute(contains("CREATE TABLE IF NOT EXISTS News"));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class DBTestInitializerTest {
 
         verify(mockStmt).execute(sqlCaptor.capture());
         String capturedSql = sqlCaptor.getValue().trim().replaceAll("\\s+", " ");
-        String expectedSql = "CREATE TABLE News ( title VARCHAR(255) NOT NULL, message TEXT NOT NULL, time TIME NOT NULL, date DATE NOT NULL, barber_email VARCHAR(100), to_customers BOOLEAN NOT NULL, PRIMARY KEY (title, message, time), FOREIGN KEY (barber_email) REFERENCES Users(email) ON DELETE CASCADE );";
+        String expectedSql = "CREATE TABLE IF NOT EXISTS News ( title VARCHAR(255) NOT NULL, message TEXT NOT NULL, time TIME NOT NULL, date DATE NOT NULL, barber_email VARCHAR(100), to_customers BOOLEAN NOT NULL, PRIMARY KEY (title, message, time), FOREIGN KEY (barber_email) REFERENCES Users(email) ON DELETE CASCADE );";
 
         assertEquals(expectedSql.trim().replaceAll("\\s+", " "), capturedSql);
 
