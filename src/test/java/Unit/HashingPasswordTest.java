@@ -70,4 +70,12 @@ class HashingPasswordTest {
             HashingPassword.hashPassword(null);
         }, "Hashing a null password should throw an exception");
     }
+
+    @Test
+    public void testNullPasswordCheck() {
+        String hashedPassword = HashingPassword.hashPassword("testPassword");
+        assertThrows(IllegalArgumentException.class, () -> {
+            HashingPassword.checkPassword(null, hashedPassword);
+        }, "Checking a null password should throw an exception");
+    }
 }

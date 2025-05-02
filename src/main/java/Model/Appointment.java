@@ -61,8 +61,4 @@ public class Appointment {
     public String getCustomerPhone() {
         return customerPhone;
     }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
 }

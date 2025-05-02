@@ -41,32 +41,16 @@ public class Notification {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public String getBarberEmail() {
         return barberEmail;
     }
 
-    public void setBarberEmail(String barberEmail) {
-        this.barberEmail = barberEmail;
-    }
-
     public boolean isToCustomers() {
         return toCustomers;
-    }
-
-    public void setToCustomers(boolean toCustomers) {
-        this.toCustomers = toCustomers;
     }
 
     public LocalTime getTime() {
@@ -79,10 +63,6 @@ public class Notification {
 
     public LocalDate getDate() {
         return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 }
 
