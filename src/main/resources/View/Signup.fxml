@@ -35,7 +35,7 @@
             <HBox alignment="CENTER_LEFT" prefHeight="22.0" prefWidth="205.0">
                <children>
                   <Label prefHeight="17.0" prefWidth="148.0" text="Already have an account? " />
-                  <Label onMouseClicked="#goToSigninView" styleClass="label-color" stylesheets="@../Styles/Signup.css" text="Sign in!" underline="true" />
+                  <Label fx:id="signinLabel" onMouseClicked="#goToSigninView" styleClass="label-color" stylesheets="@../Styles/Signup.css" text="Sign in!" underline="true" />
                </children>
                <VBox.margin>
                   <Insets left="110.0" right="110.0" />

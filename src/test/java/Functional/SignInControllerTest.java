@@ -84,7 +84,7 @@ public class SignInControllerTest extends ApplicationTest {
         write(emailField, "mario.rossi@example.com");
         write(passwordField, "password123");
 
-        performClick();
+        clickOn("#signinButton");
 
         WaitForAsyncUtils.waitForFxEvents();
 
@@ -103,13 +103,28 @@ public class SignInControllerTest extends ApplicationTest {
         write(emailField, "mario.rossi@example.com");
         write(passwordField, "wrongpassword");
 
-        performClick();
+        clickOn("#signinButton");
 
         assertTrue(incorrectLabel.isVisible());
     }
 
-    private void performClick() {
-        clickOn("#signinButton");
+    @Test
+    public void testGoToSignupView() throws Exception {
+        // Simula il click sul link o pulsante "Create now"
+        clickOn("#createNowLabel"); // Assicurati che l'ID corrisponda a quello in SignIn.fxml
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // Attendi cambio scena
+        long start = System.currentTimeMillis();
+        while (!"Sign Up".equals(stage.getTitle()) &&
+                System.currentTimeMillis() - start < 5000) {
+            Thread.sleep(100);
+        }
+
+        // Verifica che sia avvenuto il cambio alla schermata di registrazione
+        assertEquals("Sign Up", stage.getTitle(),
+                "Dopo il click su 'Create now', dovrebbe passare alla schermata di registrazione");
     }
 
     private void write(MFXTextField field, String text) {
