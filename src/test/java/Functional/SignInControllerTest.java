@@ -55,7 +55,7 @@ public class SignInControllerTest extends ApplicationTest {
             DBTestInitializer.createUsersTable(stmt);
             String hashedPassword = BCrypt.hashpw("password123", BCrypt.gensalt());
             stmt.executeUpdate("INSERT INTO users (name, surname, email, pass_hash, phone, role) " +
-                    "VALUES ('Mario', 'Rossi', 'mario.rossi@example.com', '" + hashedPassword + "', '1234567890', 'CUSTOMER')");
+                    "VALUES ('Luigi', 'Bianchi', 'luigi.bianchi@example.com', '" + hashedPassword + "', '1234567890', 'CUSTOMER')");
             DBTestInitializer.createServiceTypesTable(stmt);
             DBTestInitializer.createAppointmentsTable(stmt);
         } catch (SQLException e) {
@@ -76,12 +76,22 @@ public class SignInControllerTest extends ApplicationTest {
     @AfterAll
     public static void closeDatabaseConnection() {
         DBManager manager = DBManager.getInstance(true);
+        Connection connection = manager.getConnection();
+
+        try (Statement stmt = connection.createStatement()) {
+            // Rimuovi l'utente di test creato nel setup
+            stmt.executeUpdate("DELETE FROM users WHERE email = 'luigi.bianchi@example.com'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail("Errore nella pulizia del database dopo i test");
+        }
+
         manager.close();
     }
 
     @Test
     public void testSuccessfulLoginAsCustomer() throws Exception {
-        write(emailField, "mario.rossi@example.com");
+        write(emailField, "luigi.bianchi@example.com");
         write(passwordField, "password123");
 
         clickOn("#signinButton");
@@ -100,7 +110,7 @@ public class SignInControllerTest extends ApplicationTest {
 
     @Test
     public void testLoginFailureWrongCredentials() {
-        write(emailField, "mario.rossi@example.com");
+        write(emailField, "luigi.bianchi@example.com");
         write(passwordField, "wrongpassword");
 
         clickOn("#signinButton");
