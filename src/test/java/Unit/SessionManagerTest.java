@@ -24,45 +24,45 @@ class SessionManagerTest {
     }
 
     @Test
-    void testSingletonInstance() {
+    void singletonInstanceShouldBeSame() {
         SessionManager instance1 = SessionManager.getInstance();
         SessionManager instance2 = SessionManager.getInstance();
         assertSame(instance1, instance2);
     }
 
     @Test
-    void testSetAndGetCurrentUser_AsBarber() {
+    void setAndGetCurrentUserAsBarber() {
         sessionManager.setCurrentUser(barberUser);
         assertEquals(barberUser, sessionManager.getCurrentUser());
     }
 
     @Test
-    void testSetAndGetCurrentUser_AsCustomer() {
+    void setAndGetCurrentUserAsCustomer() {
         sessionManager.setCurrentUser(customerUser);
         assertEquals(customerUser, sessionManager.getCurrentUser());
     }
 
     @Test
-    void testGetCurrentUserWithoutSetting_ShouldThrowException() {
+    void getCurrentUserWithoutSettingShouldThrow() {
         Exception exception = assertThrows(IllegalStateException.class, sessionManager::getCurrentUser);
         assertEquals("User not logged in", exception.getMessage());
     }
 
     @Test
-    void testSetCurrentUser_Null_ShouldThrowException() {
+    void setCurrentUserWithNullShouldThrow() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> sessionManager.setCurrentUser(null));
         assertEquals("User cannot be null", exception.getMessage());
     }
 
     @Test
-    void testResetUser() {
+    void resetUserShouldClearCurrentUser() {
         sessionManager.setCurrentUser(barberUser);
         sessionManager.resetUser();
         assertThrows(IllegalStateException.class, sessionManager::getCurrentUser);
     }
 
     @Test
-    void testCloseSession_ShouldResetInstance() throws NoSuchFieldException, IllegalAccessException {
+    void closeSessionShouldResetInstance() throws NoSuchFieldException, IllegalAccessException {
         sessionManager.setCurrentUser(barberUser);
         sessionManager.closeSession();
 

@@ -21,19 +21,19 @@ class SendComunicationServiceTest {
     }
 
     @Test
-    void testAreEmptyFields_WhenFieldsAreEmpty_ShouldReturnTrue() {
+    void emptyFieldsShouldBeTrue() {
         assertTrue(sendComunicationService.areEmptyFields("", "message"));
         assertTrue(sendComunicationService.areEmptyFields("title", ""));
         assertTrue(sendComunicationService.areEmptyFields("", ""));
     }
 
     @Test
-    void testAreEmptyFields_WhenFieldsAreNotEmpty_ShouldReturnFalse() {
+    void filledFieldsShouldBeFalse() {
         assertFalse(sendComunicationService.areEmptyFields("Title", "Message"));
     }
 
     @Test
-    void testAddComunication_SuccessfulNotificationAddition() {
+    void addComunicationSuccess() {
         when(newsDAO.addNotification(any(Notification.class))).thenReturn(true);
 
         boolean result = sendComunicationService.addComunication("New Title", "New Message");
@@ -43,7 +43,7 @@ class SendComunicationServiceTest {
     }
 
     @Test
-    void testAddComunication_FailedNotificationAddition() {
+    void addComunicationFailure() {
         when(newsDAO.addNotification(any(Notification.class))).thenReturn(false);
 
         boolean result = sendComunicationService.addComunication("New Title", "New Message");

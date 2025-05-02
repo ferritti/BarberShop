@@ -20,66 +20,37 @@ class ServicesServiceTest {
     }
 
     @Test
-    void testAreEmptyFields_WhenServiceTypeIsEmpty_ReturnsTrue() {
-        // Test con nome vuoto e prezzo valido
+    void emptyFieldsShouldBeTrue() {
         assertTrue(servicesService.areEmptyFields("  ", "10.0"));
-
-        // Test con nome valido e prezzo vuoto
         assertTrue(servicesService.areEmptyFields("Test Service", " "));
     }
 
     @Test
-    void testAreEmptyFields_WhenServiceTypeIsEmpty_ReturnsFalse() {
-        // Test con entrambi i campi validi
+    void filledFieldsShouldBeFalse() {
         assertFalse(servicesService.areEmptyFields("Test Service", "10.0"));
     }
 
-    // Test per il metodo validatePrice
     @Test
-    void testValidatePrice() {
-        // Test con prezzo valido
-        String validPrice = "10.0";
-        String result = servicesService.validatePrice(validPrice);
-        assertNull(result, "The price should be valid and return null");
-
-        // Test con prezzo non valido (input non numerico)
-        String invalidPrice = "abc";
-        result = servicesService.validatePrice(invalidPrice);
-        assertEquals("Price must be a valid number.", result);
-
-        // Test con prezzo negativo
-        String negativePrice = "-5.0";
-        result = servicesService.validatePrice(negativePrice);
-        assertEquals("Price must be greater than 0.", result);
+    void validatePriceWorks() {
+        assertNull(servicesService.validatePrice("10.0"));
+        assertEquals("Price must be a valid number.", servicesService.validatePrice("abc"));
+        assertEquals("Price must be greater than 0.", servicesService.validatePrice("-5.0"));
     }
 
     @Test
-    void testAddService() {
-        // Configura il comportamento del mock: quando addServiceType è chiamato, restituisce true
+    void addServiceAdds() {
         when(mockServiceTypeDAO.addServiceType(any(ServiceType.class))).thenReturn(true);
 
-        // Testa l'aggiunta di un servizio
-        boolean result = servicesService.addService("Test Service", 10.0);
-        assertTrue(result);
-
-        // Verifica che il metodo addServiceType del DAO sia stato chiamato
+        assertTrue(servicesService.addService("Test Service", 10.0));
         verify(mockServiceTypeDAO, times(1)).addServiceType(any(ServiceType.class));
     }
 
-    // Test per il metodo deleteService con Mockito per il DAO
     @Test
-    void testDeleteService() {
-        // Crea il mock per il servizio
+    void deleteServiceRemoves() {
         ServiceType serviceType = new ServiceType("Test Service", 10.0);
-
-        // Configura il comportamento del mock: quando removeServiceType è chiamato, restituisce true
         when(mockServiceTypeDAO.removeServiceType(serviceType)).thenReturn(true);
 
-        // Testa l'eliminazione di un servizio
-        boolean result = servicesService.deleteService(serviceType);
-        assertTrue(result, "Service should be deleted successfully");
-
-        // Verifica che il metodo removeServiceType del DAO sia stato chiamato con l'oggetto corretto
+        assertTrue(servicesService.deleteService(serviceType));
         verify(mockServiceTypeDAO, times(1)).removeServiceType(serviceType);
     }
 }

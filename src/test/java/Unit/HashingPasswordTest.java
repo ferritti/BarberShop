@@ -11,11 +11,9 @@ class HashingPasswordTest {
         String password = "mySuperSecurePassword";
         String hashedPassword = HashingPassword.hashPassword(password);
 
-        // Ensure the hash is not null or empty
         assertNotNull(hashedPassword, "The hashed password should not be null");
         assertFalse(hashedPassword.isEmpty(), "The hashed password should not be empty");
 
-        // Ensure the hash is not equal to the plain password
         assertNotEquals(password, hashedPassword, "The hashed password should not be equal to the plain password");
     }
 
@@ -24,7 +22,6 @@ class HashingPasswordTest {
         String password = "mySuperSecurePassword";
         String hashedPassword = HashingPassword.hashPassword(password);
 
-        // Ensure the correct password is accepted
         assertTrue(HashingPassword.checkPassword(password, hashedPassword), "The password should be correct");
     }
 
@@ -34,7 +31,6 @@ class HashingPasswordTest {
         String incorrectPassword = "wrongPassword";
         String hashedPassword = HashingPassword.hashPassword(password);
 
-        // Ensure an incorrect password is rejected
         assertFalse(HashingPassword.checkPassword(incorrectPassword, hashedPassword), "The password should be incorrect");
     }
 
@@ -74,5 +70,4 @@ class HashingPasswordTest {
             HashingPassword.hashPassword(null);
         }, "Hashing a null password should throw an exception");
     }
-
 }

@@ -32,8 +32,8 @@ class NewsServiceTest {
     }
 
     @Test
-    void getNews_AsBarber_ShouldReturnBarberNews() {
-        User barber = new Barber("John", "Doe", "barber@example.com", "password", "123456789");
+    void getNewsBarber() {
+        User barber = new Barber("Mario", "Rossi", "barber@example.com", "password", "123456789");
         when(sessionManager.getCurrentUser()).thenReturn(barber);
 
         List<Notification> barberNews = Arrays.asList(
@@ -49,8 +49,8 @@ class NewsServiceTest {
     }
 
     @Test
-    void getNews_AsCustomer_ShouldReturnCustomerNews() {
-        User customer = new Customer("Jane", "Doe", "customer@example.com", "password", "987654321");
+    void getNewsCustomer() {
+        User customer = new Customer("Luigi", "Bianchi", "customer@example.com", "password", "987654321");
         when(sessionManager.getCurrentUser()).thenReturn(customer);
 
         List<Notification> customerNews = Arrays.asList(
@@ -64,8 +64,8 @@ class NewsServiceTest {
     }
 
     @Test
-    void getNews_WithNoNotifications_ShouldReturnEmptyList() {
-        User customer = new Customer("Jane", "Doe", "customer@example.com", "password", "987654321");
+    void getNewsEmpty() {
+        User customer = new Customer("Luigi", "Bianchi", "customer@example.com", "password", "987654321");
         when(sessionManager.getCurrentUser()).thenReturn(customer);
 
         when(newsDAO.getAllCustomerNews()).thenReturn(Collections.emptyList());
@@ -75,8 +75,8 @@ class NewsServiceTest {
     }
 
     @Test
-    void deleteOldestNewsIfNecessary_WhenNewsAreLessThanLimit_ShouldDoNothing() {
-        User barber = new Barber("John", "Doe", "barber@example.com", "password", "123456789");
+    void deleteOldNewsLessThanLimit() {
+        User barber = new Barber("Mario", "Rossi", "barber@example.com", "password", "123456789");
         when(sessionManager.getCurrentUser()).thenReturn(barber);
 
         List<Notification> news = Arrays.asList(
@@ -91,27 +91,22 @@ class NewsServiceTest {
     }
 
     @Test
-    void deleteOldestNewsIfNecessary_WhenNewsAreMoreThanLimit_ShouldDeleteOldestNews() {
-        // Preparazione dati
-        User barber = new Barber("John", "Doe", "barber@example.com", "password", "123456789");
+    void deleteOldNewsMoreThanLimit() {
+        User barber = new Barber("Mario", "Rossi", "barber@example.com", "password", "123456789");
         when(sessionManager.getCurrentUser()).thenReturn(barber);
 
-        // Creo una lista di 35 notifiche
         List<Notification> news = new ArrayList<>();
         LocalTime now = LocalTime.now();
         for (int i = 0; i < 35; i++) {
             Notification notification = new Notification("Title" + i, "Message" + i, false);
-            // Imposto tempi leggermente diversi partendo dall'ora corrente
             notification.setTime(now.minusMinutes(i));
             news.add(notification);
         }
 
         when(newsDAO.getAllBarberNews(barber.getEmail())).thenReturn(news);
 
-        // Esecuzione del metodo da testare
         newsService.deleteOldestNewsIfNecessary();
 
-        // Verifiche
         verify(newsDAO, times(5)).deleteNotification(argThat(
                 notification -> news.subList(0, 5).contains(notification)
         ));
