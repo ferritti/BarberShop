@@ -59,7 +59,6 @@ public class SignInControllerTest extends ApplicationTest {
             stmt.executeUpdate("INSERT INTO users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Luigi', 'Bianchi', 'luigi.bianchi@example.com', '" + hashedPassword + "', '1234567890', 'CUSTOMER')");
 
-            // Barber utente di test
             String hashedBarberPassword = BCrypt.hashpw("barberpass", BCrypt.gensalt());
             stmt.executeUpdate("INSERT INTO users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Mario', 'Rossi', 'mario.rossi@example.com', '" + hashedBarberPassword + "', '0987654321', 'BARBER')");
@@ -87,7 +86,6 @@ public class SignInControllerTest extends ApplicationTest {
         Connection connection = manager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            // Rimuovi gli utenti di test creati
             stmt.executeUpdate("DELETE FROM users WHERE email = 'luigi.bianchi@example.com'");
             stmt.executeUpdate("DELETE FROM users WHERE email = 'mario.rossi@example.com'");
         } catch (SQLException e) {
@@ -108,17 +106,15 @@ public class SignInControllerTest extends ApplicationTest {
         WaitForAsyncUtils.waitForFxEvents();
 
         long start = System.currentTimeMillis();
-        while (!"Customer".equals(stage.getTitle()) &&
-                System.currentTimeMillis() - start < 5000) {
+        while (!"Customer".equals(stage.getTitle()) && System.currentTimeMillis() - start < 5000) {
             Thread.sleep(100);
         }
 
-        assertEquals("Customer", stage.getTitle(),
-                "Dopo un login valido, dovrebbe andare alla vista del cliente");
+        assertEquals("Customer", stage.getTitle());
     }
 
     @Test
-    public void testSuccesfulLoginAsBarber() throws Exception {
+    public void testSuccessfulLoginAsBarber() throws Exception {
         write(emailField, "mario.rossi@example.com");
         write(passwordField, "barberpass");
 
@@ -127,13 +123,11 @@ public class SignInControllerTest extends ApplicationTest {
         WaitForAsyncUtils.waitForFxEvents();
 
         long start = System.currentTimeMillis();
-        while (!"Barber".equals(stage.getTitle()) &&
-                System.currentTimeMillis() - start < 5000) {
+        while (!"Barber".equals(stage.getTitle()) && System.currentTimeMillis() - start < 5000) {
             Thread.sleep(100);
         }
 
-        assertEquals("Barber", stage.getTitle(),
-                "Dopo un login valido come barber, dovrebbe andare alla vista del barber");
+        assertEquals("Barber", stage.getTitle());
     }
 
     @Test
@@ -148,21 +142,60 @@ public class SignInControllerTest extends ApplicationTest {
 
     @Test
     public void testGoToSignupView() throws Exception {
-        // Simula il click sul link o pulsante "Create now"
-        clickOn("#createNowLabel"); // Assicurati che l'ID corrisponda a quello in SignIn.fxml
+        clickOn("#createNowLabel");
 
         WaitForAsyncUtils.waitForFxEvents();
 
-        // Attendi cambio scena
         long start = System.currentTimeMillis();
-        while (!"Sign Up".equals(stage.getTitle()) &&
-                System.currentTimeMillis() - start < 5000) {
+        while (!"Sign Up".equals(stage.getTitle()) && System.currentTimeMillis() - start < 5000) {
             Thread.sleep(100);
         }
 
-        // Verifica che sia avvenuto il cambio alla schermata di registrazione
-        assertEquals("Sign Up", stage.getTitle(),
-                "Dopo il click su 'Create now', dovrebbe passare alla schermata di registrazione");
+        assertEquals("Sign Up", stage.getTitle());
+    }
+
+    @Test
+    public void testForgotPassPopupWithExistingEmail() throws Exception {
+        clickOn("#forgotPasswordLabel");
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        clickOn(".text-field").write("luigi.bianchi@example.com");
+
+        clickOn("Send");
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        clickOn("OK");
+
+        WaitForAsyncUtils.waitForFxEvents();
+    }
+
+    @Test
+    public void testForgotPassPopupWithNonExistingEmail() throws Exception {
+        clickOn("#forgotPasswordLabel");
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        clickOn(".text-field").write("emailinesistente@example.com");
+
+        clickOn("Send");
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        clickOn("Retry");
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        clickOn(".text-field").eraseText(30).write("emailinesistente2@example.com");
+
+        clickOn("Send");
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        clickOn("Cancel");
+
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     private void write(MFXTextField field, String text) {

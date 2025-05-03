@@ -39,7 +39,6 @@ public class SignUpControllerTest extends ApplicationTest {
         stage.setScene(new Scene(root));
         stage.show();
 
-        // Inizializza i campi del form
         nameField = (MFXTextField) root.lookup("#nameField");
         surnameField = (MFXTextField) root.lookup("#surnameField");
         emailField = (MFXTextField) root.lookup("#emailField");
@@ -49,7 +48,6 @@ public class SignUpControllerTest extends ApplicationTest {
         notEmptyAlert = (Label) root.lookup("#notEmptyAlert");
         secretCodeAlert = (Label) root.lookup("#secretCodeAlert");
 
-        // Setta i campi nel controller
         controller = loader.getController();
         controller.setNameField(nameField);
         controller.setSurnameField(surnameField);
@@ -70,7 +68,7 @@ public class SignUpControllerTest extends ApplicationTest {
             DBTestInitializer.createUsersTable(stmt);
         } catch (SQLException e) {
             e.printStackTrace();
-            fail("Errore nell'inizializzazione del database di test H2");
+            fail();
         }
     }
 
@@ -90,26 +88,25 @@ public class SignUpControllerTest extends ApplicationTest {
 
     @AfterAll
     public static void closeDatabaseConnection() {
-        DBManager manager = DBManager.getInstance(true);
-        manager.close();
+        DBManager.getInstance(true).close();
     }
 
     @Test
     public void testSuccessfulSignupNavigatesToSignin() throws Exception {
-        write(nameField, "John");
-        write(surnameField, "Doe");
-        write(emailField, "john.doe@example.com");
+        write(nameField, "Mario");
+        write(surnameField, "Rossi");
+        write(emailField, "mario.rossi@example.com");
+        write(passwordField, "password123");
         write(phoneField, "1234567890");
         write(secretCodeField, "I-AM-A-BARBER");
-        write(passwordField, "password123");
+
 
         performClickOn();
 
         WaitForAsyncUtils.waitForFxEvents();
 
         long startTime = System.currentTimeMillis();
-        while (!"Signin".equals(stage.getTitle()) &&
-               System.currentTimeMillis() - startTime < 5000) {
+        while (!"Signin".equals(stage.getTitle()) && System.currentTimeMillis() - startTime < 5000) {
             Thread.sleep(100);
         }
 
@@ -119,11 +116,12 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testEmptyFields() {
         write(nameField, "");
-        write(surnameField, "Doe");
+        write(surnameField, "Rossi");
         write(emailField, "");
+        write(passwordField, "password123");
         write(phoneField, "1234567890");
         write(secretCodeField, "");
-        write(passwordField, "password123");
+
 
         performClickOn();
 
@@ -132,12 +130,13 @@ public class SignUpControllerTest extends ApplicationTest {
 
     @Test
     public void testInvalidSecretCode() {
-        write(nameField, "John");
-        write(surnameField, "Doe");
-        write(emailField, "john.doe@example.com");
+        write(nameField, "Mario");
+        write(surnameField, "Rossi");
+        write(emailField, "mario.rossi@example.com");
+        write(passwordField, "password123");
         write(phoneField, "1234567890");
         write(secretCodeField, "wrongcode");
-        write(passwordField, "password123");
+
 
         performClickOn();
 
@@ -146,21 +145,16 @@ public class SignUpControllerTest extends ApplicationTest {
 
     @Test
     public void testGoToSigninView() throws Exception {
-        // Simula il click sul link o pulsante "Create now"
-        clickOn("#signinLabel"); // Assicurati che l'ID corrisponda a quello in SignIn.fxml
+        clickOn("#signinLabel");
 
         WaitForAsyncUtils.waitForFxEvents();
 
-        // Attendi cambio scena
         long start = System.currentTimeMillis();
-        while (!"Signin".equals(stage.getTitle()) &&
-                System.currentTimeMillis() - start < 5000) {
+        while (!"Signin".equals(stage.getTitle()) && System.currentTimeMillis() - start < 5000) {
             Thread.sleep(100);
         }
 
-        // Verifica che sia avvenuto il cambio alla schermata di registrazione
-        assertEquals("Signin", stage.getTitle(),
-                "Dopo il click su 'Sign in', dovrebbe passare alla schermata di accesso");
+        assertEquals("Signin", stage.getTitle());
     }
 
     private void performClickOn() {

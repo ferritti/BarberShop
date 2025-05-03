@@ -69,26 +69,6 @@ public class ProfileCustomerController implements Initializable{
         SceneHelper.switchScene(logoutIcon, "/View/NewAppointmentCalendar.fxml", "Nuovo Appuntamento");
     }
 
-    public void setEmailLabel(Label emailLabel) {
-        this.emailLabel = emailLabel;
-    }
-
-    public void setSurnameLabel(Label surnameLabel) {
-        this.surnameLabel = surnameLabel;
-    }
-
-    public void setNameLabel(Label nameLabel) {
-        this.nameLabel = nameLabel;
-    }
-
-    public void setPhoneLabel(Label phoneLabel) {
-        this.phoneLabel = phoneLabel;
-    }
-
-    public void setLogoutIcon(ImageView logoutIcon) {
-        this.logoutIcon = logoutIcon;
-    }
-
     public void setProfileService(ProfileService profileService) {
         this.profileService = profileService;
     }
