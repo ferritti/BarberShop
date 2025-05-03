@@ -26,10 +26,44 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
 
     private AppointmentCustomerController controller;
     private Stage stage;
-    private boolean appointmentCreated = false;
+    private static boolean appointmentCreated = false;
 
     @Override
     public void start(Stage stage) throws Exception {
+        Customer dummyCustomer = new Customer("Mario", "Rossi", "m.rossi@example.com", "securePass123", "1234567890");
+        SessionManager.getInstance().setCurrentUser(dummyCustomer);
+
+        this.stage = stage;
+
+        // Inizializzazione della GUI
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
+        Parent root = loader.load();
+        controller = loader.getController();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("Appointments");
+        stage.show();
+
+        // Attendi che JavaFX completi il rendering
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);  // per sicurezza (solo nei test)
+    }
+
+    @BeforeAll
+    public static void initializeDatabaseForTests() {
+        DBManager manager = DBManager.getInstance(true);
+        try (Statement stmt = manager.getConnection().createStatement()) {
+            DBTestInitializer.createUsersTable(stmt);
+            DBTestInitializer.createServiceTypesTable(stmt);
+            DBTestInitializer.createAppointmentsTable(stmt);
+            DBTestInitializer.createNewsTable(stmt);
+            DBTestInitializer.createAvailableSlotsTable(stmt);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Errore durante l'inizializzazione del database H2");
+        }
+
         try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
             // Aggiungo un servizio
             stmt.executeUpdate("INSERT INTO Service_Types (service_name, price) VALUES ('Taglio Capelli', 20.00)");
@@ -49,8 +83,6 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
                     "VALUES ('2025-05-10', '11:00', 'm.rossi@example.com', '1234567890', 'l.verdi@example.com', 'Luca Verdi', 'Taglio Capelli', 20.00, 'PAYPAL')");
 
             // Imposta l'utente loggato (dopo averlo creato nel DB)
-            Customer dummyCustomer = new Customer("Mario", "Rossi", "m.rossi@example.com", "securePass123", "1234567890");
-            SessionManager.getInstance().setCurrentUser(dummyCustomer);
 
             appointmentCreated = true;
 
@@ -58,51 +90,10 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
             e.printStackTrace();
             fail("Errore durante la preparazione del database");
         }
-
-        this.stage = stage;
-
-        // Inizializzazione della GUI
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/AppointmentsCustomer.fxml"));
-        Parent root = loader.load();
-        controller = loader.getController();
-
-        stage.setScene(new Scene(root));
-        stage.setTitle("Appointments");
-        stage.show();
-
-        // Attendi che JavaFX completi il rendering
-        WaitForAsyncUtils.waitForFxEvents();
-        Thread.sleep(500);  // per sicurezza (solo nei test)
-    }
-
-    @BeforeAll
-    public static void setupDatabaseConnection() {
-        DBManager manager = DBManager.getInstance(true);
-        try (Statement stmt = manager.getConnection().createStatement()) {
-            DBTestInitializer.createUsersTable(stmt);
-            DBTestInitializer.createServiceTypesTable(stmt);
-            DBTestInitializer.createAppointmentsTable(stmt);
-            DBTestInitializer.createNewsTable(stmt);
-            DBTestInitializer.createAvailableSlotsTable(stmt);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Errore durante l'inizializzazione del database H2");
-        }
     }
 
     @AfterAll
-    public static void closeDatabaseConnection() {
-        DBManager.getInstance(true).close();
-    }
-
-    @BeforeEach
-    public void prepareDatabaseForTest() {
-
-    }
-
-    @AfterEach
-    public void cleanupAfterTest() {
+    public static void cleanupDatabaseAfterTest() {
         if (appointmentCreated) {
             try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
                 stmt.executeUpdate("DELETE FROM Appointments WHERE customer_email = 'm.rossi@example.com'");
@@ -115,6 +106,7 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
             }
             appointmentCreated = false;
         }
+        DBManager.getInstance(true).close();
     }
 
     @Test
