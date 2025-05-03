@@ -25,7 +25,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="327.0" prefWidth="230.0" spacing="8.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="100.0" styleClass="hbox-selected" stylesheets="@../Styles/Appointments.css">
+                  <HBox fx:id="appointmentsButton" alignment="CENTER" prefHeight="48.0" prefWidth="100.0" styleClass="hbox-selected" stylesheets="@../Styles/Appointments.css">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -45,7 +45,7 @@
                         <Insets left="10.0" right="10.0" top="45.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToNewAppointmentView" prefHeight="48.0" prefWidth="218.0">
+                  <HBox fx:id="newAppointmentButton" alignment="CENTER" onMouseClicked="#goToNewAppointmentView" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -62,7 +62,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToNewsView" prefHeight="48.0" prefWidth="218.0">
+                  <HBox fx:id="newsButton" alignment="CENTER" onMouseClicked="#goToNewsView" prefHeight="48.0" prefWidth="218.0">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -79,7 +79,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" onMouseClicked="#goToProfileView" prefHeight="48.0" prefWidth="230.0">
+                  <HBox fx:id="profileButton" alignment="CENTER" onMouseClicked="#goToProfileView" prefHeight="48.0" prefWidth="230.0">
                      <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>

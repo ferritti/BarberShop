@@ -71,7 +71,7 @@ public class AppointmentCustomerController implements Initializable {
         loadAppointments();
     }
 
-    private void loadAppointments() {
+    public void loadAppointments() {
         List<Appointment> appointments = appointmentService.getAppointments();
         ObservableList<Appointment> observableList = FXCollections.observableArrayList(appointments);
         tableViewCustomerAppointments.setItems(observableList);
@@ -105,6 +105,7 @@ public class AppointmentCustomerController implements Initializable {
 
     private Button createDeleteButton() {
         Button button = new Button();
+        button.setId("delete-button");
         ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/delete.png")));
         deleteIcon.setFitWidth(15);
         deleteIcon.setFitHeight(15);
