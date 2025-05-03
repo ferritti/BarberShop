@@ -82,6 +82,9 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
             stmt.executeUpdate("INSERT INTO Appointments (app_date, app_time, customer_email, customer_phone, barber_email, barber_name, service_name, price, payment) " +
                     "VALUES ('2025-05-10', '11:00', 'm.rossi@example.com', '1234567890', 'l.verdi@example.com', 'Luca Verdi', 'Taglio Capelli', 20.00, 'PAYPAL')");
 
+            // toglie available slots
+            stmt.executeUpdate("DELETE FROM Available_Slots WHERE barber_email = 'l.verdi@example.com'");
+
             // Imposta l'utente loggato (dopo averlo creato nel DB)
 
             appointmentCreated = true;
