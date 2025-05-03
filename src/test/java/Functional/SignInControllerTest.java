@@ -1,6 +1,8 @@
 package Functional;
 
+import Authentication.SessionManager;
 import Controllers.SignInController;
+import Model.Customer;
 import Persistence.DBConnection.DBManager;
 import Persistence.DBConnection.DBTestInitializer;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
@@ -56,6 +58,12 @@ public class SignInControllerTest extends ApplicationTest {
             String hashedPassword = BCrypt.hashpw("password123", BCrypt.gensalt());
             stmt.executeUpdate("INSERT INTO users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Luigi', 'Bianchi', 'luigi.bianchi@example.com', '" + hashedPassword + "', '1234567890', 'CUSTOMER')");
+
+            // Barber utente di test
+            String hashedBarberPassword = BCrypt.hashpw("barberpass", BCrypt.gensalt());
+            stmt.executeUpdate("INSERT INTO users (name, surname, email, pass_hash, phone, role) " +
+                    "VALUES ('Mario', 'Rossi', 'mario.rossi@example.com', '" + hashedBarberPassword + "', '0987654321', 'BARBER')");
+
             DBTestInitializer.createServiceTypesTable(stmt);
             DBTestInitializer.createAppointmentsTable(stmt);
         } catch (SQLException e) {
@@ -79,8 +87,9 @@ public class SignInControllerTest extends ApplicationTest {
         Connection connection = manager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            // Rimuovi l'utente di test creato nel setup
+            // Rimuovi gli utenti di test creati
             stmt.executeUpdate("DELETE FROM users WHERE email = 'luigi.bianchi@example.com'");
+            stmt.executeUpdate("DELETE FROM users WHERE email = 'mario.rossi@example.com'");
         } catch (SQLException e) {
             e.printStackTrace();
             fail("Errore nella pulizia del database dopo i test");
@@ -106,6 +115,25 @@ public class SignInControllerTest extends ApplicationTest {
 
         assertEquals("Customer", stage.getTitle(),
                 "Dopo un login valido, dovrebbe andare alla vista del cliente");
+    }
+
+    @Test
+    public void testSuccesfulLoginAsBarber() throws Exception {
+        write(emailField, "mario.rossi@example.com");
+        write(passwordField, "barberpass");
+
+        clickOn("#signinButton");
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        long start = System.currentTimeMillis();
+        while (!"Barber".equals(stage.getTitle()) &&
+                System.currentTimeMillis() - start < 5000) {
+            Thread.sleep(100);
+        }
+
+        assertEquals("Barber", stage.getTitle(),
+                "Dopo un login valido come barber, dovrebbe andare alla vista del barber");
     }
 
     @Test
