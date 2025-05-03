@@ -1,6 +1,8 @@
 package Functional;
 
+import Authentication.SessionManager;
 import Controllers.SendComunicationController;
+import Model.Customer;
 import Persistence.DBConnection.DBManager;
 import Persistence.DBConnection.DBTestInitializer;
 import javafx.application.Platform;
@@ -26,11 +28,17 @@ public class SendComunicationControllerTest extends ApplicationTest {
     private TextField textFieldTitle;
     private TextArea textFieldMessage;
     private SendComunicationController controller;
+    private Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
+        Customer customer = new Customer("Mario", "Rossi", "m.rossi@example.com", "securePass123", "1234567890");
+        SessionManager.getInstance().setCurrentUser(customer);
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/SendComunication.fxml"));
         Parent root = loader.load();
+
+        this.stage = stage;
         stage.setScene(new Scene(root));
         stage.setTitle("Send Comunication");
         stage.show();
@@ -48,7 +56,10 @@ public class SendComunicationControllerTest extends ApplicationTest {
 
         try (Statement stmt = connection.createStatement()) {
             DBTestInitializer.createUsersTable(stmt);
+            DBTestInitializer.createServiceTypesTable(stmt);
             DBTestInitializer.createNewsTable(stmt);
+            DBTestInitializer.createAppointmentsTable(stmt);
+            DBTestInitializer.createAvailableSlotsTable(stmt);
         } catch (SQLException e) {
             e.printStackTrace();
             fail("Errore nell'inizializzazione del database di test H2");
@@ -114,6 +125,56 @@ public class SendComunicationControllerTest extends ApplicationTest {
             fail("Errore durante la verifica del database");
         }
     }
+
+    @Test
+    public void testNavigationToAppointmentsView() {
+        clickOn("#appointmentsButton");
+        WaitForAsyncUtils.waitForFxEvents();
+
+        long start = System.currentTimeMillis();
+        while (!"Appointments".equals(stage.getTitle()) && System.currentTimeMillis() - start < 5000) {
+            try { Thread.sleep(100); } catch (InterruptedException ignored) {}
+        }
+        assertEquals("Appointments", stage.getTitle());
+    }
+
+    @Test
+    public void testNavigationToServicesView() {
+        clickOn("#serviceButton");
+        WaitForAsyncUtils.waitForFxEvents();
+
+        long start = System.currentTimeMillis();
+        while (!"Services".equals(stage.getTitle()) && System.currentTimeMillis() - start < 5000) {
+            try { Thread.sleep(100); } catch (InterruptedException ignored) {}
+        }
+        assertEquals("Services", stage.getTitle());
+    }
+
+
+    @Test
+    public void testNavigationToNewsView() {
+        clickOn("#newsButton");
+        WaitForAsyncUtils.waitForFxEvents();
+
+        long start = System.currentTimeMillis();
+        while (!"News".equals(stage.getTitle()) && System.currentTimeMillis() - start < 5000) {
+            try { Thread.sleep(100); } catch (InterruptedException ignored) {}
+        }
+        assertEquals("News", stage.getTitle());
+    }
+
+    @Test
+    public void testNavigationToProfileView() {
+        clickOn("#profileButton");
+        WaitForAsyncUtils.waitForFxEvents();
+
+        long start = System.currentTimeMillis();
+        while (!"Profile".equals(stage.getTitle()) && System.currentTimeMillis() - start < 5000) {
+            try { Thread.sleep(100); } catch (InterruptedException ignored) {}
+        }
+        assertEquals("Profile", stage.getTitle());
+    }
+
 
     private void write(TextField field, String text) {
         clickOn(field).write(text);
