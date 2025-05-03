@@ -1,148 +1,171 @@
 package IntegrationTests;
-// finire questa classe, poi integrazione credo siano finiti. fare il test di unità di
-// profile service e verificare se ne vanno fatti altri di unità che mancavano.
+
+import Authentication.SessionManager;
 import Business.*;
+import Model.*;
 import Payment.PaymentMethod;
 import Persistence.DAO.*;
-import Model.*;
-import Authentication.SessionManager;
 import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AppointmentsAndSlotsTest {
 
     private NewAppointmentSlotsService newAppointmentSlotsService;
     private AppointmentService appointmentService;
-    private UserDAO userDAO;
-    private AppointmentDAO appointmentDAO;
-    private AvailableSlotDAO availableSlotDAO;
-    private NewsDAO newsDAO;
-    private SessionManager sessionManager;
+    private SignInService signInService;
+    private ConcreteServiceTypeDAO concreteServiceTypeDAO;
+    private ConcreteNewsDAO newsDAO;
 
-    private User testCustomer;
-    private User testBarber;
-    private final String customerEmail = "customer@example.com";
-    private final String barberEmail = "barber@example.com";
+    private final String barberEmail = "barber1234@barbershop.com";
+    private final String customerEmail = "customer5678@customer.com";
+    private final String customerPassword = "customer123";
 
-    private final String testService = "Haircut";
-    private final LocalDate testDate = LocalDate.of(2025, 5, 10);
-    private final LocalTime testTime = LocalTime.of(10, 0);
+    private String testBarberName;
+    private ServiceType testService;
+    private LocalDate testDate;
+    private LocalTime testTime;
 
-    @BeforeEach
-    void setUp() {
-        userDAO = new ConcreteUserDAO();
-        appointmentDAO = new ConcreteAppointmentDAO();
-        availableSlotDAO = new ConcreteAvailableSlotDAO();
+    @BeforeAll
+    public void setup() {
+        newAppointmentSlotsService = new NewAppointmentSlotsService();
+        appointmentService = new AppointmentService();
+        SignUpService signUpService = new SignUpService();
+        signInService = new SignInService();
+        concreteServiceTypeDAO = new ConcreteServiceTypeDAO();
         newsDAO = new ConcreteNewsDAO();
-        sessionManager = SessionManager.getInstance();
 
-        newAppointmentSlotsService = new NewAppointmentSlotsService(userDAO,
-                new ConcreteServiceTypeDAO(), availableSlotDAO, appointmentDAO, newsDAO, sessionManager);
-        appointmentService = new AppointmentService(appointmentDAO, availableSlotDAO, newsDAO, sessionManager);
+        // iscrizione barbiere
+        String barberPassword = "barber123";
+        String barberPhoneNumber = "1122334455";
+        signUpService.registerUser("Giuseppe", "Barbiere", barberEmail, barberPassword, barberPhoneNumber, "I-AM-A-BARBER");
 
-        clearTestData();
-    }
+        // iscrizione cliente
+        String customerPhoneNumber = "9988776655";
+        signUpService.registerUser("Andrea", "Cliente", customerEmail, customerPassword, customerPhoneNumber, "");
 
-    @AfterEach
-    void tearDown() {
-        sessionManager.resetUser();
-        clearTestData();
-    }
+        // login cliente
+        signInService.authenticateUser(customerEmail, customerPassword);
 
-    private void clearTestData() {
-        userDAO.removeUserByEmail(customerEmail);
-        userDAO.removeUserByEmail(barberEmail);
+        testBarberName = "Giuseppe Barbiere";
+        testDate = LocalDate.now().plusDays(1);
+        testTime = LocalTime.of(11, 0, 0);
+        String serviceName = "Barba Uomo";
+        double servicePrice = 20.0;
+        testService = new ServiceType(serviceName, servicePrice);
 
-        List<Appointment> app = appointmentDAO.findByEmailOfUser(customerEmail);
-        if (app != null) {
-            for (Appointment appointment : app) {
-                appointmentDAO.deleteAppointment(appointment);
-            }
-        }
-
-        availableSlotDAO.removeAvSlot(new AvailableSlot(barberEmail, testDate, testTime));
+        // aggiunta servizio
+        concreteServiceTypeDAO.addServiceType(testService);
     }
 
     @Test
-    void testBookAppointmentSuccessfully() {
-        signUpTestCustomer();
-        signUpTestBarber();
-        signInAsCustomer();
+    public void testBookAppointmentAndSlotRemoval() {
+        // verifica presenza slot
+        AvailableSlot slot = new AvailableSlot(barberEmail, testDate, testTime);
+        List<AvailableSlot> availableSlots = newAppointmentSlotsService.getAvailableSlots(barberEmail, testDate);
+        boolean slotExists = availableSlots.stream().anyMatch(s -> s.getStartTime().equals(testTime));
+        assertTrue(slotExists);
 
-        // Pre-condizione: slot disponibile
-        List<AvailableSlot> availableSlotsBefore = newAppointmentSlotsService.getAvailableSlots(barberEmail, testDate);
-        assertTrue(availableSlotsBefore.stream().anyMatch(slot -> slot.getStartTime().equals(testTime)));
+        // prenota appuntamento
+        boolean booked = newAppointmentSlotsService.bookAppointment(
+                testBarberName,
+                testService.getServiceName(),
+                testDate,
+                testTime,
+                PaymentMethod.CREDIT_CARD
+        );
+        assertTrue(booked, "L'appuntamento deve essere prenotato");
 
-        // Prenotazione
-        boolean bookingResult = newAppointmentSlotsService.bookAppointment(testBarber.getName(), testService, testDate, testTime, PaymentMethod.CREDIT_CARD);
-        assertTrue(bookingResult);
+        // verifica slot rimosso
+        List<AvailableSlot> slotsAfter = newAppointmentSlotsService.getAvailableSlots(barberEmail, testDate);
+        boolean slotRemoved = slotsAfter.stream().anyMatch(s -> s.getStartTime().equals(testTime));
+        assertFalse(slotRemoved, "Lo slot deve essere stato rimosso dopo la prenotazione");
 
-        // Verifica prenotazione
-        List<Appointment> appointments = appointmentService.getAppointments();
-        assertEquals(1, appointments.size());
-        Appointment bookedAppointment = appointments.get(0);
-        assertEquals(testCustomer.getEmail(), bookedAppointment.getCustomerEmail());
+        // verifica appuntamento esistente
+        List<Appointment> appointments = newAppointmentSlotsService.getAppointments();
+        boolean appointmentExists = appointments.stream()
+                .anyMatch(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime));
+        assertTrue(appointmentExists, "L'appuntamento deve esistere nel DB");
 
-        // Slot rimosso dal DB
-        List<AvailableSlot> availableSlotsAfter = newAppointmentSlotsService.getAvailableSlots(barberEmail, testDate);
-        assertFalse(availableSlotsAfter.stream().anyMatch(slot -> slot.getStartTime().equals(testTime)));
+        // verifica che sia stata creata la notifica di prenotazione per il barbiere
+        List<Notification> barberNotifications = newsDAO.getAllBarberNews(barberEmail);
+        boolean notificationExists = barberNotifications.stream()
+                .anyMatch(n -> n.getTitle().equals("New Appointment")
+                        && n.getMessage().contains("Andrea Cliente has booked an appointment with you"));
+        assertTrue(notificationExists, "Deve essere stata creata una notifica di appuntamento per il barbiere");
     }
 
     @Test
-    void testDeleteAppointmentAndRestoreSlot() {
-        signUpTestCustomer();
-        signUpTestBarber();
-        signInAsCustomer();
+    public void testDeleteAppointmentAndSlotReaddition() {
+        // recupero appuntamento
+        List<Appointment> appointments = newAppointmentSlotsService.getAppointments();
+        Appointment toDelete = appointments.stream()
+                .filter(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime))
+                .findFirst()
+                .orElse(null);
 
-        // Prenotazione
-        boolean bookingResult = newAppointmentSlotsService.bookAppointment(testBarber.getName(), testService, testDate, testTime, PaymentMethod.CREDIT_CARD);
-        assertTrue(bookingResult);
+        assertNotNull(toDelete, "Appuntamento da cancellare deve esistere");
 
-        // Controlla slot rimosso
-        List<AvailableSlot> slotsAfterBooking = newAppointmentSlotsService.getAvailableSlots(barberEmail, testDate);
-        assertFalse(slotsAfterBooking.stream().anyMatch(slot -> slot.getStartTime().equals(testTime)));
+        // cancella appuntamento
+        boolean deleted = appointmentService.deleteAppointment(toDelete);
+        assertTrue(deleted, "Appuntamento deve essere cancellato");
 
-        // Elimina appuntamento
-        List<Appointment> appointments = appointmentService.getAppointments();
-        assertEquals(1, appointments.size());
-        Appointment appointmentToDelete = appointments.get(0);
-        boolean deleteResult = appointmentService.deleteAppointment(appointmentToDelete);
-        assertTrue(deleteResult);
+        // invia notifica
+        AppointmentService.addNotification(toDelete);
 
-        // Verifica appuntamento rimosso
-        appointments = appointmentService.getAppointments();
-        assertTrue(appointments.isEmpty());
+        // riaggiunge slot
+        AppointmentService.addAvailableSlot(toDelete);
 
-        // Lo slot deve essere stato rimesso
-        List<AvailableSlot> slotsAfterDelete = newAppointmentSlotsService.getAvailableSlots(barberEmail, testDate);
-        assertTrue(slotsAfterDelete.stream().anyMatch(slot -> slot.getStartTime().equals(testTime)));
+        // verifica slot di nuovo disponibile
+        List<AvailableSlot> slots = newAppointmentSlotsService.getAvailableSlots(barberEmail, testDate);
+        boolean slotExists = slots.stream().anyMatch(s -> s.getStartTime().equals(testTime));
+        assertTrue(slotExists, "Lo slot deve essere di nuovo disponibile dopo cancellazione");
+
+        // verifica che sia stata creata la notifica di slot libero per il barbiere
+        List<Notification> barberNotifications = newsDAO.getAllBarberNews(barberEmail);
+        boolean notificationExists = barberNotifications.stream()
+                .anyMatch(n -> n.getTitle().equals("Slot available")
+                        && n.getMessage().contains("A slot has become available on " + testDate + " at " + testTime + " with Giuseppe"));
+        assertTrue(notificationExists, "Deve essere stata creata una notifica di slot libero per il barbiere");
     }
 
-    private void signUpTestCustomer() {
-        SignUpService signUpService = new SignUpService(userDAO);
-        String result = signUpService.registerUser("Mario", "Rossi", customerEmail, "securePass321", "3216549870", "");
-        assertEquals("success", result);
-        testCustomer = userDAO.findByEmail(customerEmail);
+    @AfterAll
+    public void cleanUp() {
+        signInService.authenticateUser(customerEmail, customerPassword);
 
-        // Aggiungo uno slot per il test
-        availableSlotDAO.addAvSlot(new AvailableSlot(barberEmail, testDate, testTime));
-    }
+        // cancella appuntamenti residui
+        List<Appointment> appointments = newAppointmentSlotsService.getAppointments();
+        appointments.stream()
+                .filter(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime))
+                .forEach(a -> appointmentService.deleteAppointment(a));
 
-    private void signUpTestBarber() {
-        SignUpService signUpService = new SignUpService(userDAO);
-        String result = signUpService.registerUser("Luigi", "Bianchi", barberEmail, "barberPass123", "3344556677", "I-AM-A-BARBER");
-        assertEquals("success", result);
-        testBarber = userDAO.findByEmail(barberEmail);
-    }
+        // elimina slot se rimasto
+        AvailableSlot slot = new AvailableSlot(barberEmail, testDate, testTime);
+        new ConcreteAvailableSlotDAO().removeAvSlot(slot);
 
-    private void signInAsCustomer() {
-        SignInService signInService = new SignInService(userDAO, sessionManager);
-        boolean isAuthenticated = signInService.authenticateUser(customerEmail, "securePass321");
-        assertTrue(isAuthenticated);
-        assertNotNull(sessionManager.getCurrentUser());
+        // elimina servizio creato
+        concreteServiceTypeDAO.removeServiceType(testService);
+
+        // elimina utenti creati
+        ConcreteUserDAO userDao = new ConcreteUserDAO();
+        userDao.removeUserByEmail(barberEmail);
+        userDao.removeUserByEmail(customerEmail);
+
+        // elimina notifiche generate dai test
+        List<Notification> barberNotifications = newsDAO.getAllBarberNews(barberEmail);
+        barberNotifications.stream()
+                .filter(n -> n.getTitle().equals("New Appointment") && n.getMessage().contains("Andrea Cliente has booked an appointment with you"))
+                .forEach(newsDAO::deleteNotification);
+
+        barberNotifications.stream()
+                .filter(n -> n.getTitle().equals("Slot available") && n.getMessage().contains("A slot has become available on " + testDate + " at " + testTime + " with " + testBarberName))
+                .forEach(newsDAO::deleteNotification);
+
+        SessionManager.getInstance().closeSession();
     }
 }
