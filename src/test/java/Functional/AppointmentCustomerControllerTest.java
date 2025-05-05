@@ -70,7 +70,7 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
             // Aggiungo un servizio
             stmt.executeUpdate("INSERT INTO Service_Types (service_name, price) VALUES ('Taglio Capelli', 20.00)");
 
-            stmt.executeUpdate("DELETE FROM Users WHERE email = 'm.rossi@example.com'");
+            stmt.executeUpdate("DELETE FROM Users");
             // Creo un customer
             stmt.executeUpdate("INSERT INTO Users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Mario', 'Rossi', 'm.rossi@example.com', 'securePass123', '1234567890', 'CUSTOMER')");

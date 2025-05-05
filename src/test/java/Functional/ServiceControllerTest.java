@@ -75,12 +75,19 @@ public class ServiceControllerTest extends ApplicationTest {
     }
 
     @BeforeEach
-    public void clearInputFields() {
+    public void clearInputFieldsAndDatabase() {
         Platform.runLater(() -> {
             textFieldName.clear();
             textFieldPrice.clear();
         });
         WaitForAsyncUtils.waitForFxEvents();
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
+            stmt.executeUpdate("DELETE FROM Service_types");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail("Errore nella pulizia della tabella Service_types.");
+        }
     }
 
     @Test
