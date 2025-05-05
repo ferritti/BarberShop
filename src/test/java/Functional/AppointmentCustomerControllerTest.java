@@ -65,17 +65,22 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
         }
 
         try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
+
+            stmt.executeUpdate("DELETE FROM Service_Types WHERE service_name = 'Taglio Capelli'");
             // Aggiungo un servizio
             stmt.executeUpdate("INSERT INTO Service_Types (service_name, price) VALUES ('Taglio Capelli', 20.00)");
 
+            stmt.executeUpdate("DELETE FROM Users WHERE email = 'm.rossi@example.com'");
             // Creo un customer
             stmt.executeUpdate("INSERT INTO Users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Mario', 'Rossi', 'm.rossi@example.com', 'securePass123', '1234567890', 'CUSTOMER')");
 
+            stmt.executeUpdate("DELETE FROM Users WHERE email = 'l.verdi@example.com'");
             // Creo un barbiere
             stmt.executeUpdate("INSERT INTO Users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Luca', 'Verdi', 'l.verdi@example.com', 'securePass123', '0987654321', 'BARBER')");
 
+            stmt.executeUpdate("DELETE FROM Appointments");
             // Crea due appuntamenti
             stmt.executeUpdate("INSERT INTO Appointments (app_date, app_time, customer_email, customer_phone, barber_email, barber_name, service_name, price, payment) " +
                     "VALUES ('2025-05-10', '10:00', 'm.rossi@example.com', '1234567890', 'l.verdi@example.com', 'Luca Verdi', 'Taglio Capelli', 20.00, 'CREDIT_CARD')");

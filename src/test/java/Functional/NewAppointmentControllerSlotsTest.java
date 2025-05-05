@@ -2,35 +2,20 @@ package Functional;
 
 import Authentication.SessionManager;
 import Controllers.NewAppointmentControllerSlots;
-import Model.Appointment;
-import Model.AvailableSlot;
 import Model.Customer;
 import Persistence.DBConnection.DBManager;
 import Persistence.DBConnection.DBTestInitializer;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableRow;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import org.junit.jupiter.api.*;
-import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
-
 import java.sql.*;
-import java.time.LocalTime;
-import java.util.Optional;
-
+import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class NewAppointmentControllerSlotsTest extends ApplicationTest {
@@ -50,11 +35,17 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
         // Inizializzazione della GUI
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/NewAppointmentSlots.fxml"));
         Parent root = loader.load();
-        controller = loader.getController();
+
 
         stage.setScene(new Scene(root));
         stage.setTitle("New Appointment");
         stage.show();
+
+        controller = loader.getController();
+
+        controller.setDate(LocalDate.of(2025, 5, 11));
+
+
 
         // Attendi che JavaFX completi il rendering
         WaitForAsyncUtils.waitForFxEvents();
@@ -69,8 +60,8 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
         try (Statement stmt = manager.getConnection().createStatement()) {
             DBTestInitializer.createUsersTable(stmt);
             DBTestInitializer.createServiceTypesTable(stmt);
-            DBTestInitializer.createAppointmentsTable(stmt);
             DBTestInitializer.createAvailableSlotsTable(stmt);
+            DBTestInitializer.createAppointmentsTable(stmt);
             DBTestInitializer.createNewsTable(stmt);
 
         } catch (Exception e) {
@@ -79,23 +70,45 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
         }
 
         try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
+            stmt.executeUpdate("DELETE FROM Available_Slots ");
+            stmt.executeUpdate("DELETE FROM Service_Types WHERE service_name = 'Taglio Capelli'");
             // Aggiungo un servizio
             stmt.executeUpdate("INSERT INTO Service_Types (service_name, price) VALUES ('Taglio Capelli', 20.00)");
+
+            stmt.executeUpdate("DELETE FROM Users WHERE email = 'm.rossi@example.com'");
 
             // Creo un customer
             stmt.executeUpdate("INSERT INTO Users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Mario', 'Rossi', 'm.rossi@example.com', 'securePass123', '1234567890', 'CUSTOMER')");
 
+            stmt.executeUpdate("DELETE FROM Users WHERE email = 'l.verdi@example.com'");
+
             // Creo un barbiere
             stmt.executeUpdate("INSERT INTO Users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Luca', 'Verdi', 'l.verdi@example.com', 'securePass123', '0987654321', 'BARBER')");
 
+            // Rimuovi lo slot se già esiste
+            stmt.executeUpdate("DELETE FROM Available_Slots ");
+            stmt.executeUpdate("DELETE FROM Available_Slots WHERE barber_email = 'l.verdi@example.com' AND slot_date = '2025-05-11' AND start_time = '10:00'");
+
             // Aggiungo uno slot disponibile
             stmt.executeUpdate("INSERT INTO Available_Slots (barber_email, slot_date, start_time) " +
-                    "VALUES ('l.verdi@example.com', '2025-05-10', '10:00')");
+                    "VALUES ('l.verdi@example.com', '2025-05-11', '10:00')");
+
+            // Rimuovi lo slot se già esiste
+            stmt.executeUpdate("DELETE FROM Available_Slots WHERE barber_email = 'l.verdi@example.com' AND slot_date = '2025-05-11' AND start_time = '8:00'");
+
+            // Aggiungo uno slot disponibile
+            stmt.executeUpdate("INSERT INTO Available_Slots (barber_email, slot_date, start_time) " +
+                    "VALUES ('l.verdi@example.com', '2025-05-11', '8:00')");
+
+            stmt.executeUpdate("DELETE FROM Appointments WHERE barber_email = 'l.verdi@example.com'");
+            stmt.executeUpdate("DELETE FROM News WHERE barber_email = 'l.verdi@example.com'");
+            slotCreated = true;
+
 
             // Imposta l'utente loggato (dopo averlo creato nel DB)
-            slotCreated = true;
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,7 +121,7 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
     public static void cleanupDatabaseAfterTest() {
         if (slotCreated) {
             try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
-                stmt.executeUpdate("DELETE FROM Available_Slots WHERE barber_email = 'l.verdi@example.com' AND slot_date = '2025-05-10'");
+                stmt.executeUpdate("DELETE FROM Available_Slots ");
                 stmt.executeUpdate("DELETE FROM Users WHERE email = 'm.rossi@example.com'");
                 stmt.executeUpdate("DELETE FROM Users WHERE email = 'l.verdi@example.com'");
                 stmt.executeUpdate("DELETE FROM Service_Types WHERE service_name = 'Taglio Capelli'");
@@ -121,69 +134,201 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
         DBManager.getInstance(true).close();
     }
 
-//    @Test
-//    public void testBookAppointmentWithPaymentSuccess() throws Exception {
-//        // Verifica che non ci siano appuntamenti inizialmente
-//
-//        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
-//             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
-//
-//            rs.next();
-//            int total = rs.getInt("total");
-//            assertEquals(0, total, "Il database dovrebbe contenere 0 appuntamenti prima della selezione");
-//        }
-//
-//        // Attende che la UI sia caricata
-//        WaitForAsyncUtils.waitForFxEvents();
-//        Thread.sleep(500);
-//
-//
-//
-//        moveBy(337, -325).clickOn();
-//        WaitForAsyncUtils.waitForFxEvents();
-//        Thread.sleep(500);
-//        // Seleziona "l.verdi@example.com" dalla lista dei barbieri
-//        clickOn("Luca Verdi");
-//        Button tenAMButton = lookup("#tenAMButton").queryAs(Button.class);
-//        tenAMButton.setDisable(false);
-//        tenAMButton.setOpacity(1);
-//        WaitForAsyncUtils.waitForFxEvents();
-//        clickOn("#tenAMButton");
-//
-//
-//
-//
-//        // Seleziona il servizio dalla ComboBox (in alto a destra)
-//        ComboBox<?> serviceBox = lookup("#serviceComboBox").query();
-//        Node arrowService = serviceBox.lookup(".arrow-button");
-//        clickOn(arrowService);
-//        clickOn("Taglio Capelli"); // Cambia con il nome del servizio corretto se diverso
-//
-//        // Seleziona il pulsante per le 10:00
-//
-//
-//        // Conferma la prenotazione (simulando il popup)
-//        clickOn("Yes");
-//
-//        // Scegli il metodo di pagamento
-//        clickOn("PayPal");
-//
-//        // Conferma finale
-//        clickOn("OK");
-//
-//        // Attendere che gli eventi vengano processati
-//        WaitForAsyncUtils.waitForFxEvents();
-//        Thread.sleep(500);
-//
-//        // Verifica che ora ci sia un appuntamento registrato
-//        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
-//             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
-//
-//            rs.next();
-//            int total = rs.getInt("total");
-//            assertEquals(1, total, "Dopo la selezione, dovrebbe esserci un nuovo appuntamento fissato");
-//        }
-//    }
+    @Test
+    public void testBookAppointmentFailsWithoutServiceSelection() throws Exception {
+
+        // Verifica che non ci siano appuntamenti inizialmente
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(0, total, "Il database dovrebbe contenere 0 appuntamenti prima della selezione");
+        }
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        // Seleziona solo il barbiere, ma NON il servizio
+        Node caretB = lookup("#barberComboBox").lookup(".caret").query();
+        clickOn(caretB);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Luca Verdi");
+
+        // Attiva e clicca sul bottone delle 10:00
+        Button tenAMButton = lookup("#tenAMButton").queryAs(Button.class);
+        tenAMButton.setDisable(false);
+        tenAMButton.setOpacity(1);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        moveTo("#tenAMButton").clickOn("#tenAMButton");
+
+        // Conferma la prenotazione (popup)
+        clickOn("OK");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        // Verifica che NON sia stato registrato nessun appuntamento
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(0, total, "Non dovrebbe essere stato fissato alcun appuntamento senza selezione del servizio");
+        }
+
+        // Verifica che non siano state create notizie
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM News")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(0, total, "Non dovrebbe essere stata creata alcuna news");
+        }
+    }
+
+
+    @Test
+    public void testBookAppointmentWithPaymentSuccess() throws Exception {
+
+        // Verifica che non ci siano appuntamenti inizialmente
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(0, total, "Il database dovrebbe contenere 0 appuntamenti prima della selezione");
+        }
+
+        // Attende che la UI sia caricata
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        // Seleziona il barbiere "Luca Verdi"
+        Node caretB = lookup("#barberComboBox").lookup(".caret").query();
+        clickOn(caretB);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Luca Verdi");
+
+        Node caretS = lookup("#serviceComboBox").lookup(".caret").query();
+        clickOn(caretS);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Taglio Capelli");
+
+        // Attiva e clicca sul bottone delle 10:00
+        Button tenAMButton = lookup("#tenAMButton").queryAs(Button.class);
+        tenAMButton.setDisable(false);
+        tenAMButton.setOpacity(1);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        moveTo("#tenAMButton").clickOn("#tenAMButton");
+
+        // Conferma la prenotazione (popup)
+        clickOn("Yes");
+
+        // Seleziona metodo di pagamento
+        clickOn("PayPal");
+
+        // Conferma finale
+        clickOn("OK");
+
+        // Attendi gli eventi
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Available_Slots WHERE barber_email = 'l.verdi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(1, total, "Dopo la selezione, dovrebbe esserci uno slot libero");
+        }
+
+        // Verifica che l'appuntamento sia stato registrato nel database
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(1, total, "Dopo la selezione, dovrebbe esserci un nuovo appuntamento fissato");
+        }
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM News ")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(1, total, "Dopo la selezione, dovrebbe esserci un nuovo news");
+        }
+    }
+
+    @Test
+    public void testBookAppointmentCancelledWithNoButton() throws Exception {
+
+        // Verifica che inizialmente non ci siano appuntamenti
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(1, total, "All'inizio ci dovrebbero essere un appuntamento");
+        }
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        // Seleziona il barbiere
+        Node caretB = lookup("#barberComboBox").lookup(".caret").query();
+        clickOn(caretB);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Luca Verdi");
+
+        // Seleziona il servizio
+        Node caretS = lookup("#serviceComboBox").lookup(".caret").query();
+        clickOn(caretS);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Taglio Capelli");
+
+        // Attiva e clicca sul bottone delle 10:00
+        Button tenAMButton = lookup("#eightAMButton").queryAs(Button.class);
+        tenAMButton.setDisable(false);
+        tenAMButton.setOpacity(1);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        moveTo("#eightAMButton").clickOn("#eightAMButton");
+
+
+        Thread.sleep(500);
+        clickOn("No");
+
+        // Attendi gli eventi
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        // Verifica che l'appuntamento NON sia stato salvato
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(1, total, "Premendo 'No', l'appuntamento non dovrebbe essere salvato");
+        }
+
+        // Verifica che nessuna news sia stata creata
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM News")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(1, total, "Premendo 'No', non dovrebbe essere creata alcuna nuova news");
+        }
+    }
+
 
 
 
@@ -245,4 +390,70 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
         assertEquals("Calendar", stage.getTitle(),
                 "La vista dovrebbe passare alla schermata del Calendar.");
     }
+
+    @Test
+    public void testBookAppointmentCancelledAfterYesWithBackButton() throws Exception {
+
+        // Controlla che il database sia vuoto
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(0, total, "All'avvio, non ci dovrebbero essere appuntamenti");
+        }
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        // Selezione barbiere
+        Node caretB = lookup("#barberComboBox").lookup(".caret").query();
+        clickOn(caretB);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Luca Verdi");
+
+        // Selezione servizio
+        Node caretS = lookup("#serviceComboBox").lookup(".caret").query();
+        clickOn(caretS);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Taglio Capelli");
+
+        // Attiva il bottone delle 10:00 e clicca
+        Button tenAMButton = lookup("#tenAMButton").queryAs(Button.class);
+        tenAMButton.setDisable(false);
+        tenAMButton.setOpacity(1);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        moveTo("#tenAMButton").clickOn("#tenAMButton");
+
+        // Conferma con "Yes"
+        clickOn("Yes");
+
+        // Quando compare la finestra dei metodi di pagamento, clicca su "Back"
+        clickOn("Back");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        // Verifica che nessun appuntamento sia stato salvato
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(0, total, "Dopo 'Yes' seguito da 'Back', l'appuntamento non dovrebbe essere salvato");
+        }
+
+        // Verifica che nessuna notizia sia stata creata
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM News")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(0, total, "Dopo 'Yes' seguito da 'Back', non dovrebbe essere creata alcuna news");
+        }
+    }
+
 }
