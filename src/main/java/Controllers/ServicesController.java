@@ -5,6 +5,7 @@ import Helpers.AlertHelper;
 import Helpers.SceneHelper;
 import Model.ServiceType;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -43,7 +44,10 @@ public class ServicesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("serviceName"));
+        nameColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getName())
+        );
+
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         SceneHelper.setColumnsNotReorderable(nameColumn, priceColumn);

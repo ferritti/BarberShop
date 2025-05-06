@@ -65,6 +65,10 @@ public class AppointmentCustomerController implements Initializable {
                 new SimpleDoubleProperty(cellData.getValue().getServiceType().getPrice()).asObject()
         );
 
+        paymentColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getPaymentMethod().toString())
+        );
+
         paymentColumn.setMinWidth(95);
         dateColumn.setMinWidth(80);
         deleteColumn.setMaxWidth(40);
