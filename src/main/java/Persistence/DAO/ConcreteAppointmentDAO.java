@@ -105,13 +105,11 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
                 appointments.add(appointment);
             }
-
             rs.close();
             stmt.close();
-            connection.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return appointments;
@@ -175,13 +173,11 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
                 appointments.add(appointment);
             }
-
             rs.close();
             stmt.close();
-            connection.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return appointments;
