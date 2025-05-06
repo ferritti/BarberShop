@@ -7,6 +7,7 @@ import Persistence.DAO.AppointmentDAO;
 import Persistence.DAO.AvailableSlotDAO;
 import Persistence.DAO.NewsDAO;
 import Model.*;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +25,11 @@ class AppointmentServiceTest {
     private NewsDAO newsDAO;
     private SessionManager sessionManager;
     private AppointmentService appointmentService;
+    private Barber barber;
+    private Customer customer;
+    private Customer customer2;
+    private ServiceType serviceType;
+
 
     @BeforeEach
     void setUp() {
@@ -32,56 +38,59 @@ class AppointmentServiceTest {
         newsDAO = mock(NewsDAO.class);
         sessionManager = mock(SessionManager.class);
         appointmentService = new AppointmentService(appointmentDAO, availableSlotDAO, newsDAO, sessionManager);
+        barber = mock(Barber.class);
+        when(barber.getEmail()).thenReturn("barber@example.com");
+        when(barber.getUserType()).thenReturn(User.UserType.BARBER);
+        customer = mock(Customer.class);
+        when(customer.getEmail()).thenReturn("customer@example.com");
+        when(customer.getUserType()).thenReturn(User.UserType.CUSTOMER);
+        serviceType = mock(ServiceType.class);
+        customer2 = mock(Customer.class);
+        when(customer2.getEmail()).thenReturn("cliente2@example.com");
+        when(customer2.getUserType()).thenReturn(User.UserType.CUSTOMER);
+        when(serviceType.getName()).thenReturn("Haircut");
+        when(serviceType.getPrice()).thenReturn(25.0);
     }
 
     @Test
     void getAppointmentsBarber() {
-        User barber = new Barber("Mario", "Rossi", "barber@example.com", "password", "123456789");
         when(sessionManager.getCurrentUser()).thenReturn(barber);
 
         List<Appointment> appointments = Arrays.asList(
-                new Appointment(PaymentMethod.CREDIT_CARD, "Haircut", "Mario Rossi", "barber@example.com",
-                        "cliente1@example.com", "1234567890", LocalTime.of(10, 0), LocalDate.of(2024, 3, 25), 25.0),
-                new Appointment(PaymentMethod.PAYPAL, "Shave", "Mario Rossi", "barber@example.com",
-                        "cliente2@example.com", "0987654321", LocalTime.of(11, 0), LocalDate.of(2024, 3, 26), 15.0)
+                new Appointment(LocalDate.of(2024, 3, 25), LocalTime.of(10, 0), customer, barber, serviceType, PaymentMethod.CREDIT_CARD),
+                new Appointment( LocalDate.of(2024, 3, 26), LocalTime.of(11, 0), customer2, barber, serviceType, PaymentMethod.PAYPAL)
         );
-        when(appointmentDAO.findByEmailOfUser(barber.getEmail())).thenReturn(appointments);
+        when(appointmentDAO.findByEmailOfBarber(barber.getEmail())).thenReturn(appointments);
 
         List<Appointment> result = appointmentService.getAppointments();
         assertEquals(2, result.size());
-        assertEquals("cliente1@example.com", result.get(0).getCustomerEmail());
-        assertEquals("cliente2@example.com", result.get(1).getCustomerEmail());
+        assertEquals("customer@example.com", result.get(0).getCustomer().getEmail());
+        assertEquals("cliente2@example.com", result.get(1).getCustomer().getEmail());
     }
 
     @Test
     void getAppointmentsCustomer() {
-        User customer = new Customer("Luigi", "Bianchi", "cliente@example.com", "password", "987654321");
         when(sessionManager.getCurrentUser()).thenReturn(customer);
 
         List<Appointment> appointments = Arrays.asList(
-                new Appointment(PaymentMethod.SHOP, "Beard Trim", "Mario Rossi", "barber@example.com",
-                        "cliente@example.com", "9876543210", LocalTime.of(14, 30), LocalDate.of(2024, 4, 1), 20.0)
+                new Appointment( LocalDate.of(2024, 4, 1), LocalTime.of(14, 30), customer, barber, serviceType, PaymentMethod.SHOP)
         );
-        when(appointmentDAO.findByEmailOfUser(customer.getEmail())).thenReturn(appointments);
+        when(appointmentDAO.findByEmailOfCustomer(customer.getEmail())).thenReturn(appointments);
 
         List<Appointment> result = appointmentService.getAppointments();
         assertEquals(1, result.size());
-        assertEquals("barber@example.com", result.get(0).getBarberEmail());
+        assertEquals("barber@example.com", result.get(0).getBarber().getEmail());
     }
 
     @Test
     void isPastAppointmentTrue() {
-        Appointment pastAppointment = new Appointment(PaymentMethod.SHOP, "Haircut", "Mario Rossi", "barber@example.com",
-                "cliente@example.com", "1234567890", LocalTime.of(9, 0), LocalDate.of(2023, 1, 1), 25.0);
-
+        Appointment pastAppointment = new Appointment(LocalDate.of(2023, 1, 1), LocalTime.of(9, 0), customer, barber, serviceType, PaymentMethod.SHOP);
         assertTrue(AppointmentService.isPastAppointment(pastAppointment));
     }
 
     @Test
     void addAvailableSlotCallsDao() {
-        Appointment appointment = new Appointment(PaymentMethod.PAYPAL, "Haircut", "Mario Rossi", "barber@example.com",
-                "cliente@example.com", "1234567890", LocalTime.of(15, 0), LocalDate.of(2024, 4, 1), 25.0);
-
+        Appointment appointment = new Appointment(LocalDate.of(2024, 4, 1), LocalTime.of(15, 0), customer, barber, serviceType, PaymentMethod.PAYPAL);
         appointmentService.addAvailableSlot(appointment);
 
         verify(availableSlotDAO, times(1)).addAvSlot(any(AvailableSlot.class));
@@ -89,8 +98,7 @@ class AppointmentServiceTest {
 
     @Test
     void deleteAppointmentSuccess() {
-        Appointment appointment = new Appointment(PaymentMethod.PAYPAL, "Shave", "Mario Rossi", "barber@example.com",
-                "cliente@example.com", "0987654321", LocalTime.of(16, 0), LocalDate.of(2024, 4, 1), 15.0);
+        Appointment appointment = new Appointment(LocalDate.of(2024, 4, 1), LocalTime.of(16, 0), customer, barber, serviceType, PaymentMethod.PAYPAL);
 
         when(appointmentDAO.deleteAppointment(appointment)).thenReturn(true);
 
@@ -100,8 +108,7 @@ class AppointmentServiceTest {
 
     @Test
     void deleteAppointmentFailure() {
-        Appointment appointment = new Appointment(PaymentMethod.PAYPAL, "Shave", "Mario Rossi", "barber@example.com",
-                "cliente@example.com", "0987654321", LocalTime.of(16, 0), LocalDate.of(2024, 4, 1), 15.0);
+        Appointment appointment = new Appointment(LocalDate.of(2024, 4, 1),LocalTime.of(16, 0), customer, barber, serviceType, PaymentMethod.PAYPAL);
 
         when(appointmentDAO.deleteAppointment(appointment)).thenReturn(false);
 
@@ -110,8 +117,7 @@ class AppointmentServiceTest {
 
     @Test
     void addNotificationCallsDao() {
-        Appointment appointment = new Appointment(PaymentMethod.PAYPAL, "Beard Trim", "Mario Rossi", "barber@example.com",
-                "cliente@example.com", "9876543210", LocalTime.of(12, 0), LocalDate.of(2024, 4, 1), 20.0);
+        Appointment appointment = new Appointment(LocalDate.of(2024, 4, 1), LocalTime.of(12, 0), customer, barber, serviceType, PaymentMethod.PAYPAL);
 
         appointmentService.addNotification(appointment);
 
