@@ -33,12 +33,12 @@ class NewsServiceTest {
 
     @Test
     void getNewsBarber() {
-        User barber = new Barber("Mario", "Rossi", "barber@example.com", "password", "123456789");
+        Barber barber = new Barber("Mario", "Rossi", "barber@example.com", "password", "123456789");
         when(sessionManager.getCurrentUser()).thenReturn(barber);
 
         List<Notification> barberNews = Arrays.asList(
-                new Notification("Title1", "Message1", "barber@example.com", false),
-                new Notification("Title2", "Message2", "barber@example.com", false)
+                new Notification("Title1", "Message1", barber, false),
+                new Notification("Title2", "Message2", barber, false)
         );
         when(newsDAO.getAllBarberNews(barber.getEmail())).thenReturn(barberNews);
 

@@ -73,18 +73,37 @@ class NewAppointmentSlotsServiceTest {
     }
 
     @Test
-    void getAppointmentsTest() {
+    void getAppointmentsAsBarberTest() {
         User mockUser = mock(User.class);
         when(sessionManager.getCurrentUser()).thenReturn(mockUser);
-        when(mockUser.getEmail()).thenReturn("user@example.com");
+        when(mockUser.getEmail()).thenReturn("barber@example.com");
+        when(mockUser.getUserType()).thenReturn(User.UserType.BARBER);
 
         List<Appointment> mockAppointments = List.of(mock(Appointment.class));
-        when(appointmentDAO.findByEmailOfUser("user@example.com")).thenReturn(mockAppointments);
+        when(appointmentDAO.findByEmailOfBarber("barber@example.com")).thenReturn(mockAppointments);
 
         List<Appointment> result = service.getAppointments();
 
         assertEquals(mockAppointments, result);
-        verify(appointmentDAO, times(1)).findByEmailOfUser("user@example.com");
+        verify(appointmentDAO, times(1)).findByEmailOfBarber("barber@example.com");
+        verify(appointmentDAO, never()).findByEmailOfCustomer(anyString());
+    }
+
+    @Test
+    void getAppointmentsAsCustomerTest() {
+        User mockUser = mock(User.class);
+        when(sessionManager.getCurrentUser()).thenReturn(mockUser);
+        when(mockUser.getEmail()).thenReturn("customer@example.com");
+        when(mockUser.getUserType()).thenReturn(User.UserType.CUSTOMER);
+
+        List<Appointment> mockAppointments = List.of(mock(Appointment.class));
+        when(appointmentDAO.findByEmailOfCustomer("customer@example.com")).thenReturn(mockAppointments);
+
+        List<Appointment> result = service.getAppointments();
+
+        assertEquals(mockAppointments, result);
+        verify(appointmentDAO, times(1)).findByEmailOfCustomer("customer@example.com");
+        verify(appointmentDAO, never()).findByEmailOfBarber(anyString());
     }
 
     @Test

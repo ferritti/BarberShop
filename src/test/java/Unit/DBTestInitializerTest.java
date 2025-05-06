@@ -61,7 +61,7 @@ public class DBTestInitializerTest {
 
         verify(mockStmt).execute(sqlCaptor.capture());
         String capturedSql = sqlCaptor.getValue().trim().replaceAll("\\s+", " ");
-        String expectedSql = "CREATE TABLE IF NOT EXISTS Appointments ( app_date DATE NOT NULL, app_time TIME(0) NOT NULL, customer_email VARCHAR(100) NOT NULL, customer_phone VARCHAR(100) NOT NULL, barber_email VARCHAR(100) NOT NULL, barber_name VARCHAR(100) NOT NULL, service_name VARCHAR(100) NOT NULL, price DECIMAL(10, 2) CHECK (price >= 0) NOT NULL, payment VARCHAR(20) CHECK (payment IN ('PAYPAL', 'CREDIT_CARD', 'SHOP')) NOT NULL, PRIMARY KEY (app_date, app_time, barber_email), FOREIGN KEY (customer_email) REFERENCES Users(email) ON DELETE CASCADE, FOREIGN KEY (barber_email) REFERENCES Users(email) ON DELETE CASCADE, FOREIGN KEY (service_name) REFERENCES Service_Types(service_name) ON DELETE CASCADE );";
+        String expectedSql = "CREATE TABLE IF NOT EXISTS Appointments ( app_date DATE NOT NULL, app_time TIME(0) NOT NULL, customer_email VARCHAR(100) NOT NULL, barber_email VARCHAR(100) NOT NULL, service_name VARCHAR(100) NOT NULL, payment VARCHAR(20) CHECK (payment IN ('PAYPAL', 'CREDIT_CARD', 'SHOP')) NOT NULL, PRIMARY KEY (app_date, app_time, barber_email), FOREIGN KEY (customer_email) REFERENCES Users(email) ON DELETE CASCADE, FOREIGN KEY (barber_email) REFERENCES Users(email) ON DELETE CASCADE, FOREIGN KEY (service_name) REFERENCES Service_Types(service_name) ON DELETE CASCADE );";
 
         assertEquals(expectedSql.trim().replaceAll("\\s+", " "), capturedSql);
 
