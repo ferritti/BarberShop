@@ -72,8 +72,8 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
 
             ResultSet rs = stmt.executeQuery();
 
-            Barber barber = new Barber(rs.getString("name"), rs.getString("surname"), rs.getString("email"), rs.getString("password"), rs.getString("phone_number"));
             while (rs.next()) {
+                Barber barber = new Barber(rs.getString("name"), rs.getString("surname"), rs.getString("email"), rs.getString("pass_hash"), rs.getString("phone"));
                 AvailableSlot slot = new AvailableSlot(
                         barber,
                         rs.getDate("slot_date").toLocalDate(),
