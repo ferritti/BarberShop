@@ -24,7 +24,7 @@ public class ServiceTest {
     @AfterEach
     void tearDown() {
         ServiceType serviceToDelete = serviceTypeDAO.getAllServiceTypes().stream()
-                .filter(s -> s.getServiceName().equals(serviceName))
+                .filter(s -> s.getName().equals(serviceName))
                 .findFirst()
                 .orElse(null);
 
@@ -39,12 +39,12 @@ public class ServiceTest {
         assertTrue(isServiceAdded);
 
         ServiceType service = serviceTypeDAO.getAllServiceTypes().stream()
-                .filter(s -> s.getServiceName().equals(serviceName))
+                .filter(s -> s.getName().equals(serviceName))
                 .findFirst()
                 .orElse(null);
 
         assertNotNull(service);
-        assertEquals(serviceName, service.getServiceName());
+        assertEquals(serviceName, service.getName());
         assertEquals(servicePrice, service.getPrice());
     }
 
@@ -52,7 +52,7 @@ public class ServiceTest {
     void testDeleteService() {
         servicesService.addService(serviceName, servicePrice);
         ServiceType serviceToDelete = serviceTypeDAO.getAllServiceTypes().stream()
-                .filter(s -> s.getServiceName().equals(serviceName))
+                .filter(s -> s.getName().equals(serviceName))
                 .findFirst()
                 .orElse(null);
 
@@ -61,7 +61,7 @@ public class ServiceTest {
         assertTrue(isServiceDeleted);
 
         ServiceType deletedService = serviceTypeDAO.getAllServiceTypes().stream()
-                .filter(s -> s.getServiceName().equals(serviceName))
+                .filter(s -> s.getName().equals(serviceName))
                 .findFirst()
                 .orElse(null);
 
