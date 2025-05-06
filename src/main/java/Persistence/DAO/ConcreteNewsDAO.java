@@ -23,7 +23,14 @@ public class ConcreteNewsDAO implements NewsDAO {
 
             stmt.setString(1, notification.getTitle());
             stmt.setString(2, notification.getMessage());
-            stmt.setString(3, notification.getBarber().getEmail());
+
+            // Gestione del caso email nulla
+            if (notification.getBarber() != null && notification.getBarber().getEmail() != null) {
+                stmt.setString(3, notification.getBarber().getEmail());
+            } else {
+                stmt.setNull(3, java.sql.Types.VARCHAR);
+            }
+
             stmt.setBoolean(4, notification.isToCustomers());
             stmt.setTime(5, java.sql.Time.valueOf(notification.getTime()));
             stmt.setDate(6, java.sql.Date.valueOf(notification.getDate()));
