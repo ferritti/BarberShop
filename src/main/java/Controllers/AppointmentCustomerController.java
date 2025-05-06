@@ -4,6 +4,8 @@ import Business.AppointmentService;
 import Helpers.AlertHelper;
 import Helpers.SceneHelper;
 import Model.Appointment;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -47,12 +49,21 @@ public class AppointmentCustomerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        barberColumn.setCellValueFactory(new PropertyValueFactory<>("barberName"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("servicePrice"));
-        serviceColumn.setCellValueFactory(new PropertyValueFactory<>("serviceTypeName"));
+
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        paymentColumn.setCellValueFactory(new PropertyValueFactory<>("payment"));
+
+        barberColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getBarber().getName())
+        );
+
+        serviceColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getServiceType().getName())
+        );
+
+        priceColumn.setCellValueFactory(cellData ->
+                new SimpleDoubleProperty(cellData.getValue().getServiceType().getPrice()).asObject()
+        );
 
         paymentColumn.setMinWidth(95);
         dateColumn.setMinWidth(80);

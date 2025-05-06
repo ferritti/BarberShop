@@ -9,7 +9,7 @@ public class ServiceType {
         this.price = price;
     }
 
-    public String getServiceName() {
+    public String getName() {
         return serviceName;
     }
 

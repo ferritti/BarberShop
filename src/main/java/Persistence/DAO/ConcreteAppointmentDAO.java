@@ -28,7 +28,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             stmt.setTime(2, java.sql.Time.valueOf(appointment.getTime()));
             stmt.setString(3, appointment.getCustomer().getEmail());
             stmt.setString(4, appointment.getBarber().getEmail());
-            stmt.setString(5, appointment.getServiceType().getServiceName());
+            stmt.setString(5, appointment.getServiceType().getName());
             stmt.setString(6, appointment.getPaymentMethod().toString());
 
             int rows = stmt.executeUpdate();
@@ -179,7 +179,6 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return appointments;
     }
 

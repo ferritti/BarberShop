@@ -17,7 +17,7 @@ public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
             PreparedStatement stmt = conn.prepareStatement(
                     "INSERT INTO Service_Types(service_name, price) VALUES (?, ?)"
             );
-            stmt.setString(1, serviceType.getServiceName());
+            stmt.setString(1, serviceType.getName());
             stmt.setDouble(2, serviceType.getPrice());
             int row = stmt.executeUpdate();
             stmt.close();
@@ -34,7 +34,7 @@ public class ConcreteServiceTypeDAO implements ServiceTypeDAO{
             PreparedStatement stmt = conn.prepareStatement(
                     "DELETE FROM Service_Types WHERE service_name = ?"
             );
-            stmt.setString(1, serviceType.getServiceName());
+            stmt.setString(1, serviceType.getName());
 
             int row = stmt.executeUpdate();
             stmt.close();

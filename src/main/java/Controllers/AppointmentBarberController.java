@@ -3,6 +3,8 @@ package Controllers;
 import Business.AppointmentService;
 import Helpers.SceneHelper;
 import Model.Appointment;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -42,12 +44,24 @@ public class AppointmentBarberController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        customerColumn.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("servicePrice"));
-        serviceColumn.setCellValueFactory(new PropertyValueFactory<>("serviceTypeName"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        paymentColumn.setCellValueFactory(new PropertyValueFactory<>("payment"));
+
+        priceColumn.setCellValueFactory(cellData ->
+                new SimpleDoubleProperty(cellData.getValue().getServiceType().getPrice()).asObject()
+        );
+
+        serviceColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getServiceType().getName())
+        );
+
+        paymentColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getPaymentMethod().toString())
+        );
+
+        customerColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getCustomer().getName())
+        );
 
         SceneHelper.centerTextInColumns(customerColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
         SceneHelper.setColumnsNotReorderable(customerColumn, dateColumn, priceColumn, serviceColumn, timeColumn, paymentColumn);
