@@ -1,5 +1,7 @@
 package Payment;
 
+import Model.PaymentMethod;
+
 public class PaymentFactory {
     public static PaymentStrategy getPaymentMethod(PaymentMethod paymentMethodType) {
         if (paymentMethodType == null) {

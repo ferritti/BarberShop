@@ -1,6 +1,7 @@
 package Persistence.DAO;
 
 
+import Model.Barber;
 import Persistence.DBConnection.DBManager;
 import Model.AvailableSlot;
 
@@ -25,7 +26,7 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
                             "VALUES (?, ?, ?)");
 
 
-            stmt.setString(1, avSlot.getBarberEmail());
+            stmt.setString(1, avSlot.getBarber().getEmail());
             stmt.setDate(2, java.sql.Date.valueOf(avSlot.getDate()));
             stmt.setTime(3, java.sql.Time.valueOf(avSlot.getStartTime()));
 
@@ -45,7 +46,7 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
             PreparedStatement stmt = connection.prepareStatement(
                     "DELETE FROM Available_Slots WHERE barber_email = ? AND slot_date = ? AND start_time = ?");
 
-            stmt.setString(1, avSlot.getBarberEmail());
+            stmt.setString(1, avSlot.getBarber().getEmail());
             stmt.setDate(2, java.sql.Date.valueOf(avSlot.getDate()));
             stmt.setTime(3, java.sql.Time.valueOf(avSlot.getStartTime()));
 
@@ -64,16 +65,17 @@ public class ConcreteAvailableSlotDAO implements AvailableSlotDAO {
         try {
             Connection connection = dbManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM Available_Slots WHERE slot_date = ? AND barber_email = ?");
+                    "SELECT * FROM Available_Slots JOIN Users ON barber_email = email WHERE slot_date = ? AND barber_email = ?");
 
             stmt.setDate(1, java.sql.Date.valueOf(date));
             stmt.setString(2, barberEmail);
 
             ResultSet rs = stmt.executeQuery();
 
+            Barber barber = new Barber(rs.getString("name"), rs.getString("surname"), rs.getString("email"), rs.getString("password"), rs.getString("phone_number"));
             while (rs.next()) {
                 AvailableSlot slot = new AvailableSlot(
-                        rs.getString("barber_email"),
+                        barber,
                         rs.getDate("slot_date").toLocalDate(),
                         rs.getTime("start_time").toLocalTime()
                 );

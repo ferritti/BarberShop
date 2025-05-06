@@ -1,12 +1,8 @@
 package Business;
 
 import Authentication.SessionManager;
+import Model.*;
 import Persistence.DAO.*;
-import Model.Appointment;
-import Model.AvailableSlot;
-import Model.Notification;
-import Model.User;
-import Payment.PaymentMethod;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -51,34 +47,36 @@ public class NewAppointmentSlotsService {
     }
 
     public List<Appointment> getAppointments() {
-        return appointmentDAO.findByEmailOfUser(sessionManager.getCurrentUser().getEmail());
+        if(sessionManager.getCurrentUser().getUserType() == User.UserType.BARBER) {
+            return appointmentDAO.findByEmailOfBarber(sessionManager.getCurrentUser().getEmail());
+        } else {
+            return appointmentDAO.findByEmailOfCustomer(sessionManager.getCurrentUser().getEmail());
+        }
     }
 
-    public boolean bookAppointment(String barber, String service, LocalDate date, LocalTime time, PaymentMethod paymentMethod) {
-        String barberEmail = getBarbersData().get(barber);
-        User currentUser = sessionManager.getCurrentUser();
-        double servicePrice = getServicesData().get(service);
+    public boolean bookAppointment(String barberFullName, String service, LocalDate date, LocalTime time, PaymentMethod paymentMethod) {
+        String barberEmail = getBarbersData().get(barberFullName);
+        Barber barberUser = (Barber) userDAO.findByEmail(barberEmail);
+        Customer currentUser = (Customer) sessionManager.getCurrentUser();
+        ServiceType serviceType = new ServiceType(service, getServicesData().get(service));
 
         Appointment appointment = new Appointment(
-                paymentMethod,
-                service,
-                barber,
-                barberEmail,
-                currentUser.getEmail(),
-                currentUser.getPhone(),
-                time,
                 date,
-                servicePrice
+                time,
+                currentUser,
+                barberUser,
+                serviceType,
+                paymentMethod
         );
 
         Notification notification = new Notification(
                 "New Appointment",
                 currentUser.getName() + " " + currentUser.getSurname() + " has booked an appointment with you",
-                barberEmail,
+                barberUser,
                 false
         );
 
-        AvailableSlot selectedSlot = new AvailableSlot(barberEmail, date, time);
+        AvailableSlot selectedSlot = new AvailableSlot(barberUser, date, time);
         boolean slotRemoved = availableSlotDAO.removeAvSlot(selectedSlot);
         boolean appointmentAdded = appointmentDAO.addAppointment(appointment);
         boolean notificationAdded = newsDAO.addNotification(notification);

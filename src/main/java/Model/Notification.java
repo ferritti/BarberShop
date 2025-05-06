@@ -6,18 +6,18 @@ import java.time.LocalTime;
 public class Notification {
     private String title;
     private String message;
-    private String barberEmail;
+    private Barber barber;
     private LocalTime time;
     private LocalDate date;
     private boolean toCustomers;
 
     //per inviare al barber notifica di appuntamento prenotato e inviare al barbiere e i customers appuntamento cancellato
-    public Notification(String title, String message, String barberEmail, boolean toCustomers) {
+    public Notification(String title, String message, Barber barber, boolean toCustomers) {
         this.title = title;
         this.message = message;
         time = LocalTime.now().withNano(0);
         date = LocalDate.now();
-        this.barberEmail = barberEmail;
+        this.barber = barber;
         this.toCustomers = toCustomers;
     }
 
@@ -26,7 +26,7 @@ public class Notification {
         this.message = message;
         time = LocalTime.now().withNano(0);
         date = LocalDate.now();
-        this.barberEmail = null;
+        this.barber = null;
         this.toCustomers = toCustomers;
     }
 
@@ -45,8 +45,8 @@ public class Notification {
         return message;
     }
 
-    public String getBarberEmail() {
-        return barberEmail;
+    public Barber getBarber() {
+        return barber;
     }
 
     public boolean isToCustomers() {

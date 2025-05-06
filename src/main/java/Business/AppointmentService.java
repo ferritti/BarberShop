@@ -36,9 +36,9 @@ public class AppointmentService {
 
     public List<Appointment> getAppointments() {
         if(sessionManager.getCurrentUser().getUserType() == User.UserType.BARBER) {
-            return appointmentDAO.findByEmailOfUser(sessionManager.getCurrentUser().getEmail());
+            return appointmentDAO.findByEmailOfBarber(sessionManager.getCurrentUser().getEmail());
         } else {
-            return appointmentDAO.findByEmailOfUser(sessionManager.getCurrentUser().getEmail());
+            return appointmentDAO.findByEmailOfCustomer(sessionManager.getCurrentUser().getEmail());
         }
     }
 
@@ -49,7 +49,7 @@ public class AppointmentService {
     }
 
     public static void addAvailableSlot(Appointment appointment) {
-        AvailableSlot availableSlot = new AvailableSlot(appointment.getBarberEmail(), appointment.getDate(), appointment.getTime());
+        AvailableSlot availableSlot = new AvailableSlot(appointment.getBarber(), appointment.getDate(), appointment.getTime());
         availableSlotDAO.addAvSlot(availableSlot);
     }
 
@@ -59,8 +59,8 @@ public class AppointmentService {
 
     public static void addNotification(Appointment appointment) {
         Notification notification = new Notification("Slot available",
-                "A slot has become available on " + appointment.getDate() + " at " + appointment.getTime() + " with " + appointment.getBarberName(),
-                appointment.getBarberEmail(),true);
+                "A slot has become available on " + appointment.getDate() + " at " + appointment.getTime() + " with " + appointment.getBarber().getName(),
+                appointment.getBarber(),true);
         newsDAO.addNotification(notification);
     }
 

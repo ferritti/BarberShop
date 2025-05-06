@@ -1,6 +1,6 @@
 package Unit;
 
-import Payment.PaymentMethod;
+import Model.PaymentMethod;
 import Authentication.SessionManager;
 import Business.AppointmentService;
 import Persistence.DAO.AppointmentDAO;

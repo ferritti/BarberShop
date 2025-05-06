@@ -1,14 +1,13 @@
 package Controllers;
 
 import Business.NewAppointmentSlotsService;
-import Business.ProfileService;
 import Helpers.AlertHelper;
 import Helpers.SceneHelper;
 import Model.Appointment;
 import Model.AvailableSlot;
 import Payment.PaymentContext;
 import Payment.PaymentFactory;
-import Payment.PaymentMethod;
+import Model.PaymentMethod;
 import Payment.PaymentStrategy;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;

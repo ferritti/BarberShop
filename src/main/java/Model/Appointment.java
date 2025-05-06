@@ -1,5 +1,4 @@
 package Model;
-import Payment.PaymentMethod;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -8,24 +7,17 @@ import java.time.LocalTime;
 public class Appointment {
     private LocalDate date;
     private LocalTime time;
-    private String customerEmail;
-    private String barberEmail;
-    private String barberName;
-    private String customerPhone;
-    private String serviceTypeName;
-    private double servicePrice;
+    private Customer customer;
+    private Barber barber;
+    private ServiceType serviceType;
     private final PaymentMethod paymentMethod;
-
-    public Appointment(PaymentMethod paymentMethod, String serviceTypeName, String barberName, String barberEmail, String customerEmail, String customerPhone, LocalTime time, LocalDate date, double servicePrice) {
-        this.paymentMethod = paymentMethod;
-        this.serviceTypeName = serviceTypeName;
-        this.barberName = barberName;
-        this.barberEmail = barberEmail;
-        this.customerEmail = customerEmail;
-        this.customerPhone = customerPhone;
-        this.time = time;
+    public Appointment(LocalDate date, LocalTime time, Customer customer, Barber barber, ServiceType serviceType, PaymentMethod paymentMethod) {
         this.date = date;
-        this.servicePrice = servicePrice;
+        this.time = time;
+        this.customer = customer;
+        this.barber = barber;
+        this.serviceType = serviceType;
+        this.paymentMethod = paymentMethod;
     }
 
     public LocalDate getDate() {
@@ -36,29 +28,19 @@ public class Appointment {
         return time;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public String getBarberEmail() {
-        return barberEmail;
+    public Barber getBarber() {
+        return barber;
     }
 
-    public String getServiceTypeName() {
-        return serviceTypeName;
+    public ServiceType getServiceType() {
+        return serviceType;
     }
 
-    public PaymentMethod getPayment() {return paymentMethod; }
-
-    public String getBarberName() {
-        return barberName;
-    }
-
-    public double getServicePrice() {
-        return servicePrice;
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone;
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
     }
 }

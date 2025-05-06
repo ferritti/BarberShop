@@ -3,7 +3,7 @@ package IntegrationTests;
 import Authentication.SessionManager;
 import Business.*;
 import Model.*;
-import Payment.PaymentMethod;
+import Model.PaymentMethod;
 import Persistence.DAO.*;
 import org.junit.jupiter.api.*;
 
