@@ -210,7 +210,7 @@ public class ServiceControllerTest extends ApplicationTest {
                 .stream()
                 .filter(node -> node instanceof TableRow<?> tableRow &&
                         tableRow.getItem() instanceof ServiceType service &&
-                        service.getServiceName().equals(serviceName))
+                        service.getName().equals(serviceName))
                 .findFirst();
 
         Node deleteButton = from(matchingRow.get()).lookup("#delete-button").query();

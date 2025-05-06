@@ -5,7 +5,6 @@ import Business.*;
 import Model.*;
 import Model.PaymentMethod;
 import Persistence.DAO.*;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
@@ -41,7 +40,6 @@ public class AppointmentsAndSlotsTest {
         newsDAO = new ConcreteNewsDAO();
 
         signUpService.registerUser(barber.getName(), barber.getSurname(), barber.getEmail(), "password123", barber.getPhone(), "I-AM-A-BARBER");
-
         signUpService.registerUser(customer.getName(), customer.getSurname(), customer.getEmail(), "password456", customer.getPhone(), "");
 
         signInService.authenticateUser(customer.getEmail(), "password456");
@@ -52,15 +50,14 @@ public class AppointmentsAndSlotsTest {
     @Test
     public void testBookAppointmentAndSlotRemoval() {
         // verifica presenza slot
-        AvailableSlot slot = new AvailableSlot(barber, testDate, testTime);
         List<AvailableSlot> availableSlots = newAppointmentSlotsService.getAvailableSlots(barber.getEmail(), testDate);
         boolean slotExists = availableSlots.stream().anyMatch(s -> s.getStartTime().equals(testTime));
-        assertTrue(slotExists);
+        assertTrue(slotExists, "Lo slot iniziale deve esistere prima della prenotazione");
 
         // prenota appuntamento
         boolean booked = newAppointmentSlotsService.bookAppointment(
-                customer.getEmail(),
-                barber.getEmail(),
+                barber.getName() + " " + barber.getSurname(),
+                testService.getName(),
                 testDate,
                 testTime,
                 PaymentMethod.CREDIT_CARD
@@ -76,14 +73,14 @@ public class AppointmentsAndSlotsTest {
         List<Appointment> appointments = newAppointmentSlotsService.getAppointments();
         boolean appointmentExists = appointments.stream()
                 .anyMatch(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime));
-        assertTrue(appointmentExists);
+        assertTrue(appointmentExists, "L'appuntamento deve esistere nel database");
 
         // verifica che sia stata creata la notifica di prenotazione per il barbiere
         List<Notification> barberNotifications = newsDAO.getAllBarberNews(barber.getEmail());
         boolean notificationExists = barberNotifications.stream()
                 .anyMatch(n -> n.getTitle().equals("New Appointment")
                         && n.getMessage().contains("Luigi Verdi has booked an appointment with you"));
-        assertTrue(notificationExists);
+        assertTrue(notificationExists, "Deve esistere la notifica di prenotazione per il barbiere");
     }
 
     @Test
@@ -101,7 +98,7 @@ public class AppointmentsAndSlotsTest {
         boolean deleted = appointmentService.deleteAppointment(toDelete);
         assertTrue(deleted, "Appuntamento deve essere cancellato");
 
-        // invia notifica
+        // invia notifica di slot disponibile
         AppointmentService.addNotification(toDelete);
 
         // riaggiunge slot
@@ -116,7 +113,7 @@ public class AppointmentsAndSlotsTest {
         List<Notification> barberNotifications = newsDAO.getAllBarberNews(barber.getEmail());
         boolean notificationExists = barberNotifications.stream()
                 .anyMatch(n -> n.getTitle().equals("Slot available")
-                        && n.getMessage().contains("A slot has become available on " + testDate + " at " + testTime + " with Giuseppe"));
+                        && n.getMessage().contains("A slot has become available on " + testDate + " at " + testTime + " with " + barber.getName()));
         assertTrue(notificationExists, "Deve essere stata creata una notifica di slot libero per il barbiere");
     }
 
