@@ -2,21 +2,22 @@ package Model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 
 public class Appointment {
-    private LocalDate date;
-    private LocalTime time;
-    private Customer customer;
-    private Barber barber;
-    private ServiceType serviceType;
+    private final LocalDate date;
+    private final LocalTime time;
+    private final Customer customer;
+    private final Barber barber;
+    private final List<ServiceType> serviceTypes;
     private final PaymentMethod paymentMethod;
-    public Appointment(LocalDate date, LocalTime time, Customer customer, Barber barber, ServiceType serviceType, PaymentMethod paymentMethod) {
+    public Appointment(LocalDate date, LocalTime time, Customer customer, Barber barber, List<ServiceType> serviceTypes, PaymentMethod paymentMethod) {
         this.date = date;
         this.time = time;
         this.customer = customer;
         this.barber = barber;
-        this.serviceType = serviceType;
+        this.serviceTypes = serviceTypes;
         this.paymentMethod = paymentMethod;
     }
 
@@ -36,8 +37,8 @@ public class Appointment {
         return barber;
     }
 
-    public ServiceType getServiceType() {
-        return serviceType;
+    public List<ServiceType> getServiceTypes() {
+        return serviceTypes;
     }
 
     public PaymentMethod getPaymentMethod() {
