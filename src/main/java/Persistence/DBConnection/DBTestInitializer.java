@@ -35,11 +35,23 @@ public class DBTestInitializer {
                 app_time TIME(0) NOT NULL,  
                 customer_email VARCHAR(100) NOT NULL,
                 barber_email VARCHAR(100) NOT NULL,
-                service_name VARCHAR(100) NOT NULL,
                 payment VARCHAR(20) CHECK (payment IN ('PAYPAL', 'CREDIT_CARD', 'SHOP')) NOT NULL,
                 PRIMARY KEY (app_date, app_time, barber_email),
                 FOREIGN KEY (customer_email) REFERENCES Users(email) ON DELETE CASCADE,
-                FOREIGN KEY (barber_email) REFERENCES Users(email) ON DELETE CASCADE,
+                FOREIGN KEY (barber_email) REFERENCES Users(email) ON DELETE CASCADE
+            );
+        """);
+    }
+
+    public static void createAppointmentServicesTable(Statement stmt) throws SQLException {
+        stmt.execute("""
+            CREATE TABLE IF NOT EXISTS Appointment_Services (
+                app_date DATE NOT NULL,
+                app_time TIME(0) NOT NULL,
+                barber_email VARCHAR(100) NOT NULL,
+                service_name VARCHAR(100) NOT NULL,
+                PRIMARY KEY (app_date, app_time, barber_email, service_name),
+                FOREIGN KEY (app_date, app_time, barber_email) REFERENCES Appointments(app_date, app_time, barber_email) ON DELETE CASCADE
                 FOREIGN KEY (service_name) REFERENCES Service_Types(service_name) ON DELETE CASCADE
             );
         """);
