@@ -1,10 +1,9 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Business.NewsService;
-import Controllers.NewsCustomerController;
+import Services.NewsService;
+import PageControllers.NewsCustomerController;
 import Model.Customer;
-import Model.Notification;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,8 +15,6 @@ import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import java.lang.reflect.Field;
-import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

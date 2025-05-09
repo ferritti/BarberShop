@@ -1,6 +1,6 @@
-package Controllers;
+package PageControllers;
 
-import Business.SignUpService;
+import Services.SignUpService;
 import Helpers.SceneHelper;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;

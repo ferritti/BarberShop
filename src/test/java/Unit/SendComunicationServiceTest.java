@@ -3,7 +3,7 @@ package Unit;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import Business.SendComunicationService;
+import Services.SendComunicationService;
 import Persistence.DAO.NewsDAO;
 import Model.Notification;
 import org.junit.jupiter.api.BeforeEach;

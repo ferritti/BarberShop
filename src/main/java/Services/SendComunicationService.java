@@ -1,4 +1,4 @@
-package Business;
+package Services;
 
 import Persistence.DAO.ConcreteNewsDAO;
 import Persistence.DAO.NewsDAO;

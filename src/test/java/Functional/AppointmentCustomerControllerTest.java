@@ -1,7 +1,7 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Controllers.AppointmentCustomerController;
+import PageControllers.AppointmentCustomerController;
 import Model.Appointment;
 import Model.Customer;
 import Persistence.DBConnection.DBManager;

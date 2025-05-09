@@ -1,7 +1,7 @@
 package Unit;
 
 import Authentication.SessionManager;
-import Business.NewsService;
+import Services.NewsService;
 import Persistence.DAO.NewsDAO;
 import Model.Notification;
 import Model.Barber;

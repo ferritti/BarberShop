@@ -1,8 +1,8 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Business.ProfileService;
-import Controllers.ProfileBarberController;
+import Services.ProfileService;
+import PageControllers.ProfileBarberController;
 import Model.Barber;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

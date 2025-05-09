@@ -1,4 +1,4 @@
-package Business;
+package Services;
 
 import Persistence.DAO.ConcreteServiceTypeDAO;
 import Persistence.DAO.ServiceTypeDAO;

@@ -3,6 +3,7 @@ package Helpers;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ public class AlertHelper {
 
     private AlertHelper() {}
 
-    private static Alert createAlert(Alert.AlertType type, String title, String message) {
+    private static Alert createAlert(AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setContentText(message);

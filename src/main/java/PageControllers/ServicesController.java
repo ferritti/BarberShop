@@ -1,6 +1,6 @@
-package Controllers;
+package PageControllers;
 
-import Business.ServicesService;
+import Services.ServicesService;
 import Helpers.AlertHelper;
 import Helpers.SceneHelper;
 import Model.ServiceType;

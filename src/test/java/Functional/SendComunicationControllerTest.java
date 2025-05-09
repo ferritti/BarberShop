@@ -1,7 +1,7 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Controllers.SendComunicationController;
+import PageControllers.SendComunicationController;
 import Model.Customer;
 import Persistence.DBConnection.DBManager;
 import Persistence.DBConnection.DBTestInitializer;

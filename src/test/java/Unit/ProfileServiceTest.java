@@ -1,7 +1,7 @@
 package Unit;
 
 import Authentication.SessionManager;
-import Business.ProfileService;
+import Services.ProfileService;
 import Model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

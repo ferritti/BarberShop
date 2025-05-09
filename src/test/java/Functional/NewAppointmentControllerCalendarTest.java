@@ -1,7 +1,7 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Controllers.NewAppointmentControllerCalendar;
+import PageControllers.NewAppointmentControllerCalendar;
 import Model.Customer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

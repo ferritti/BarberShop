@@ -93,7 +93,9 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                         rs.getString("barber_email"),
                         rs.getString("barber_pass"),
                         rs.getString("barber_phone"));
+
                 ServiceType serviceType = new ServiceType(rs.getString("service_name"), rs.getDouble("price"));
+
                 Appointment appointment = new Appointment(
                         rs.getDate("app_date").toLocalDate(),
                         rs.getTime("app_time").toLocalTime(),

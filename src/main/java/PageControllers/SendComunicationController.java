@@ -1,6 +1,6 @@
-package Controllers;
+package PageControllers;
 
-import Business.SendComunicationService;
+import Services.SendComunicationService;
 import Helpers.AlertHelper;
 import Helpers.SceneHelper;
 import javafx.fxml.FXML;

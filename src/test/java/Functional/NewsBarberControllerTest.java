@@ -1,10 +1,9 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Business.NewsService;
-import Controllers.NewsBarberController;
+import Services.NewsService;
+import PageControllers.NewsBarberController;
 import Model.Barber;
-import Model.Notification;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

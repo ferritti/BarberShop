@@ -1,4 +1,4 @@
-package Controllers;
+package PageControllers;
 
 import Helpers.SceneHelper;
 import io.github.palexdev.materialfx.controls.MFXButton;

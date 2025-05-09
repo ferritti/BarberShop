@@ -1,15 +1,14 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Business.ProfileService;
-import Controllers.ProfileCustomerController;
+import Services.ProfileService;
+import PageControllers.ProfileCustomerController;
 import Model.Customer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationTest;

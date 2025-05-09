@@ -1,8 +1,6 @@
 package Functional;
 
-import Authentication.SessionManager;
-import Controllers.SignInController;
-import Model.Customer;
+import PageControllers.SignInController;
 import Persistence.DBConnection.DBManager;
 import Persistence.DBConnection.DBTestInitializer;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;

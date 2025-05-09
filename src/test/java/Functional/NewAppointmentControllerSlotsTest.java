@@ -1,7 +1,7 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Controllers.NewAppointmentControllerSlots;
+import PageControllers.NewAppointmentControllerSlots;
 import Model.Customer;
 import Persistence.DBConnection.DBManager;
 import Persistence.DBConnection.DBTestInitializer;

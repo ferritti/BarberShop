@@ -1,6 +1,6 @@
-package Controllers;
+package PageControllers;
 
-import Business.AppointmentService;
+import Services.AppointmentService;
 import Helpers.SceneHelper;
 import Model.Appointment;
 import javafx.beans.property.SimpleDoubleProperty;

@@ -1,7 +1,7 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Controllers.ServicesController;
+import PageControllers.ServicesController;
 import Model.Barber;
 import Persistence.DBConnection.DBManager;
 import Persistence.DBConnection.DBTestInitializer;

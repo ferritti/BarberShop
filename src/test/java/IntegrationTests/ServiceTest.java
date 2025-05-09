@@ -1,6 +1,6 @@
 package IntegrationTests;
 
-import Business.*;
+import Services.*;
 import Persistence.DAO.*;
 import Model.*;
 import org.junit.jupiter.api.*;

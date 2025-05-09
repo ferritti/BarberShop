@@ -2,12 +2,11 @@ package Unit;
 
 import Model.PaymentMethod;
 import Authentication.SessionManager;
-import Business.AppointmentService;
+import Services.AppointmentService;
 import Persistence.DAO.AppointmentDAO;
 import Persistence.DAO.AvailableSlotDAO;
 import Persistence.DAO.NewsDAO;
 import Model.*;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

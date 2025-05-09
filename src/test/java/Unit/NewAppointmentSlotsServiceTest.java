@@ -1,6 +1,6 @@
 package Unit;
 
-import Business.NewAppointmentSlotsService;
+import Services.NewAppointmentSlotsService;
 import Persistence.DAO.*;
 import Model.*;
 import Authentication.SessionManager;

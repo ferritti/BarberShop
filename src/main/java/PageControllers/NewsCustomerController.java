@@ -1,7 +1,6 @@
-package Controllers;
+package PageControllers;
 
-import Business.NewsService;
-import Business.ProfileService;
+import Services.NewsService;
 import Helpers.SceneHelper;
 import Model.Notification;
 import javafx.collections.FXCollections;

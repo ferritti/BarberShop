@@ -1,6 +1,6 @@
 package Functional;
 
-import Controllers.SignUpController;
+import PageControllers.SignUpController;
 import Persistence.DBConnection.*;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;

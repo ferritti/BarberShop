@@ -1,4 +1,4 @@
-package Business;
+package Services;
 
 import Authentication.SessionManager;
 import Persistence.DAO.ConcreteUserDAO;

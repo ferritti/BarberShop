@@ -1,7 +1,7 @@
 package IntegrationTests;
 
 import Authentication.SessionManager;
-import Business.*;
+import Services.*;
 import Model.*;
 import Model.PaymentMethod;
 import Persistence.DAO.*;

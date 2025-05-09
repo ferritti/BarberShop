@@ -1,11 +1,9 @@
 package Functional;
 
 import Authentication.SessionManager;
-import Controllers.AppointmentBarberController;
+import PageControllers.AppointmentBarberController;
 import Model.Barber;
-import Model.Customer;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

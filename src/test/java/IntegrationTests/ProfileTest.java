@@ -1,7 +1,7 @@
 package IntegrationTests;
 
 import Authentication.SessionManager;
-import Business.ProfileService;
+import Services.ProfileService;
 import Model.Customer;
 import Model.User;
 import Persistence.DAO.ConcreteUserDAO;

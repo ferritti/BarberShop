@@ -1,6 +1,6 @@
-package Controllers;
+package PageControllers;
 
-import Business.NewAppointmentSlotsService;
+import Services.NewAppointmentSlotsService;
 import Helpers.AlertHelper;
 import Helpers.SceneHelper;
 import Model.Appointment;

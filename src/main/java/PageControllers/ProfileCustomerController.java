@@ -1,6 +1,6 @@
-package Controllers;
+package PageControllers;
 
-import Business.ProfileService;
+import Services.ProfileService;
 import Helpers.SceneHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
