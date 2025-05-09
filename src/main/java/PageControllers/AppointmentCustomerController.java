@@ -1,5 +1,6 @@
 package PageControllers;
 
+import Model.ServiceType;
 import Services.AppointmentService;
 import Helpers.AlertHelper;
 import Helpers.SceneHelper;
@@ -57,13 +58,21 @@ public class AppointmentCustomerController implements Initializable {
                 new SimpleStringProperty(cellData.getValue().getBarber().getName())
         );
 
-        serviceColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getServiceType().getName())
-        );
+        serviceColumn.setCellValueFactory(cellData -> {
+            List<String> serviceNames = cellData.getValue().getServiceTypes().stream()
+                    .map(ServiceType::getName)
+                    .toList();
+            return new SimpleStringProperty(String.join(", ", serviceNames));
+        });
 
-        priceColumn.setCellValueFactory(cellData ->
-                new SimpleDoubleProperty(cellData.getValue().getServiceType().getPrice()).asObject()
-        );
+
+        priceColumn.setCellValueFactory(cellData -> {
+            double totalPrice = cellData.getValue().getServiceTypes().stream()
+                    .mapToDouble(service -> service.getPrice())
+                    .sum();
+            return new SimpleDoubleProperty(totalPrice).asObject();
+        });
+
 
         paymentColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getPaymentMethod().toString())

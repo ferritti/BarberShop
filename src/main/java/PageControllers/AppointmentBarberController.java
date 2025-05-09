@@ -47,13 +47,21 @@ public class AppointmentBarberController implements Initializable {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
 
-        priceColumn.setCellValueFactory(cellData ->
-                new SimpleDoubleProperty(cellData.getValue().getServiceType().getPrice()).asObject()
-        );
+        priceColumn.setCellValueFactory(cellData -> {
+            double totalPrice = cellData.getValue().getServiceTypes().stream()
+                    .mapToDouble(service -> service.getPrice())
+                    .sum();
+            return new SimpleDoubleProperty(totalPrice).asObject();
+        });
 
-        serviceColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getServiceType().getName())
-        );
+
+        serviceColumn.setCellValueFactory(cellData -> {
+            List<String> serviceNames = cellData.getValue().getServiceTypes().stream()
+                    .map(service -> service.getName())
+                    .toList();
+            return new SimpleStringProperty(String.join(", ", serviceNames));
+        });
+
 
         paymentColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getPaymentMethod().toString())

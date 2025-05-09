@@ -13,9 +13,11 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +70,9 @@ public class NewAppointmentControllerSlots {
     private Label dateLabel;
 
     private NewAppointmentSlotsService newAppointmentSlotsService = new NewAppointmentSlotsService();
+    private List<String> selectedServices = new ArrayList<>();
+    String serviceString;
+    Double servicePrice;
     private final HashMap<String, String> barbersData = newAppointmentSlotsService.getBarbersData();
     private final HashMap<String, Double> servicesData = newAppointmentSlotsService.getServicesData();
 
@@ -118,6 +123,10 @@ public class NewAppointmentControllerSlots {
         }
     }
 
+    public void setServiceComboBox() {
+
+    }
+
     @FXML
     public void setBarberSlots() {
         disableAllButtons();
@@ -135,6 +144,8 @@ public class NewAppointmentControllerSlots {
 
     @FXML
     public void selectSlotAction(javafx.event.ActionEvent actionEvent) {
+        servicePrice = 0.0;
+        serviceString = "";
         MFXButton button = (MFXButton) actionEvent.getSource();
         String timeString = button.getText();
 
@@ -154,35 +165,47 @@ public class NewAppointmentControllerSlots {
         }
 
         String selectedBarber = barberComboBox.getSelectionModel().getSelectedItem();
-        String selectedService = serviceComboBox.getSelectionModel().getSelectedItem();
+        selectedServices.addFirst(serviceComboBox.getSelectionModel().getSelectedItem());
+        StringBuilder sb = new StringBuilder();
 
-        if (selectedService == null || selectedService.isEmpty()) {
+        if (selectedServices.getFirst() == null || selectedServices.getFirst().isEmpty()) {
             AlertHelper.showError("Error", "Please select a service before booking an appointment.");
             return;
         }
 
+        for(String service : selectedServices){
+            servicePrice += servicesData.get(service);
+            sb.append(service).append(", ");
+        }
+
+        if (!sb.isEmpty()) {
+            sb.setLength(sb.length() - 2);
+        }
+
+        serviceString = sb.toString();
+
         String confirmationMessage = "Barber: " + selectedBarber + "\n" +
-                "Service: " + selectedService + "\n" +
-                "Price: " + servicesData.get(selectedService) + "€" + "\n" +
+                "Service: " + serviceString + "\n" +
+                "Price: " + servicePrice + "€" + "\n" +
                 "Date: " + date + "\n" +
                 "Time: " + time + "\n";
 
         boolean confirmed = AlertHelper.showConfirmation("Confirmation Dialog",
                 "Are you sure you want to book this appointment?\n" + confirmationMessage);
         if (confirmed) {
-            showPaymentOptions(selectedBarber, selectedService, date, time);
+            showPaymentOptions(selectedBarber, selectedServices, date, time);
         }
     }
 
 
-    private void showPaymentOptions(String barber, String service, LocalDate date, LocalTime time) {
+    private void showPaymentOptions(String barber, List<String> services, LocalDate date, LocalTime time) {
         Alert paymentAlert = new Alert(Alert.AlertType.CONFIRMATION);
         paymentAlert.setTitle("Payment Options");
         paymentAlert.setHeaderText("Select Payment Method");
         paymentAlert.setContentText(
                 "Barber: " + barber + "\n" +
-                        "Service: " + service + "\n" +
-                        "Price: " + servicesData.get(service) + "€" + "\n" +
+                        "Service: " + serviceString + "\n" +
+                        "Price: " + servicePrice + "€" + "\n" +
                         "Date: " + date + "\n" +
                         "Time: " + time);
 
@@ -200,7 +223,7 @@ public class NewAppointmentControllerSlots {
                 return;
             }
             PaymentMethod paymentMethod = getPaymentMethod(selectedType, paypalButton, cardButton, shopButton);
-            processPayment(barber, service, date, time, paymentMethod);
+            processPayment(barber, services, date, time, paymentMethod);
         });
     }
 
@@ -214,9 +237,8 @@ public class NewAppointmentControllerSlots {
         }
     }
 
-    private void processPayment(String barber, String service, LocalDate date, LocalTime time, PaymentMethod paymentMethod) {
-        boolean bookingSuccess = newAppointmentSlotsService.bookAppointment(barber, service, date, time, paymentMethod);
-        double servicePrice = servicesData.get(service);
+    private void processPayment(String barber, List<String> services, LocalDate date, LocalTime time, PaymentMethod paymentMethod) {
+        boolean bookingSuccess = newAppointmentSlotsService.bookAppointment(barber, services, date, time, paymentMethod);
 
         if (bookingSuccess) {
             PaymentStrategy paymentStrategy = PaymentFactory.getPaymentMethod(paymentMethod);
@@ -252,6 +274,53 @@ public class NewAppointmentControllerSlots {
     public void setDate(LocalDate date) {
         dateLabel.setText(date.toString());
     }
+
+    public void setFirstServiceAction() {
+        String firstSelected = serviceComboBox.getSelectionModel().getSelectedItem();
+        if (firstSelected == null || firstSelected.isEmpty()) {
+            AlertHelper.showError("Errore", "Seleziona un servizio prima.");
+            return;
+        }
+
+        selectedServices.clear();
+
+        // Creazione Alert personalizzato
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Servizio Aggiuntivo");
+        alert.setHeaderText("Vuoi selezionare un altro servizio?");
+
+        // ComboBox con gli altri servizi
+        MFXComboBox<String> extraServiceCombo = new MFXComboBox<>();
+        List<String> otherServices = new ArrayList<>(servicesData.keySet());
+        otherServices.remove(firstSelected);
+        extraServiceCombo.getItems().addAll(otherServices);
+        extraServiceCombo.setPromptText("Seleziona servizio extra");
+
+        // Layout per il contenuto del dialog
+        VBox content = new VBox();
+        content.setSpacing(10);
+        content.getChildren().addAll(new Label("Servizio principale selezionato: " + firstSelected), extraServiceCombo);
+        alert.getDialogPane().setContent(content);
+
+        // Bottoni personalizzati
+        ButtonType yesButton = new ButtonType("Sì", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+        alert.getButtonTypes().setAll(yesButton, noButton);
+
+        // Mostra e gestisce la risposta
+        alert.showAndWait().ifPresent(response -> {
+            if (response == yesButton) {
+                String extra = extraServiceCombo.getSelectionModel().getSelectedItem();
+                if (extra != null && !extra.isEmpty()) {
+                    selectedServices.add(extra);
+                    AlertHelper.showInformation("Servizio aggiunto", "Hai aggiunto anche: " + extra);
+                } else {
+                    AlertHelper.showWarning("Attenzione", "Nessun servizio extra selezionato.");
+                }
+            }
+        });
+    }
+
 }
 
 

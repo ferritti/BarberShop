@@ -6,6 +6,7 @@ import Persistence.DAO.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,12 +55,16 @@ public class NewAppointmentSlotsService {
         }
     }
 
-    public boolean bookAppointment(String barberFullName, String service, LocalDate date, LocalTime time, PaymentMethod paymentMethod) {
+    public boolean bookAppointment(String barberFullName, List<String> services, LocalDate date, LocalTime time, PaymentMethod paymentMethod) {
         String barberEmail = getBarbersData().get(barberFullName);
         Barber barberUser = (Barber) userDAO.findByEmail(barberEmail);
         Customer currentUser = (Customer) sessionManager.getCurrentUser();
-        ServiceType serviceType = new ServiceType(service, getServicesData().get(service));
+        List<ServiceType> serviceType = new ArrayList<>();
 
+
+        for(String service : services) {
+            serviceType.add(new ServiceType(service, getServicesData().get(service)));
+        }
         Appointment appointment = new Appointment(
                 date,
                 time,

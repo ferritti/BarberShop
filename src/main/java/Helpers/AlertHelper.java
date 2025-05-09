@@ -60,5 +60,15 @@ public class AlertHelper {
         alert.getDialogPane().getStylesheets().add(ALERT_CSS);
         alert.getDialogPane().getStyleClass().add(CUSTOM_ALERT_CLASS);
     }
+
+    public static void showWarning(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        styleAlert(alert); // Se già esiste il metodo per lo stile
+        alert.showAndWait();
+    }
+
 }
 

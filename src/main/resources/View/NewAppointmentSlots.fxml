@@ -115,7 +115,7 @@
                         <Font name="Helvetica" size="14.0" />
                      </font>
                   </MFXComboBox>
-                  <MFXComboBox fx:id="serviceComboBox" floatMode="BORDER" text="Service">
+                  <MFXComboBox fx:id="serviceComboBox" floatMode="BORDER" onAction="#setFirstServiceAction" text="Service">
                      <HBox.margin>
                         <Insets left="100.0" />
                      </HBox.margin>
