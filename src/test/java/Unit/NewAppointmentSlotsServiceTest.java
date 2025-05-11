@@ -60,7 +60,7 @@ class NewAppointmentSlotsServiceTest {
     }
 
     @Test
-    void getAvailableSlotsTest() {
+    void getAvailableSlots() {
         LocalDate date = LocalDate.now();
         String barberEmail = "barber@example.com";
         List<AvailableSlot> mockSlots = List.of(mock(AvailableSlot.class));
@@ -73,7 +73,7 @@ class NewAppointmentSlotsServiceTest {
     }
 
     @Test
-    void getAppointmentsAsBarberTest() {
+    void getAppointmentsAsBarber() {
         User mockUser = mock(User.class);
         when(sessionManager.getCurrentUser()).thenReturn(mockUser);
         when(mockUser.getEmail()).thenReturn("barber@example.com");
@@ -90,7 +90,7 @@ class NewAppointmentSlotsServiceTest {
     }
 
     @Test
-    void getAppointmentsAsCustomerTest() {
+    void getAppointmentsAsCustomer() {
         User mockUser = mock(User.class);
         when(sessionManager.getCurrentUser()).thenReturn(mockUser);
         when(mockUser.getEmail()).thenReturn("customer@example.com");
@@ -122,7 +122,7 @@ class NewAppointmentSlotsServiceTest {
     }
 
     @Test
-    void isSameDateTimeDifferentDateTest() {
+    void isSameDateTimeDifferentDate() {
         Appointment appointment = mock(Appointment.class);
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
@@ -137,7 +137,7 @@ class NewAppointmentSlotsServiceTest {
     }
 
     @Test
-    void isSameDateTimeDifferentTimeTest() {
+    void isSameDateTimeDifferentTime() {
         Appointment appointment = mock(Appointment.class);
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
