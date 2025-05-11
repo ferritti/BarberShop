@@ -80,7 +80,6 @@ public class NewAppointmentSlotsService {
                 barberUser,
                 false
         );
-
         AvailableSlot selectedSlot = new AvailableSlot(barberUser, date, time);
         boolean slotRemoved = availableSlotDAO.removeAvSlot(selectedSlot);
         boolean appointmentAdded = appointmentDAO.addAppointment(appointment);

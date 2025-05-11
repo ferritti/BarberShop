@@ -240,6 +240,7 @@ public class NewAppointmentControllerSlots {
     private void processPayment(String barber, List<String> services, LocalDate date, LocalTime time, PaymentMethod paymentMethod) {
         boolean bookingSuccess = newAppointmentSlotsService.bookAppointment(barber, services, date, time, paymentMethod);
 
+
         if (bookingSuccess) {
             PaymentStrategy paymentStrategy = PaymentFactory.getPaymentMethod(paymentMethod);
             PaymentContext paymentContext = new PaymentContext(paymentStrategy);
@@ -289,6 +290,7 @@ public class NewAppointmentControllerSlots {
         // ComboBox con gli altri servizi
         MFXComboBox<String> extraServiceCombo = new MFXComboBox<>();
         List<String> otherServices = new ArrayList<>(servicesData.keySet());
+        extraServiceCombo.setId("extraServiceComboBox");
         otherServices.remove(firstSelected);
         extraServiceCombo.getItems().addAll(otherServices);
         extraServiceCombo.setPromptText("Select the extra service");
