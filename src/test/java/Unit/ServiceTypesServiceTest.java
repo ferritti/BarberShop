@@ -38,7 +38,7 @@ class ServiceTypesServiceTest {
     }
 
     @Test
-    void addServiceAdds() {
+    void addService() {
         when(mockServiceTypeDAO.addServiceType(any(ServiceType.class))).thenReturn(true);
 
         assertTrue(serviceTypesService.addService("Test Service", 10.0));
@@ -46,7 +46,7 @@ class ServiceTypesServiceTest {
     }
 
     @Test
-    void deleteServiceRemoves() {
+    void deleteService() {
         ServiceType serviceType = new ServiceType("Test Service", 10.0);
         when(mockServiceTypeDAO.removeServiceType(serviceType)).thenReturn(true);
 

@@ -46,7 +46,7 @@ public class UserTest {
     }
 
     @Test
-    void testSignUpCustomerValid() {
+    void testSignUpCustomer() {
         String result = signUpService.registerUser("Mario", "Rossi", customerEmail, "securePass321", "3216549870", "");
         assertEquals("success", result);
         testCustomer = userDAO.findByEmail(customerEmail);
