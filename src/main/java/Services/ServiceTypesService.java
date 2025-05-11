@@ -6,14 +6,14 @@ import Model.ServiceType;
 
 import java.util.List;
 
-public class ServicesService {
+public class ServiceTypesService {
     private ServiceTypeDAO serviceTypeDAO;
 
-    public ServicesService() {
+    public ServiceTypesService() {
         this.serviceTypeDAO = new ConcreteServiceTypeDAO();
     }
 
-    public ServicesService(ServiceTypeDAO serviceTypeDAO) {
+    public ServiceTypesService(ServiceTypeDAO serviceTypeDAO) {
         this.serviceTypeDAO = serviceTypeDAO;
     }
 

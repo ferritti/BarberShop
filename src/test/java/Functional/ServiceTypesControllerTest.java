@@ -1,7 +1,7 @@
 package Functional;
 
 import Authentication.SessionManager;
-import PageControllers.ServicesController;
+import PageControllers.ServiceTypesController;
 import Model.Barber;
 import Persistence.DBConnection.DBManager;
 import Persistence.DBConnection.DBTestInitializer;
@@ -24,12 +24,12 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ServiceControllerTest extends ApplicationTest {
+public class ServiceTypesControllerTest extends ApplicationTest {
 
     private MFXTextField textFieldName;
     private MFXTextField textFieldPrice;
     private TableView<ServiceType> serviceTable;
-    private ServicesController controller;
+    private ServiceTypesController controller;
     private Stage stage;
 
     private boolean serviceAdded = false;

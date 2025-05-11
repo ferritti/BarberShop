@@ -7,9 +7,9 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ServiceTest {
+public class ServiceTypesTest {
 
-    private ServicesService servicesService;
+    private ServiceTypesService serviceTypesService;
     private ConcreteServiceTypeDAO serviceTypeDAO;
 
     private final String serviceName = "Hair";
@@ -17,7 +17,7 @@ public class ServiceTest {
 
     @BeforeEach
     void setUp() {
-        servicesService = new ServicesService();
+        serviceTypesService = new ServiceTypesService();
         serviceTypeDAO = new ConcreteServiceTypeDAO();
     }
 
@@ -29,13 +29,13 @@ public class ServiceTest {
                 .orElse(null);
 
         if (serviceToDelete != null) {
-            servicesService.deleteService(serviceToDelete);
+            serviceTypesService.deleteService(serviceToDelete);
         }
     }
 
     @Test
     void testBarberCreateService() {
-        boolean isServiceAdded = servicesService.addService(serviceName, servicePrice);
+        boolean isServiceAdded = serviceTypesService.addService(serviceName, servicePrice);
         assertTrue(isServiceAdded);
 
         ServiceType service = serviceTypeDAO.getAllServiceTypes().stream()
@@ -50,14 +50,14 @@ public class ServiceTest {
 
     @Test
     void testDeleteService() {
-        servicesService.addService(serviceName, servicePrice);
+        serviceTypesService.addService(serviceName, servicePrice);
         ServiceType serviceToDelete = serviceTypeDAO.getAllServiceTypes().stream()
                 .filter(s -> s.getName().equals(serviceName))
                 .findFirst()
                 .orElse(null);
 
         assertNotNull(serviceToDelete);
-        boolean isServiceDeleted = servicesService.deleteService(serviceToDelete);
+        boolean isServiceDeleted = serviceTypesService.deleteService(serviceToDelete);
         assertTrue(isServiceDeleted);
 
         ServiceType deletedService = serviceTypeDAO.getAllServiceTypes().stream()

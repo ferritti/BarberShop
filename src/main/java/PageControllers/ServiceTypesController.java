@@ -1,6 +1,6 @@
 package PageControllers;
 
-import Services.ServicesService;
+import Services.ServiceTypesService;
 import Helpers.AlertHelper;
 import Helpers.SceneHelper;
 import Model.ServiceType;
@@ -20,7 +20,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ServicesController implements Initializable {
+public class ServiceTypesController implements Initializable {
 
     @FXML
     private TableColumn<ServiceType, Void> deleteColumn;
@@ -40,7 +40,7 @@ public class ServicesController implements Initializable {
     @FXML
     private MFXTextField textFieldPrice;
 
-    private final ServicesService servicesService = new ServicesService();
+    private final ServiceTypesService serviceTypesService = new ServiceTypesService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,12 +67,12 @@ public class ServicesController implements Initializable {
         String name = textFieldName.getText();
         String priceText = textFieldPrice.getText();
 
-        if (servicesService.areEmptyFields(name, priceText)) {
+        if (serviceTypesService.areEmptyFields(name, priceText)) {
             AlertHelper.showError("Error", "Both fields must be filled out.");
             return;
         }
 
-        String priceValidationError = servicesService.validatePrice(priceText);
+        String priceValidationError = serviceTypesService.validatePrice(priceText);
         if (priceValidationError != null) {
             AlertHelper.showError("Error", priceValidationError);
             return;
@@ -89,7 +89,7 @@ public class ServicesController implements Initializable {
     private void confirmAndAddNewService(String name, double price) {
         boolean confirmed = AlertHelper.showConfirmation("Confirm Add Service", "Are you sure you want to add this service?");
         if (confirmed) {
-            if (servicesService.addService(name, price)) {
+            if (serviceTypesService.addService(name, price)) {
                 AlertHelper.showInformation("Success", "Service added successfully.");
                 loadServices();
             } else {
@@ -99,7 +99,7 @@ public class ServicesController implements Initializable {
     }
 
     private void loadServices() {
-        List<ServiceType> serviceTypes = servicesService.getService();
+        List<ServiceType> serviceTypes = serviceTypesService.getService();
         ObservableList<ServiceType> observableList = FXCollections.observableArrayList(serviceTypes);
         serviceTable.setItems(observableList);
     }
@@ -153,7 +153,7 @@ public class ServicesController implements Initializable {
     }
 
     private void deleteService(ServiceType serviceType) {
-        boolean deleted = servicesService.deleteService(serviceType);
+        boolean deleted = serviceTypesService.deleteService(serviceType);
         if (deleted) {
             loadServices();
             AlertHelper.showInformation("Success", "Service deleted successfully.");
