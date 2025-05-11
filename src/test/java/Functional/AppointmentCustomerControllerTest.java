@@ -72,6 +72,7 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
             String dateStr = tomorrow.toString();
 
             stmt.executeUpdate("DELETE FROM Service_Types WHERE service_name = 'Taglio Capelli'");
+            stmt.executeUpdate("DELETE FROM Service_Types WHERE service_name = 'Taglio Barba'");
             // Aggiungo un servizio
             stmt.executeUpdate("INSERT INTO Service_Types (service_name, price) VALUES ('Taglio Capelli', 20.00)");
 
@@ -121,6 +122,7 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
                 stmt.executeUpdate("DELETE FROM Appointments WHERE customer_email = 'm.rossi@example.com'");
                 stmt.executeUpdate("DELETE FROM Appointment_Services WHERE barber_email = 'l.verdi@example.com'");
                 stmt.executeUpdate("DELETE FROM Service_Types WHERE service_name = 'Taglio Capelli'");
+                stmt.executeUpdate("DELETE FROM Service_Types WHERE service_name = 'Taglio Barba'");
                 stmt.executeUpdate("DELETE FROM Users WHERE email = 'm.rossi@example.com'");
                 stmt.executeUpdate("DELETE FROM Users WHERE email = 'l.verdi@example.com'");
             } catch (SQLException e) {
