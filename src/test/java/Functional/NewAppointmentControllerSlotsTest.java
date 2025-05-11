@@ -139,41 +139,34 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
 
     @Test
     public void testBookAppointmentFailsWithoutServiceSelection() throws Exception {
-
-        // Verifica che non ci siano appuntamenti inizialmente
         try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
              ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
 
             rs.next();
             int total = rs.getInt("total");
-            assertEquals(0, total, "Il database dovrebbe contenere 0 appuntamenti prima della selezione");
+            assertEquals(0, total);
         }
 
         WaitForAsyncUtils.waitForFxEvents();
         Thread.sleep(500);
 
-        // Seleziona solo il barbiere, ma NON il servizio
         Node caretB = lookup("#barberComboBox").lookup(".caret").query();
         clickOn(caretB);
         WaitForAsyncUtils.waitForFxEvents();
         Thread.sleep(500);
         clickOn("Luca Verdi");
 
-        // Attiva e clicca sul bottone delle 10:00
         Button tenAMButton = lookup("#tenAMButton").queryAs(Button.class);
         tenAMButton.setDisable(false);
         tenAMButton.setOpacity(1);
         WaitForAsyncUtils.waitForFxEvents();
         Thread.sleep(500);
         moveTo("#tenAMButton").clickOn("#tenAMButton");
-
-        // Conferma la prenotazione (popup)
         clickOn("OK");
 
         WaitForAsyncUtils.waitForFxEvents();
         Thread.sleep(500);
 
-        // Verifica che NON sia stato registrato nessun appuntamento
         try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
              ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
 
@@ -181,14 +174,12 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
             int total = rs.getInt("total");
             assertEquals(0, total, "Non dovrebbe essere stato fissato alcun appuntamento senza selezione del servizio");
         }
-
-        // Verifica che non siano state create notizie
         try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
              ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM News")) {
 
             rs.next();
             int total = rs.getInt("total");
-            assertEquals(0, total, "Non dovrebbe essere stata creata alcuna news");
+            assertEquals(0, total);
         }
     }
 

@@ -95,7 +95,7 @@ public class SignInControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testSuccessfulLoginAsCustomer() throws Exception {
+    public void testSuccessfulSigninAsCustomer() throws Exception {
         write(emailField, "luigi.bianchi@example.com");
         write(passwordField, "password123");
 
@@ -112,7 +112,7 @@ public class SignInControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testSuccessfulLoginAsBarber() throws Exception {
+    public void testSuccessfulSigninAsBarber() throws Exception {
         write(emailField, "mario.rossi@example.com");
         write(passwordField, "barberpass");
 
@@ -129,7 +129,7 @@ public class SignInControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testLoginFailureWrongCredentials() {
+    public void testSigninFailureWrongCredentials() {
         write(emailField, "luigi.bianchi@example.com");
         write(passwordField, "wrongpassword");
 
