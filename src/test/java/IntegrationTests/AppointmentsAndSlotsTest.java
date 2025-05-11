@@ -56,11 +56,10 @@ public class AppointmentsAndSlotsTest {
 
     @Test
     public void testBookAppointmentAndSlotRemoval() {
-        // verifica presenza slot
         List<AvailableSlot> availableSlots = newAppointmentSlotsService.getAvailableSlots(barber.getEmail(), testDate);
         boolean slotExists = availableSlots.stream().anyMatch(s -> s.getStartTime().equals(testTime));
-        assertTrue(slotExists, "Lo slot iniziale deve esistere prima della prenotazione");
-        // prenota appuntamento
+        assertTrue(slotExists);
+
         boolean booked = newAppointmentSlotsService.bookAppointment(
                 barber.getName() + " " + barber.getSurname(),
                 servicesName,
@@ -68,59 +67,50 @@ public class AppointmentsAndSlotsTest {
                 testTime,
                 PaymentMethod.CREDIT_CARD
         );
-        assertTrue(booked, "L'appuntamento deve essere prenotato");
+        assertTrue(booked);
 
-        // verifica slot rimosso
         List<AvailableSlot> slotsAfter = newAppointmentSlotsService.getAvailableSlots(barber.getEmail(), testDate);
         boolean slotRemoved = slotsAfter.stream().anyMatch(s -> s.getStartTime().equals(testTime));
-        assertFalse(slotRemoved, "Lo slot deve essere stato rimosso dopo la prenotazione");
+        assertFalse(slotRemoved);
 
-        // verifica appuntamento esistente
         List<Appointment> appointments = newAppointmentSlotsService.getAppointments();
         boolean appointmentExists = appointments.stream()
                 .anyMatch(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime));
-        assertTrue(appointmentExists, "L'appuntamento deve esistere nel database");
+        assertTrue(appointmentExists);
 
-        // verifica che sia stata creata la notifica di prenotazione per il barbiere
         List<Notification> barberNotifications = newsDAO.getAllBarberNews(barber.getEmail());
         boolean notificationExists = barberNotifications.stream()
                 .anyMatch(n -> n.getTitle().equals("New Appointment")
                         && n.getMessage().contains("Luigi Verdi has booked an appointment with you"));
-        assertTrue(notificationExists, "Deve esistere la notifica di prenotazione per il barbiere");
+        assertTrue(notificationExists);
     }
 
     @Test
-    public void testDeleteAppointmentAndSlotReaddition() {
-        // recupero appuntamento
+    public void testDeleteAppointmentAndSlotReintroducing() {
         List<Appointment> appointments = newAppointmentSlotsService.getAppointments();
         Appointment toDelete = appointments.stream()
                 .filter(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime))
                 .findFirst()
                 .orElse(null);
 
-        assertNotNull(toDelete, "Appuntamento da cancellare deve esistere");
+        assertNotNull(toDelete);
 
-        // cancella appuntamento
         boolean deleted = appointmentService.deleteAppointment(toDelete);
-        assertTrue(deleted, "Appuntamento deve essere cancellato");
+        assertTrue(deleted);
 
-        // invia notifica di slot disponibile
         AppointmentService.addNotification(toDelete);
 
-        // riaggiunge slot
         AppointmentService.addAvailableSlot(toDelete);
 
-        // verifica slot di nuovo disponibile
         List<AvailableSlot> slots = newAppointmentSlotsService.getAvailableSlots(barber.getEmail(), testDate);
         boolean slotExists = slots.stream().anyMatch(s -> s.getStartTime().equals(testTime));
-        assertTrue(slotExists, "Lo slot deve essere di nuovo disponibile dopo cancellazione");
+        assertTrue(slotExists);
 
-        // verifica che sia stata creata la notifica di slot libero per il barbiere
         List<Notification> barberNotifications = newsDAO.getAllBarberNews(barber.getEmail());
         boolean notificationExists = barberNotifications.stream()
                 .anyMatch(n -> n.getTitle().equals("Slot available")
                         && n.getMessage().contains("A slot has become available on " + testDate + " at " + testTime + " with " + barber.getName()));
-        assertTrue(notificationExists, "Deve essere stata creata una notifica di slot libero per il barbiere");
+        assertTrue(notificationExists);
     }
 
     @AfterAll
