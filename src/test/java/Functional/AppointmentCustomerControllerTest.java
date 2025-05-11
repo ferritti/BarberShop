@@ -17,6 +17,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
@@ -56,6 +57,7 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
             DBTestInitializer.createUsersTable(stmt);
             DBTestInitializer.createServiceTypesTable(stmt);
             DBTestInitializer.createAppointmentsTable(stmt);
+            DBTestInitializer.createAppointmentServicesTable(stmt);
             DBTestInitializer.createNewsTable(stmt);
             DBTestInitializer.createAvailableSlotsTable(stmt);
 
@@ -66,31 +68,42 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
 
         try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
 
+            LocalDate tomorrow = LocalDate.now().plusDays(1);
+            String dateStr = tomorrow.toString();
+
             stmt.executeUpdate("DELETE FROM Service_Types WHERE service_name = 'Taglio Capelli'");
             // Aggiungo un servizio
             stmt.executeUpdate("INSERT INTO Service_Types (service_name, price) VALUES ('Taglio Capelli', 20.00)");
 
+            // Elimina utenti esistenti
             stmt.executeUpdate("DELETE FROM Users");
             // Creo un customer
             stmt.executeUpdate("INSERT INTO Users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Mario', 'Rossi', 'm.rossi@example.com', 'securePass123', '1234567890', 'CUSTOMER')");
 
-            stmt.executeUpdate("DELETE FROM Users WHERE email = 'l.verdi@example.com'");
             // Creo un barbiere
             stmt.executeUpdate("INSERT INTO Users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Luca', 'Verdi', 'l.verdi@example.com', 'securePass123', '0987654321', 'BARBER')");
 
+            // Elimina appuntamenti esistenti
             stmt.executeUpdate("DELETE FROM Appointments");
+
             // Crea due appuntamenti
-            stmt.executeUpdate("INSERT INTO Appointments (app_date, app_time, customer_email, barber_email, service_name, payment) " +
-                    "VALUES ('2025-05-10', '10:00', 'm.rossi@example.com', 'l.verdi@example.com', 'Taglio Capelli', 'CREDIT_CARD')");
-            stmt.executeUpdate("INSERT INTO Appointments (app_date, app_time, customer_email, barber_email, service_name, payment) " +
-                    "VALUES ('2025-05-10', '11:00', 'm.rossi@example.com', 'l.verdi@example.com', 'Taglio Capelli', 'PAYPAL')");
+            stmt.executeUpdate("INSERT INTO Appointments (app_date, app_time, customer_email, barber_email, payment) " +
+                    "VALUES ('" + dateStr + "', '10:00', 'm.rossi@example.com', 'l.verdi@example.com', 'CREDIT_CARD')");
+            stmt.executeUpdate("INSERT INTO Appointments (app_date, app_time, customer_email, barber_email, payment) " +
+                    "VALUES ('" + dateStr + "', '11:00', 'm.rossi@example.com', 'l.verdi@example.com', 'PAYPAL')");
 
-            // toglie available slots
+            // Associa i servizi agli appuntamenti — prima aggiungo il servizio mancante
+            stmt.executeUpdate("INSERT INTO Service_Types (service_name, price) VALUES ('Taglio Barba', 15.00)");
+
+            stmt.executeUpdate("INSERT INTO Appointment_Services (app_date, app_time, barber_email, service_name) " +
+                    "VALUES ('" + dateStr + "', '11:00', 'l.verdi@example.com', 'Taglio Capelli')");
+            stmt.executeUpdate("INSERT INTO Appointment_Services (app_date, app_time, barber_email, service_name) " +
+                    "VALUES ('" + dateStr + "', '11:00', 'l.verdi@example.com', 'Taglio Barba')");
+
+            // Elimina gli slot disponibili
             stmt.executeUpdate("DELETE FROM Available_Slots WHERE barber_email = 'l.verdi@example.com'");
-
-            // Imposta l'utente loggato (dopo averlo creato nel DB)
 
             appointmentCreated = true;
 
@@ -100,11 +113,13 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
         }
     }
 
+
     @AfterAll
     public static void cleanupDatabaseAfterTest() {
         if (appointmentCreated) {
             try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
                 stmt.executeUpdate("DELETE FROM Appointments WHERE customer_email = 'm.rossi@example.com'");
+                stmt.executeUpdate("DELETE FROM Appointment_Services WHERE barber_email = 'l.verdi@example.com'");
                 stmt.executeUpdate("DELETE FROM Service_Types WHERE service_name = 'Taglio Capelli'");
                 stmt.executeUpdate("DELETE FROM Users WHERE email = 'm.rossi@example.com'");
                 stmt.executeUpdate("DELETE FROM Users WHERE email = 'l.verdi@example.com'");
