@@ -278,32 +278,35 @@ public class NewAppointmentControllerSlots {
     public void setFirstServiceAction() {
         String firstSelected = serviceComboBox.getSelectionModel().getSelectedItem();
         if (firstSelected == null || firstSelected.isEmpty()) {
-            AlertHelper.showError("Errore", "Seleziona un servizio prima.");
+            AlertHelper.showError("Error", "Select a service first.");
             return;
         }
 
         selectedServices.clear();
 
         // Creazione Alert personalizzato
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Servizio Aggiuntivo");
-        alert.setHeaderText("Vuoi selezionare un altro servizio?");
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Extra service");
+//        alert.setHeaderText("Do you want to add service?");
+//        alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
+
+        Alert alert = AlertHelper.createAlert(Alert.AlertType.CONFIRMATION, "Extra service", "Do you want to add service?");
 
         // ComboBox con gli altri servizi
         MFXComboBox<String> extraServiceCombo = new MFXComboBox<>();
         List<String> otherServices = new ArrayList<>(servicesData.keySet());
         otherServices.remove(firstSelected);
         extraServiceCombo.getItems().addAll(otherServices);
-        extraServiceCombo.setPromptText("Seleziona servizio extra");
+        extraServiceCombo.setPromptText("Select the extra service");
 
         // Layout per il contenuto del dialog
         VBox content = new VBox();
         content.setSpacing(10);
-        content.getChildren().addAll(new Label("Servizio principale selezionato: " + firstSelected), extraServiceCombo);
+        content.getChildren().addAll(new Label("Main service selected: " + firstSelected), extraServiceCombo);
         alert.getDialogPane().setContent(content);
 
         // Bottoni personalizzati
-        ButtonType yesButton = new ButtonType("Sì", ButtonBar.ButtonData.YES);
+        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
         ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
         alert.getButtonTypes().setAll(yesButton, noButton);
 
@@ -313,9 +316,9 @@ public class NewAppointmentControllerSlots {
                 String extra = extraServiceCombo.getSelectionModel().getSelectedItem();
                 if (extra != null && !extra.isEmpty()) {
                     selectedServices.add(extra);
-                    AlertHelper.showInformation("Servizio aggiunto", "Hai aggiunto anche: " + extra);
+                    AlertHelper.showInformation("Extra service added", "You have also added: " + extra);
                 } else {
-                    AlertHelper.showWarning("Attenzione", "Nessun servizio extra selezionato.");
+                    AlertHelper.showWarning("Attention", "No extra service selected");
                 }
             }
         });

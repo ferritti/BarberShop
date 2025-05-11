@@ -13,7 +13,7 @@ public class AlertHelper {
 
     private AlertHelper() {}
 
-    private static Alert createAlert(AlertType type, String title, String message) {
+    public static Alert createAlert(AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setContentText(message);
