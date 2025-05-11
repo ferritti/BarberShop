@@ -49,7 +49,7 @@ public class ServiceTypesTest {
     }
 
     @Test
-    void testDeleteService() {
+    void testBarberDeleteService() {
         serviceTypesService.addService(serviceName, servicePrice);
         ServiceType serviceToDelete = serviceTypeDAO.getAllServiceTypes().stream()
                 .filter(s -> s.getName().equals(serviceName))
