@@ -284,12 +284,6 @@ public class NewAppointmentControllerSlots {
 
         selectedServices.clear();
 
-        // Creazione Alert personalizzato
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Extra service");
-//        alert.setHeaderText("Do you want to add service?");
-//        alert.getDialogPane().getStylesheets().add("/styles/AlertStyle.css");
-
         Alert alert = AlertHelper.createAlert(Alert.AlertType.CONFIRMATION, "Extra service", "Do you want to add service?");
 
         // ComboBox con gli altri servizi

@@ -110,15 +110,12 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
     @Override
     public List<Appointment> findByEmailOfBarber(String email) {
         List<Appointment> appointments = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
 
         try {
-            connection = dbManager.getConnection();
+            Connection connection = dbManager.getConnection();
 
             // First, get all appointments for this barber
-            stmt = connection.prepareStatement(
+            PreparedStatement stmt = connection.prepareStatement(
                     "SELECT DISTINCT a.app_date, a.app_time, a.payment, " +
                             "c.name AS customer_name, c.surname AS customer_surname, " +
                             "c.email AS customer_email, c.pass_hash AS customer_pass, c.phone AS customer_phone, " +
@@ -132,14 +129,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             );
 
             stmt.setString(1, email);
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 LocalDate appDate = rs.getDate("app_date").toLocalDate();
                 LocalTime appTime = rs.getTime("app_time").toLocalTime();
                 String barberEmail = rs.getString("barber_email");
 
-                // Create Customer object
                 Customer customer = new Customer(
                         rs.getString("customer_name"),
                         rs.getString("customer_surname"),
@@ -148,7 +144,6 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                         rs.getString("customer_phone")
                 );
 
-                // Create Barber object
                 Barber barber = new Barber(
                         rs.getString("barber_name"),
                         rs.getString("barber_surname"),
@@ -157,13 +152,10 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                         rs.getString("barber_phone")
                 );
 
-                // Get payment method
                 PaymentMethod paymentMethod = PaymentMethod.valueOf(rs.getString("payment"));
 
-                // Now get all services for this appointment
                 List<ServiceType> serviceTypes = getServicesForAppointment(connection, appDate, appTime, barberEmail);
 
-                // Create Appointment object
                 Appointment appointment = new Appointment(
                         appDate,
                         appTime,
@@ -175,33 +167,23 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
                 appointments.add(appointment);
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                // Not closing connection as it's managed by DBManager
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-
         return appointments;
     }
 
     @Override
     public List<Appointment> findByEmailOfCustomer(String email) {
         List<Appointment> appointments = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
 
         try {
-            connection = dbManager.getConnection();
+            Connection connection = dbManager.getConnection();
 
             // First, get all appointments for this customer
-            stmt = connection.prepareStatement(
+            PreparedStatement stmt = connection.prepareStatement(
                     "SELECT DISTINCT a.app_date, a.app_time, a.payment, " +
                             "c.name AS customer_name, c.surname AS customer_surname, " +
                             "c.email AS customer_email, c.pass_hash AS customer_pass, c.phone AS customer_phone, " +
@@ -215,14 +197,13 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             );
 
             stmt.setString(1, email);
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 LocalDate appDate = rs.getDate("app_date").toLocalDate();
                 LocalTime appTime = rs.getTime("app_time").toLocalTime();
                 String barberEmail = rs.getString("barber_email");
 
-                // Create Customer object
                 Customer customer = new Customer(
                         rs.getString("customer_name"),
                         rs.getString("customer_surname"),
@@ -231,7 +212,6 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                         rs.getString("customer_phone")
                 );
 
-                // Create Barber object
                 Barber barber = new Barber(
                         rs.getString("barber_name"),
                         rs.getString("barber_surname"),
@@ -240,13 +220,10 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
                         rs.getString("barber_phone")
                 );
 
-                // Get payment method
                 PaymentMethod paymentMethod = PaymentMethod.valueOf(rs.getString("payment"));
 
-                // Now get all services for this appointment
                 List<ServiceType> serviceTypes = getServicesForAppointment(connection, appDate, appTime, barberEmail);
 
-                // Create Appointment object
                 Appointment appointment = new Appointment(
                         appDate,
                         appTime,
@@ -258,18 +235,11 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
                 appointments.add(appointment);
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                // Not closing connection as it's managed by DBManager
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-
         return appointments;
     }
 
