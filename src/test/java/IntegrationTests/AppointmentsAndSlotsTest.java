@@ -46,6 +46,8 @@ public class AppointmentsAndSlotsTest {
         signUpService.registerUser(customer.getName(), customer.getSurname(), customer.getEmail(), "password456", customer.getPhone(), "");
 
         signInService.authenticateUser(customer.getEmail(), "password456");
+        concreteServiceTypeDAO.removeServiceType(testService.get(0));
+        concreteServiceTypeDAO.removeServiceType(testService.get(1));
         for (ServiceType serviceType : testService) {
             concreteServiceTypeDAO.addServiceType(serviceType);
             servicesName.add(serviceType.getName());
