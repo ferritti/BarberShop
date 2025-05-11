@@ -9,6 +9,7 @@ import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +24,8 @@ public class AppointmentsAndSlotsTest {
     private ConcreteNewsDAO newsDAO;
     private Barber barber;
     private Customer customer;
-    private ServiceType testService;
+    private List<ServiceType> testService = new ArrayList<>();
+    private List<String> servicesName = new ArrayList<>();
     private final LocalDate testDate = LocalDate.now();
     private final LocalTime testTime = LocalTime.of(10, 0);
 
@@ -31,7 +33,8 @@ public class AppointmentsAndSlotsTest {
     public void setup() {
         barber = new Barber("Mario", "Rossi", "mario.rossi@gmail.com", "password123", "3331234567");
         customer = new Customer("Luigi", "Verdi", "luigi.verdi@gmail.com", "password456", "3337654321");
-        testService = new ServiceType("Taglio", 20.0);
+        testService.add( new ServiceType("Balsamo", 20.0));
+        testService.add( new ServiceType("Shampoo", 10.0));
         newAppointmentSlotsService = new NewAppointmentSlotsService();
         appointmentService = new AppointmentService();
         SignUpService signUpService = new SignUpService();
@@ -43,8 +46,10 @@ public class AppointmentsAndSlotsTest {
         signUpService.registerUser(customer.getName(), customer.getSurname(), customer.getEmail(), "password456", customer.getPhone(), "");
 
         signInService.authenticateUser(customer.getEmail(), "password456");
-
-        concreteServiceTypeDAO.addServiceType(testService);
+        for (ServiceType serviceType : testService) {
+            concreteServiceTypeDAO.addServiceType(serviceType);
+            servicesName.add(serviceType.getName());
+        }
     }
 
     @Test
@@ -53,11 +58,10 @@ public class AppointmentsAndSlotsTest {
         List<AvailableSlot> availableSlots = newAppointmentSlotsService.getAvailableSlots(barber.getEmail(), testDate);
         boolean slotExists = availableSlots.stream().anyMatch(s -> s.getStartTime().equals(testTime));
         assertTrue(slotExists, "Lo slot iniziale deve esistere prima della prenotazione");
-
         // prenota appuntamento
         boolean booked = newAppointmentSlotsService.bookAppointment(
                 barber.getName() + " " + barber.getSurname(),
-                testService.getName(),
+                servicesName,
                 testDate,
                 testTime,
                 PaymentMethod.CREDIT_CARD
@@ -132,7 +136,8 @@ public class AppointmentsAndSlotsTest {
         new ConcreteAvailableSlotDAO().removeAvSlot(slot);
 
         // elimina servizio creato
-        concreteServiceTypeDAO.removeServiceType(testService);
+        concreteServiceTypeDAO.removeServiceType(testService.get(1));
+        concreteServiceTypeDAO.removeServiceType(testService.get(0));
 
         // elimina utenti creati
         ConcreteUserDAO userDao = new ConcreteUserDAO();

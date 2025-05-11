@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,8 +28,7 @@ class AppointmentServiceTest {
     private Barber barber;
     private Customer customer;
     private Customer customer2;
-    private ServiceType serviceType;
-
+    private List<ServiceType> serviceType = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -43,12 +43,16 @@ class AppointmentServiceTest {
         customer = mock(Customer.class);
         when(customer.getEmail()).thenReturn("customer@example.com");
         when(customer.getUserType()).thenReturn(User.UserType.CUSTOMER);
-        serviceType = mock(ServiceType.class);
+        serviceType.add(mock(ServiceType.class));
+        serviceType.add(mock(ServiceType.class));
         customer2 = mock(Customer.class);
         when(customer2.getEmail()).thenReturn("cliente2@example.com");
         when(customer2.getUserType()).thenReturn(User.UserType.CUSTOMER);
-        when(serviceType.getName()).thenReturn("Haircut");
-        when(serviceType.getPrice()).thenReturn(25.0);
+        when(serviceType.get(0).getName()).thenReturn("Haircut");
+        when(serviceType.get(0).getPrice()).thenReturn(25.0);
+        when(serviceType.get(1).getName()).thenReturn("Bear strim");
+        when(serviceType.get(1).getPrice()).thenReturn(50.0);
+
     }
 
     @Test
