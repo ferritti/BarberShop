@@ -179,6 +179,43 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
     }
 
     @Test
+    public void testDeleteAppointmentNotConfirmed() throws Exception {
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(2, total);
+        }
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        Optional<Node> matchingRow = lookup(".table-row-cell")
+                .queryAll()
+                .stream()
+                .filter(node -> node instanceof TableRow<?> tableRow &&
+                        tableRow.getItem() instanceof Appointment appointment &&
+                        appointment.getTime().equals(LocalTime.of(11, 0)))
+                .findFirst();
+
+        assertTrue(matchingRow.isPresent());
+
+        Node deleteButton = from(matchingRow.get()).lookup("#delete-button").query();
+        clickOn(deleteButton);
+        clickOn("No");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(200);
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(2, total);
+        }
+    }
+
+    @Test
     public void testGoToProfileView() throws Exception {
         clickOn("#profileButton");
 

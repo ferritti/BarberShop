@@ -225,4 +225,42 @@ public class ServiceTypesControllerTest extends ApplicationTest {
             assertFalse(rs.next());
         }
     }
+
+    @Test
+    public void testDeleteServiceNotConfirmed() throws Exception {
+        String serviceName = "Servizio Test";
+        String servicePrice = "20.00";
+
+        write(textFieldName, serviceName);
+        write(textFieldPrice, servicePrice);
+        clickOn("#addNewServiceButton");
+
+        clickOn("Yes");
+        clickOn("OK");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(200);
+
+        Optional<Node> matchingRow = lookup(".table-row-cell")
+                .queryAll()
+                .stream()
+                .filter(node -> node instanceof TableRow<?> tableRow &&
+                        tableRow.getItem() instanceof ServiceType service &&
+                        service.getName().equals(serviceName))
+                .findFirst();
+
+        Node deleteButton = from(matchingRow.get()).lookup("#delete-button").query();
+        clickOn(deleteButton);
+        clickOn("No");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(200);
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Service_Types WHERE service_name = 'Servizio Test'");
+            assertTrue(rs.next());
+        }
+    }
 }
+
+
