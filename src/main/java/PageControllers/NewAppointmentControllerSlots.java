@@ -1,5 +1,6 @@
 package PageControllers;
 
+import Services.AppointmentService;
 import Services.NewAppointmentSlotsService;
 import Helpers.AlertHelper;
 import Helpers.SceneHelper;
@@ -70,6 +71,7 @@ public class NewAppointmentControllerSlots {
     private Label dateLabel;
 
     private NewAppointmentSlotsService newAppointmentSlotsService = new NewAppointmentSlotsService();
+    private AppointmentService appointmentService = new AppointmentService();
     private List<String> selectedServices = new ArrayList<>();
     String serviceString;
     Double servicePrice;
@@ -84,6 +86,10 @@ public class NewAppointmentControllerSlots {
     public void initialize() {
         if(newAppointmentSlotsService == null) {
             newAppointmentSlotsService = new NewAppointmentSlotsService();
+        }
+
+        if(appointmentService == null) {
+            appointmentService = new AppointmentService();
         }
         timeButtons.put(LocalTime.of(8, 0), eightAMButton);
         timeButtons.put(LocalTime.of(9, 0), nineAMButton);
@@ -156,7 +162,7 @@ public class NewAppointmentControllerSlots {
         LocalTime time = LocalTime.parse(timeString);
         LocalDate date = LocalDate.parse(dateLabel.getText());
 
-        List<Appointment> userAppointments = newAppointmentSlotsService.getAppointments();
+        List<Appointment> userAppointments = appointmentService.getAppointments();
         for (Appointment appointment : userAppointments) {
             if (newAppointmentSlotsService.isSameDateTime(appointment, date, time)) {
                 AlertHelper.showError("Error", "You already have an appointment on this date and time");

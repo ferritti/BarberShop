@@ -531,4 +531,54 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
             assertEquals(1, total, "Dopo la selezione, dovrebbe esserci un nuovo news");
         }
     }
+
+    @Test
+    public void testBookAppointmentWithoutSecondServiceShowsWarning() throws Exception {
+        // Verifica che non ci siano appuntamenti inizialmente
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(0, total, "Il database dovrebbe contenere 0 appuntamenti prima della selezione");
+        }
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        // Seleziona il barbiere
+        Node caretB = lookup("#barberComboBox").lookup(".caret").query();
+        clickOn(caretB);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Luca Verdi");
+
+        // Seleziona il primo servizio (ma NON il secondo)
+        Node caretS = lookup("#serviceComboBox").lookup(".caret").query();
+        clickOn(caretS);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Taglio Capelli");
+
+        // Simula il clic su “Yes” (vuole selezionare un secondo servizio)
+        clickOn("Yes");
+
+        // Clicca subito su “OK” senza selezionare il secondo servizio
+        clickOn("OK");
+
+        // Attesa per eventuali Alert
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        // Verifica che NON sia stato creato nessun appuntamento
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(0, total, "Non dovrebbe essere stato creato alcun appuntamento");
+        }
+    }
+
+
 }

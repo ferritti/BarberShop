@@ -1,5 +1,6 @@
 package Unit;
 
+import Services.AppointmentService;
 import Services.NewAppointmentSlotsService;
 import Persistence.DAO.*;
 import Model.*;
@@ -23,6 +24,7 @@ class NewAppointmentSlotsServiceTest {
     private NewsDAO newsDAO;
     private SessionManager sessionManager;
     private NewAppointmentSlotsService service;
+    private AppointmentService appointmentService;
 
     @BeforeEach
     void setUp() {
@@ -33,6 +35,7 @@ class NewAppointmentSlotsServiceTest {
         newsDAO = mock(NewsDAO.class);
         sessionManager = mock(SessionManager.class);
         service = new NewAppointmentSlotsService(userDAO, serviceTypeDAO, availableSlotDAO, appointmentDAO, newsDAO, sessionManager);
+        appointmentService = new AppointmentService(appointmentDAO, availableSlotDAO, newsDAO, sessionManager);
     }
 
     @Test
@@ -72,22 +75,6 @@ class NewAppointmentSlotsServiceTest {
         verify(availableSlotDAO, times(1)).getAvSlotsAtSelectedDate(date, barberEmail);
     }
 
-    @Test
-    void getAppointmentsAsBarber() {
-        User mockUser = mock(User.class);
-        when(sessionManager.getCurrentUser()).thenReturn(mockUser);
-        when(mockUser.getEmail()).thenReturn("barber@example.com");
-        when(mockUser.getUserType()).thenReturn(User.UserType.BARBER);
-
-        List<Appointment> mockAppointments = List.of(mock(Appointment.class));
-        when(appointmentDAO.findByEmailOfBarber("barber@example.com")).thenReturn(mockAppointments);
-
-        List<Appointment> result = service.getAppointments();
-
-        assertEquals(mockAppointments, result);
-        verify(appointmentDAO, times(1)).findByEmailOfBarber("barber@example.com");
-        verify(appointmentDAO, never()).findByEmailOfCustomer(anyString());
-    }
 
     @Test
     void getAppointmentsAsCustomer() {
@@ -99,7 +86,7 @@ class NewAppointmentSlotsServiceTest {
         List<Appointment> mockAppointments = List.of(mock(Appointment.class));
         when(appointmentDAO.findByEmailOfCustomer("customer@example.com")).thenReturn(mockAppointments);
 
-        List<Appointment> result = service.getAppointments();
+        List<Appointment> result = appointmentService.getAppointments();
 
         assertEquals(mockAppointments, result);
         verify(appointmentDAO, times(1)).findByEmailOfCustomer("customer@example.com");

@@ -28,6 +28,7 @@ public class AppointmentsAndSlotsTest {
     private List<String> servicesName = new ArrayList<>();
     private final LocalDate testDate = LocalDate.now();
     private final LocalTime testTime = LocalTime.of(10, 0);
+    private final LocalTime testTime2 = LocalTime.of(8, 0);
 
     @BeforeAll
     public void setup() {
@@ -73,7 +74,7 @@ public class AppointmentsAndSlotsTest {
         boolean slotRemoved = slotsAfter.stream().anyMatch(s -> s.getStartTime().equals(testTime));
         assertFalse(slotRemoved);
 
-        List<Appointment> appointments = newAppointmentSlotsService.getAppointments();
+        List<Appointment> appointments = appointmentService.getAppointments();
         boolean appointmentExists = appointments.stream()
                 .anyMatch(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime));
         assertTrue(appointmentExists);
@@ -87,7 +88,7 @@ public class AppointmentsAndSlotsTest {
 
     @Test
     public void testDeleteAppointmentAndSlotReintroducing() {
-        List<Appointment> appointments = newAppointmentSlotsService.getAppointments();
+        List<Appointment> appointments = appointmentService.getAppointments();
         Appointment toDelete = appointments.stream()
                 .filter(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime))
                 .findFirst()
@@ -118,7 +119,7 @@ public class AppointmentsAndSlotsTest {
         signInService.authenticateUser(customer.getEmail(), "password456");
 
         // cancella appuntamenti residui
-        List<Appointment> appointments = newAppointmentSlotsService.getAppointments();
+        List<Appointment> appointments = appointmentService.getAppointments();
         appointments.stream()
                 .filter(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime))
                 .forEach(a -> appointmentService.deleteAppointment(a));
@@ -148,4 +149,33 @@ public class AppointmentsAndSlotsTest {
 
         SessionManager.getInstance().closeSession();
     }
+
+    @Test
+    public void testAppointmentVisibleToBarberAfterBooking() {
+
+        List<AvailableSlot> availableSlots = newAppointmentSlotsService.getAvailableSlots(barber.getEmail(), testDate);
+        boolean slotExists = availableSlots.stream().anyMatch(s -> s.getStartTime().equals(testTime2));
+        assertTrue(slotExists);
+
+        boolean booked = newAppointmentSlotsService.bookAppointment(
+                barber.getName() + " " + barber.getSurname(),
+                servicesName,
+                testDate,
+                testTime2,
+                PaymentMethod.CREDIT_CARD
+        );
+        assertTrue(booked);
+
+        // Autenticazione barbiere
+        signInService.authenticateUser(barber.getEmail(), "password123");
+
+        // Recupero appuntamenti del barbiere
+        List<Appointment> barberAppointments = appointmentService.getAppointments();
+
+        boolean appointmentVisibleToBarber = barberAppointments.stream()
+                .anyMatch(a -> a.getDate().equals(testDate) && a.getTime().equals(testTime2)
+                        && a.getCustomer().getEmail().equals(customer.getEmail()));
+        assertTrue(appointmentVisibleToBarber);
+    }
+
 }

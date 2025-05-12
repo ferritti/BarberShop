@@ -115,4 +115,31 @@ class NewsServiceTest {
                 notification -> news.subList(5, 35).contains(notification)
         ));
     }
+
+    @Test
+    void deleteOldNewsCustomerMoreThanLimit() {
+        User customer = new Customer("Luigi", "Bianchi", "customer@example.com", "password", "987654321");
+        when(sessionManager.getCurrentUser()).thenReturn(customer);
+
+        List<Notification> news = new ArrayList<>();
+        LocalTime now = LocalTime.now();
+        for (int i = 0; i < 40; i++) {
+            Notification notification = new Notification("Title" + i, "Message" + i, true);
+            notification.setTime(now.minusMinutes(i));
+            news.add(notification);
+        }
+
+        when(newsDAO.getAllCustomerNews()).thenReturn(news);
+
+        newsService.deleteOldestNewsIfNecessary();
+
+        verify(newsDAO, times(10)).deleteNotification(argThat(
+                notification -> news.subList(0, 10).contains(notification)
+        ));
+
+        verify(newsDAO, never()).deleteNotification(argThat(
+                notification -> news.subList(10, 40).contains(notification)
+        ));
+    }
+
 }

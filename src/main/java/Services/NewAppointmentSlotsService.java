@@ -47,14 +47,6 @@ public class NewAppointmentSlotsService {
         return availableSlotDAO.getAvSlotsAtSelectedDate(date, barberEmail);
     }
 
-    public List<Appointment> getAppointments() {
-        if(sessionManager.getCurrentUser().getUserType() == User.UserType.BARBER) {
-            return appointmentDAO.findByEmailOfBarber(sessionManager.getCurrentUser().getEmail());
-        } else {
-            return appointmentDAO.findByEmailOfCustomer(sessionManager.getCurrentUser().getEmail());
-        }
-    }
-
     public boolean bookAppointment(String barberFullName, List<String> services, LocalDate date, LocalTime time, PaymentMethod paymentMethod) {
         String barberEmail = getBarbersData().get(barberFullName);
         Barber barberUser = (Barber) userDAO.findByEmail(barberEmail);
