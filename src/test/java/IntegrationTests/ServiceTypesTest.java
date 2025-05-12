@@ -5,6 +5,8 @@ import Persistence.DAO.*;
 import Model.*;
 import org.junit.jupiter.api.*;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceTypesTest {
@@ -66,5 +68,36 @@ public class ServiceTypesTest {
                 .orElse(null);
 
         assertNull(deletedService);
+    }
+
+    @Test
+    void testGetServices() {
+        serviceTypesService.addService(serviceName, servicePrice);
+
+        String secondServiceName = "Shave";
+        double secondServicePrice = 15.0;
+        serviceTypesService.addService(secondServiceName, secondServicePrice);
+
+        List<ServiceType> serviceList = serviceTypesService.getService();
+
+        assertNotNull(serviceList);
+        assertFalse(serviceList.isEmpty());
+
+        ServiceType firstService = serviceList.stream()
+                .filter(s -> s.getName().equals(serviceName))
+                .findFirst()
+                .orElse(null);
+        ServiceType secondService = serviceList.stream()
+                .filter(s -> s.getName().equals(secondServiceName))
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(firstService);
+        assertEquals(serviceName, firstService.getName());
+        assertEquals(servicePrice, firstService.getPrice());
+
+        assertNotNull(secondService);
+        assertEquals(secondServiceName, secondService.getName());
+        assertEquals(secondServicePrice, secondService.getPrice());
     }
 }
