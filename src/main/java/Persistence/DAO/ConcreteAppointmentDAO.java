@@ -115,7 +115,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
             Connection connection = dbManager.getConnection();
 
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT DISTINCT a.app_date, a.app_time, a.payment, " +
+                    "SELECT a.app_date, a.app_time, a.payment, " +
                             "c.name AS customer_name, c.surname AS customer_surname, " +
                             "c.email AS customer_email, c.pass_hash AS customer_pass, c.phone AS customer_phone, " +
                             "b.name AS barber_name, b.surname AS barber_surname, " +
@@ -183,7 +183,7 @@ public class ConcreteAppointmentDAO implements AppointmentDAO {
 
             // First, get all appointments for this customer
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT DISTINCT a.app_date, a.app_time, a.payment, " +
+                    "SELECT a.app_date, a.app_time, a.payment, " +
                             "c.name AS customer_name, c.surname AS customer_surname, " +
                             "c.email AS customer_email, c.pass_hash AS customer_pass, c.phone AS customer_phone, " +
                             "b.name AS barber_name, b.surname AS barber_surname, " +

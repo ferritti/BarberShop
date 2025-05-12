@@ -12,6 +12,7 @@ public class Appointment {
     private final Barber barber;
     private final List<ServiceType> serviceTypes;
     private final PaymentMethod paymentMethod;
+
     public Appointment(LocalDate date, LocalTime time, Customer customer, Barber barber, List<ServiceType> serviceTypes, PaymentMethod paymentMethod) {
         this.date = date;
         this.time = time;
