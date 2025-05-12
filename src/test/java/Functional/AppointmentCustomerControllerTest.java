@@ -95,6 +95,10 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
             stmt.executeUpdate("INSERT INTO Appointments (app_date, app_time, customer_email, barber_email, payment) " +
                     "VALUES ('" + dateStr + "', '11:00', 'm.rossi@example.com', 'l.verdi@example.com', 'PAYPAL')");
 
+            // Crea un appuntamento passato
+            stmt.executeUpdate("INSERT INTO Appointments (app_date, app_time, customer_email, barber_email, payment) " +
+                    "VALUES ('2025-05-10', '10:00', 'm.rossi@example.com', 'l.verdi@example.com', 'PAYPAL')");
+
             // Associa i servizi agli appuntamenti — prima aggiungo il servizio mancante
             stmt.executeUpdate("INSERT INTO Service_Types (service_name, price) VALUES ('Taglio Barba', 15.00)");
 
@@ -102,6 +106,9 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
                     "VALUES ('" + dateStr + "', '11:00', 'l.verdi@example.com', 'Taglio Capelli')");
             stmt.executeUpdate("INSERT INTO Appointment_Services (app_date, app_time, barber_email, service_name) " +
                     "VALUES ('" + dateStr + "', '11:00', 'l.verdi@example.com', 'Taglio Barba')");
+            stmt.executeUpdate("INSERT INTO Appointment_Services (app_date, app_time, barber_email, service_name) " +
+                    "VALUES ('2025-5-10', '10:00', 'l.verdi@example.com', 'Taglio Barba')");
+
 
             // Elimina gli slot disponibili
             stmt.executeUpdate("DELETE FROM Available_Slots WHERE barber_email = 'l.verdi@example.com'");
@@ -142,7 +149,7 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
 
             rs.next();
             int total = rs.getInt("total");
-            assertEquals(2, total, "Il database dovrebbe contenere 2 appuntamenti");
+            assertEquals(3, total, "Il database dovrebbe contenere 2 appuntamenti");
         }
 
         // Attendi il caricamento degli appuntamenti nella tabella
@@ -174,7 +181,7 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
 
             rs.next();
             int total = rs.getInt("total");
-            assertEquals(1, total, "Dopo l'eliminazione, dovrebbe rimanere un solo appuntamento");
+            assertEquals(2, total, "Dopo l'eliminazione, dovrebbe rimanere un solo appuntamento");
         }
     }
 
@@ -184,7 +191,7 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
              ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
             rs.next();
             int total = rs.getInt("total");
-            assertEquals(2, total);
+            assertEquals(3, total);
         }
 
         WaitForAsyncUtils.waitForFxEvents();
@@ -211,7 +218,7 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
              ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
             rs.next();
             int total = rs.getInt("total");
-            assertEquals(2, total);
+            assertEquals(3, total);
         }
     }
 
@@ -259,5 +266,48 @@ public class AppointmentCustomerControllerTest extends ApplicationTest {
         // Assert: Verifica che il titolo della scena sia "News"
         assertEquals("News", stage.getTitle(),
                 "La vista dovrebbe passare alla schermata delle news.");
+    }
+
+    @Test
+    public void testDeletePastAppointmentUnsuccess() throws Exception {
+        // Verifica che ci siano due appuntamenti nel database
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(3, total, "Il database dovrebbe contenere 2 appuntamenti");
+        }
+
+        // Attendi il caricamento degli appuntamenti nella tabella
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);  // Solo per debug temporaneo
+
+
+        // Trova la riga con appuntamento alle 11:00
+        Optional<Node> matchingRow = lookup(".table-row-cell")
+                .queryAll()
+                .stream()
+                .filter(node -> node instanceof TableRow<?> tableRow &&
+                        tableRow.getItem() instanceof Appointment appointment &&
+                        appointment.getTime().equals(LocalTime.of(10, 0)))
+                .findFirst();
+
+        assertTrue(matchingRow.isPresent(), "La riga con l'appuntamento alle 10:00 deve essere presente");
+
+        Node deleteButton = from(matchingRow.get()).lookup("#delete-button").query();
+        clickOn(deleteButton);
+        clickOn("OK");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(200); // per sicurezza
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(3, total, "Dopo l'eliminazione, dovrebbe rimanere un solo appuntamento");
+        }
     }
 }
