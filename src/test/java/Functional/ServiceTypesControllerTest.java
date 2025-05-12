@@ -261,6 +261,24 @@ public class ServiceTypesControllerTest extends ApplicationTest {
             assertTrue(rs.next());
         }
     }
+
+    @Test
+    public void testAddServiceWithNullPriceUnsuccess() throws Exception {
+        write(textFieldName, "Taglio Barba");
+        write(textFieldPrice, "-5");
+
+        clickOn("#addNewServiceButton");
+        clickOn("OK");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(200);
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM Service_types WHERE service_name='Taglio Barba'")) {
+
+            assertFalse(rs.next());
+        }
+    }
 }
 
 
