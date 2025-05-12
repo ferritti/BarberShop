@@ -84,13 +84,6 @@ public class NewAppointmentControllerSlots {
 
     @FXML
     public void initialize() {
-        if(newAppointmentSlotsService == null) {
-            newAppointmentSlotsService = new NewAppointmentSlotsService();
-        }
-
-        if(appointmentService == null) {
-            appointmentService = new AppointmentService();
-        }
         timeButtons.put(LocalTime.of(8, 0), eightAMButton);
         timeButtons.put(LocalTime.of(9, 0), nineAMButton);
         timeButtons.put(LocalTime.of(10, 0), tenAMButton);
