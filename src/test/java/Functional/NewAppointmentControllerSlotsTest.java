@@ -89,6 +89,9 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
             // Creo un barbiere
             stmt.executeUpdate("INSERT INTO Users (name, surname, email, pass_hash, phone, role) " +
                     "VALUES ('Luca', 'Verdi', 'l.verdi@example.com', 'securePass123', '0987654321', 'BARBER')");
+            // Creo un barbiere
+            stmt.executeUpdate("INSERT INTO Users (name, surname, email, pass_hash, phone, role) " +
+                    "VALUES ('Gianni', 'Nero', 'g.nero@example.com', 'securePass123', '1234509876', 'BARBER')");
 
             // Rimuovi lo slot se già esiste
             stmt.executeUpdate("DELETE FROM Available_Slots ");
@@ -97,6 +100,18 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
             // Aggiungo uno slot disponibile
             stmt.executeUpdate("INSERT INTO Available_Slots (barber_email, slot_date, start_time) " +
                     "VALUES ('l.verdi@example.com', '2025-05-13', '10:00')");
+
+            stmt.executeUpdate("DELETE FROM Available_Slots WHERE barber_email = 'g.nero@example.com' AND slot_date = '2025-05-13' AND start_time = '10:00'");
+
+            // Aggiungo uno slot disponibile
+            stmt.executeUpdate("INSERT INTO Available_Slots (barber_email, slot_date, start_time) " +
+                    "VALUES ('g.nero@example.com', '2025-05-13', '10:00')");
+
+            stmt.executeUpdate("DELETE FROM Available_Slots WHERE barber_email = 'g.nero@example.com' AND slot_date = '2025-05-13' AND start_time = '12:00'");
+
+            // Aggiungo uno slot disponibile
+            stmt.executeUpdate("INSERT INTO Available_Slots (barber_email, slot_date, start_time) " +
+                    "VALUES ('g.nero@example.com', '2025-05-13', '12:00')");
 
             // Rimuovi lo slot se già esiste
             stmt.executeUpdate("DELETE FROM Available_Slots WHERE barber_email = 'l.verdi@example.com' AND slot_date = '2025-05-13' AND start_time = '8:00'");
@@ -127,6 +142,7 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
                 stmt.executeUpdate("DELETE FROM Available_Slots ");
                 stmt.executeUpdate("DELETE FROM Users WHERE email = 'm.rossi@example.com'");
                 stmt.executeUpdate("DELETE FROM Users WHERE email = 'l.verdi@example.com'");
+                stmt.executeUpdate("DELETE FROM Users WHERE email = 'g.nero@example.com'");
                 stmt.executeUpdate("DELETE FROM Service_Types");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -498,7 +514,7 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
 
 
         // Seleziona metodo di pagamento
-        clickOn("PayPal");
+        clickOn("Pay at Shop");
 
         // Conferma finale
         clickOn("OK");
@@ -580,5 +596,130 @@ public class NewAppointmentControllerSlotsTest extends ApplicationTest {
         }
     }
 
+    @Test
+    public void testBookAppointmentWithSameTimeDateFailure() throws Exception {
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(2, total);
+        }
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        Node caretB = lookup("#barberComboBox").lookup(".caret").query();
+        clickOn(caretB);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Gianni Nero");
+
+        Node caretS = lookup("#serviceComboBox").lookup(".caret").query();
+        clickOn(caretS);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Taglio Capelli");
+
+        Thread.sleep(500);
+        clickOn("No");
+
+        Button tenAMButton = lookup("#tenAMButton").queryAs(Button.class);
+        tenAMButton.setDisable(false);
+        tenAMButton.setOpacity(1);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        moveTo("#tenAMButton").clickOn("#tenAMButton");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Available_Slots WHERE barber_email = 'g.nero@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(2, total);
+        }
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(2, total);
+        }
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM News ")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(2, total);
+        }
+    }
+
+    @Test
+    public void testBookAppointmentWithPaymentCreditCardSuccess() throws Exception {
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(2, total);
+        }
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        Node caretB = lookup("#barberComboBox").lookup(".caret").query();
+        clickOn(caretB);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Gianni Nero");
+
+        Node caretS = lookup("#serviceComboBox").lookup(".caret").query();
+        clickOn(caretS);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        clickOn("Taglio Capelli");
+
+        Thread.sleep(500);
+        clickOn("No");
+
+        Button tenAMButton = lookup("#twelveAMButton").queryAs(Button.class);
+        tenAMButton.setDisable(false);
+        tenAMButton.setOpacity(1);
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+        moveTo("#twelveAMButton").clickOn("#twelveAMButton");
+
+        clickOn("Yes");
+        clickOn("Credit Card");
+        clickOn("OK");
+
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500);
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Available_Slots WHERE barber_email = 'g.nero@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(1, total);
+        }
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM Appointments WHERE customer_email = 'm.rossi@example.com'")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(3, total);
+        }
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS total FROM News ")) {
+
+            rs.next();
+            int total = rs.getInt("total");
+            assertEquals(3, total);
+        }
+    }
 
 }
