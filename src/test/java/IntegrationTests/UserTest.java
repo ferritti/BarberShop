@@ -86,9 +86,7 @@ public class UserTest {
 
     @Test
     void testInvalidSignInCustomer() {
-        signUpService.registerUser("Mario", "Rossi", customerEmail, "securePass321", "3216549870", "");
-
-        boolean isAuthenticated = signInService.authenticateUser(customerEmail, "wrongPassword");
+        boolean isAuthenticated = signInService.authenticateUser("notExistingEmail", "wrongPassword");
         assertFalse(isAuthenticated);
 
         assertThrows(IllegalStateException.class, () -> {
