@@ -32,7 +32,9 @@ public class SignUpService {
             return "secretCodeAlert";
         }
 
-        userDAO.addUser(newUser);
-        return "success";
+        if(userDAO.addUser(newUser))
+            return "success";
+        else
+            return "not success";
     }
 }

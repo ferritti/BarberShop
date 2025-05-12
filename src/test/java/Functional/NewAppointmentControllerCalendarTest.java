@@ -64,12 +64,12 @@ public class NewAppointmentControllerCalendarTest extends ApplicationTest {
     public void testNextAndPreviousMonthButtons() throws Exception {
         String initialLabel = lookup("#yearMonthLabel").queryLabeled().getText();
 
-        clickAndWait("#nextButton", 5);
+        clickAndWait("#nextButton", 6);
 
         String afterNext = lookup("#yearMonthLabel").queryLabeled().getText();
         assertNotEquals(initialLabel, afterNext);
 
-        clickAndWait("#previousButton", 5);
+        clickAndWait("#previousButton", 6);
 
         String afterPrevious = lookup("#yearMonthLabel").queryLabeled().getText();
         assertEquals(initialLabel, afterPrevious);
@@ -77,7 +77,7 @@ public class NewAppointmentControllerCalendarTest extends ApplicationTest {
 
     @Test
     public void testTodayButtonVisibilityAndFunction() throws Exception {
-        clickAndWait("#nextButton", 5);
+        clickAndWait("#nextButton", 6);
 
         verifyThat("#todayButton", isVisible());
 

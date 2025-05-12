@@ -1,5 +1,6 @@
 package PageControllers;
 
+import Helpers.AlertHelper;
 import Services.SignUpService;
 import Helpers.SceneHelper;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
@@ -42,7 +43,7 @@ public class SignUpController {
 
         if ("success".equals(result)) {
             goToSigninView();
-        }
+        } else AlertHelper.showError("", "User already exists");
     }
 
     @FXML

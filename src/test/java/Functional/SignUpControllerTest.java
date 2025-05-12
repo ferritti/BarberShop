@@ -164,4 +164,69 @@ public class SignUpControllerTest extends ApplicationTest {
     private void write(MFXTextField field, String text) {
         clickOn(field).write(text);
     }
+
+    @Test
+    public void testAlreadySignUpErrorPopUp() throws Exception {
+        // Prima registrazione - utente inserito correttamente
+        write(nameField, "Mario");
+        write(surnameField, "Rossi");
+        write(emailField, "mario.rossi@example.com");
+        write(passwordField, "password123");
+        write(phoneField, "1234567890");
+        write(secretCodeField, "I-AM-A-BARBER");
+
+        performClickOn();
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // Attendi cambio titolo finestra
+        long startTime = System.currentTimeMillis();
+        while (!"Signin".equals(stage.getTitle()) && System.currentTimeMillis() - startTime < 5000) {
+            Thread.sleep(100);
+        }
+        assertEquals("Signin", stage.getTitle());
+
+        // Torna alla schermata di signup cliccando sulla label di signup
+        clickOn("#createNowLabel");
+        WaitForAsyncUtils.waitForFxEvents();
+
+        long returnStart = System.currentTimeMillis();
+        while (!"Sign Up".equals(stage.getTitle()) && System.currentTimeMillis() - returnStart < 5000) {
+            Thread.sleep(100);
+        }
+        assertEquals("Sign Up", stage.getTitle());
+
+        // Ricarica riferimenti ai campi dopo il cambio scena
+        nameField = (MFXTextField) stage.getScene().lookup("#nameField");
+        surnameField = (MFXTextField) stage.getScene().lookup("#surnameField");
+        emailField = (MFXTextField) stage.getScene().lookup("#emailField");
+        passwordField = (MFXPasswordField) stage.getScene().lookup("#passwordField");
+        phoneField = (MFXTextField) stage.getScene().lookup("#phoneField");
+        secretCodeField = (MFXTextField) stage.getScene().lookup("#secretCodeField");
+        notEmptyAlert = (Label) stage.getScene().lookup("#notEmptyAlert");
+        secretCodeAlert = (Label) stage.getScene().lookup("#secretCodeAlert");
+
+        // Seconda registrazione con gli stessi dati
+        write(nameField, "Mario");
+        write(surnameField, "Rossi");
+        write(emailField, "mario.rossi@example.com");
+        write(passwordField, "password123");
+        write(phoneField, "1234567890");
+        write(secretCodeField, "I-AM-A-BARBER");
+
+        performClickOn();
+        WaitForAsyncUtils.waitForFxEvents();
+        Thread.sleep(500); // tempo per eventuale alert
+
+        // Verifica che NON sia passato a "Signin" e che alert di campo vuoto o secret code non siano visibili
+        assertNotEquals("Signin", stage.getTitle());
+        assertFalse(notEmptyAlert.isVisible());
+        assertFalse(secretCodeAlert.isVisible());
+
+        try (Statement stmt = DBManager.getInstance(true).getConnection().createStatement()) {
+            stmt.executeUpdate("DELETE FROM Users");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail("Errore nel reset del database di test H2");
+        }
+    }
 }

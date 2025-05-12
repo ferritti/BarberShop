@@ -51,7 +51,7 @@ public class UserTest {
         assertEquals("success", result);
         testCustomer = userDAO.findByEmail(customerEmail);
         assertNotNull(testCustomer);
-        assertTrue(testCustomer instanceof Customer);
+        assertTrue(testCustomer.getUserType() == User.UserType.CUSTOMER);
     }
 
     @Test
@@ -61,28 +61,38 @@ public class UserTest {
 
         testBarber = userDAO.findByEmail(barberEmail);
         assertNotNull(testBarber);
-        assertTrue(testBarber instanceof Barber);
+        assertTrue(testBarber.getUserType() == User.UserType.BARBER);
     }
 
     @Test
     void testSignInCustomer() {
         signUpService.registerUser("Mario", "Rossi", customerEmail, "securePass321", "3216549870", "");
-        testCustomer = userDAO.findByEmail(customerEmail);
 
         boolean isAuthenticated = signInService.authenticateUser(customerEmail, "securePass321");
         assertTrue(isAuthenticated);
         assertNotNull(sessionManager.getCurrentUser());
-        assertTrue(sessionManager.getCurrentUser() instanceof Customer);
+        assertTrue(sessionManager.getCurrentUser().getUserType() == User.UserType.CUSTOMER);
     }
 
     @Test
     void testSignInBarber() {
         signUpService.registerUser("Mario", "Rossi", barberEmail, "securePass654", "3344556677", "I-AM-A-BARBER");
-        testBarber = userDAO.findByEmail(barberEmail);
 
         boolean isAuthenticated = signInService.authenticateUser(barberEmail, "securePass654");
         assertTrue(isAuthenticated);
         assertNotNull(sessionManager.getCurrentUser());
-        assertTrue(sessionManager.getCurrentUser() instanceof Barber);
+        assertTrue(sessionManager.getCurrentUser().getUserType() == User.UserType.BARBER);
+    }
+
+    @Test
+    void testInvalidSignInCustomer() {
+        signUpService.registerUser("Mario", "Rossi", customerEmail, "securePass321", "3216549870", "");
+
+        boolean isAuthenticated = signInService.authenticateUser(customerEmail, "wrongPassword");
+        assertFalse(isAuthenticated);
+
+        assertThrows(IllegalStateException.class, () -> {
+            sessionManager.getCurrentUser();
+        });
     }
 }
