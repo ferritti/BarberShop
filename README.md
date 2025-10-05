@@ -1,98 +1,98 @@
-# BarberShop - Sistema di Gestione Appuntamenti
+# BarberShop - Appointment Management System
 
-## Descrizione del Progetto
-BarberShop è un'applicazione desktop sviluppata in Java con JavaFX che permette la gestione completa di un salone di barbiere. Il sistema consente ai barbieri di gestire appuntamenti, servizi e comunicazioni con i clienti, mentre i clienti possono prenotare appuntamenti, scegliere servizi e metodi di pagamento.
+## Project Description
+BarberShop is a desktop application built in Java with JavaFX that enables comprehensive management of a barbershop. The system allows barbers to manage appointments, services, and communications with customers, while customers can book appointments, choose services, and select payment methods.
 
-## Requisiti di Sistema
-- Java 23 o superiore
-- PostgreSQL 
+## System Requirements
+- Java 23 or later
+- PostgreSQL
 - Maven
 
-## Installazione e Configurazione
+## Installation and Setup
 
-### Prerequisiti
-1. Assicurarsi di avere installato Java 23 o superiore
-2. Installare PostgreSQL e creare un database chiamato `BarberShop_DB`
-3. Creare un utente PostgreSQL con le seguenti credenziali:
+### Prerequisites
+1. Ensure you have Java 23 or later installed
+2. Install PostgreSQL and create a database named `BarberShop_DB`
+3. Create a PostgreSQL user with the following credentials:
    - Username: `SWEuser`
    - Password: `swepass`
-4. Assicurarsi che l'utente abbia i permessi necessari sul database `BarberShop_DB`
+4. Make sure the user has the necessary privileges on the `BarberShop_DB` database
 
-### Installazione
-1. Clonare il repository
-2. Navigare nella directory del progetto
-3. Eseguire il comando Maven per compilare il progetto:
+### Installation
+1. Clone the repository
+2. Navigate to the project directory
+3. Run the Maven command to build the project:
    ```
    mvn clean install
    ```
-4. Avviare l'applicazione:
+4. Start the application:
    ```
    mvn javafx:run
    ```
 
-## Funzionalità Principali
+## Key Features
 
-### Per i Barbieri
-- **Gestione Appuntamenti**: Visualizzazione di tutti gli appuntamenti prenotati
-- **Gestione Servizi**: Aggiunta, modifica e rimozione dei servizi offerti
-- **Comunicazioni**: Invio di comunicazioni ai clienti
-- **Profilo**: Gestione delle informazioni personali e professionali
+### For Barbers
+- **Appointment Management**: View all booked appointments
+- **Service Management**: Add, edit, and remove offered services
+- **Communications**: Send messages to customers
+- **Profile**: Manage personal and professional information
 
-### Per i Clienti
-- **Prenotazione Appuntamenti**: Selezione di data, ora, servizi e barbiere
-- **Pagamenti**: Possibilità di pagare con diversi metodi (PayPal, Carta di Credito, in negozio)
-- **Visualizzazione Appuntamenti**: Storico e appuntamenti futuri
-- **Notifiche**: Ricezione di comunicazioni e notifiche di disponibilità
+### For Customers
+- **Book Appointments**: Select date, time, services, and barber
+- **Payments**: Pay using different methods (PayPal, Credit Card, in-store)
+- **View Appointments**: Past and upcoming appointments
+- **Notifications**: Receive communications and availability notifications
 
-## Come Utilizzare l'Applicazione
+## How to Use the Application
 
-### Accesso al Sistema
-1. Avviare l'applicazione
-2. Nella schermata di login, inserire email e password
-3. Selezionare il tipo di utente (Barbiere o Cliente)
-4. Cliccare su "Accedi"
+### Logging In
+1. Start the application
+2. On the login screen, enter your email and password
+3. Select the user type (Barber or Customer)
+4. Click "Sign In"
 
-### Prenotazione di un Appuntamento (Cliente)
-1. Accedere come cliente
-2. Navigare alla sezione "Appuntamenti"
-3. Cliccare su "Nuovo Appuntamento"
-4. Selezionare data, ora, barbiere e servizi desiderati
-5. Scegliere il metodo di pagamento
-6. Confermare la prenotazione
+### Booking an Appointment (Customer)
+1. Log in as a customer
+2. Go to the "Appointments" section
+3. Click "New Appointment"
+4. Select the desired date, time, barber, and services
+5. Choose the payment method
+6. Confirm the booking
 
-### Gestione degli Appuntamenti (Barbiere)
-1. Accedere come barbiere
-2. Navigare alla sezione "Appuntamenti"
-3. Visualizzare tutti gli appuntamenti prenotati
-4. Possibilità di filtrare per data o cliente
+### Managing Appointments (Barber)
+1. Log in as a barber
+2. Go to the "Appointments" section
+3. View all booked appointments
+4. Optionally filter by date or customer
 
-## Struttura del Progetto
+## Project Structure
 
-### Pacchetti Principali
-- **Authentication**: Gestione dell'autenticazione e delle sessioni utente
-- **Model**: Classi del modello di dominio (User, Appointment, Service, ecc.)
-- **PageControllers**: Controller per le diverse schermate dell'applicazione
-- **Payment**: Implementazione dei diversi metodi di pagamento (Strategy Pattern)
-- **Persistence**: Accesso al database e persistenza dei dati
-- **Services**: Logica di business dell'applicazione
+### Main Packages
+- **Authentication**: User authentication and session management
+- **Model**: Domain model classes (User, Appointment, Service, etc.)
+- **PageControllers**: Controllers for the application's views
+- **Payment**: Implementation of different payment methods (Strategy Pattern)
+- **Persistence**: Database access and data persistence
+- **Services**: Application business logic
 
-### Pattern di Design Utilizzati
-- **Singleton**: Utilizzato per SessionManager e DBManager
-- **DAO**: Per l'accesso ai dati persistenti
-- **Factory**: Per la creazione di oggetti di pagamento
-- **Strategy**: Per implementare diversi metodi di pagamento
+### Design Patterns Used
+- **Singleton**: Used for SessionManager and DBManager
+- **DAO**: For access to persistent data
+- **Factory**: For creating payment objects
+- **Strategy**: To implement different payment methods
 
 ## Database
-L'applicazione utilizza PostgreSQL come database di produzione. La connessione è configurata con i seguenti parametri:
+The application uses PostgreSQL as the production database. The connection is configured with the following parameters:
 - URL: `jdbc:postgresql://localhost:5432/BarberShop_DB`
 - Username: `SWEuser`
 - Password: `swepass`
 
-Per i test viene utilizzato un database H2 in-memory.
+For tests, an in-memory H2 database is used.
 
-## Tecnologie Utilizzate
-- **JavaFX**: Framework per l'interfaccia utente
-- **MaterialFX**: Libreria di componenti UI
-- **PostgreSQL**: Database relazionale
-- **JBCrypt**: Per la gestione sicura delle password
-- **JUnit, Mockito, TestFX**: Framework per i test
+## Technologies Used
+- **JavaFX**: UI framework
+- **MaterialFX**: UI components library
+- **PostgreSQL**: Relational database
+- **JBCrypt**: Secure password handling
+- **JUnit, Mockito, TestFX**: Testing frameworks
