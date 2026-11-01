@@ -9,7 +9,7 @@ public class DBManager {
     private Connection connection = null;
 
     // Parametri di connessione per la produzione
-    public static final String PROD_URL = "jdbc:postgresql://localhost:5432/BarberShop_DB";
+    public static final String PROD_URL = System.getProperty("barbershop.db.url", "jdbc:postgresql://localhost:5432/BarberShop_DB");
     public static final String PROD_USER = "SWEuser";
     public static final String PROD_PASSWORD = "swepass";
 
